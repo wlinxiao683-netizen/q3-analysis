@@ -59,6 +59,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 16px 50p
 .rqlinks li{margin-bottom:5px}
 .rqlinks a{color:var(--a2);text-decoration:none;font-size:12.5px}
 .rqlinks a:hover{color:var(--text);text-decoration:underline}
+.reflink{color:var(--a4);font-weight:700;text-decoration:none;border-bottom:1px dashed var(--a4)} .reflink:hover{color:#fff;background:var(--a4);border-radius:3px}
 </style></head><body>
 <div class="hero">
   <h1>创作者 AI 设计提效 · 88 案例能力提炼</h1>
@@ -67,9 +68,41 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 16px 50p
 </div>
 <div class="summary">
   <h2>🎯 模型能力需求清单（聚合 88 例去重）</h2>
-  <div class="sub">这是给模型团队（Seed）的核心抓手：哪些后编辑能力被反复需要、现有 vs 需攻关、命中多少案例。🔬 项即「现在还没有、值得让模型团队去做」的需求。</div>
-  <table class="captbl"><thead><tr><th>模型能力</th><th>状态</th><th>命中案例</th><th>对标 / 备注</th></tr></thead><tbody><tr class="need"><td><b>主体 / 角色一致性</b></td><td>🔬 攻关</td><td>11</td><td>核心护城河</td></tr><tr class="need"><td><b>重打光 relight</b></td><td>🔬 攻关</td><td>9</td><td>对标打光能力水位</td></tr><tr class="need"><td><b>智能多尺寸重排（保版式语义）</b></td><td>🔬 攻关</td><td>7</td><td>真去摩擦</td></tr><tr class="need"><td><b>调色 / 指定色 / 色调迁移</b></td><td>✅/🔬 部分</td><td>4</td><td>精确锁色待提升</td></tr><tr class="need"><td><b>调角度 / 视角变换</b></td><td>🔬 攻关</td><td>3</td><td>保主体一致的新视角</td></tr><tr class="need"><td><b>图像 → 可编辑设计稿</b></td><td>🔬 攻关</td><td>3</td><td>强需求</td></tr><tr class="need"><td><b>平面图反解为可编辑图层</b></td><td>🔬 攻关</td><td>2</td><td>别人难抄·命中图层分离</td></tr><tr class="have"><td><b>基础文生图 / 图生图</b></td><td>✅ 现有</td><td>35</td><td></td></tr><tr class="have"><td><b>局部指令编辑（去除/替换/添加）</b></td><td>✅ 现有</td><td>22</td><td>复杂指令一致性待提升</td></tr><tr class="have"><td><b>批量 / 数据驱动合成</b></td><td>✅ 产品侧</td><td>17</td><td>社媒/电商</td></tr><tr class="have"><td><b>配色/字体/版式/质检建议</b></td><td>✅ 现有</td><td>16</td><td>LLM</td></tr><tr class="have"><td><b>抠图 / 去背</b></td><td>✅ 现有</td><td>15</td><td>L1 入口</td></tr><tr class="have"><td><b>换背景 / 场景替换</b></td><td>✅ 现有</td><td>12</td><td>电商核心</td></tr><tr class="have"><td><b>图内文字编辑 / 渲染</b></td><td>✅ 改进中</td><td>8</td><td>品牌/社媒</td></tr><tr class="have"><td><b>风格迁移 / 风格锁定</b></td><td>✅ 现有</td><td>6</td><td>sref 类</td></tr><tr class="have"><td><b>位图转矢量</b></td><td>✅ 现有</td><td>5</td><td>logo</td></tr><tr class="have"><td><b>设计 → 代码</b></td><td>✅ 外延</td><td>4</td><td></td></tr><tr class="have"><td><b>扩图 outpaint</b></td><td>✅ 现有</td><td>2</td><td></td></tr><tr class="have"><td><b>放大 / 修复</b></td><td>✅ 现有</td><td>2</td><td></td></tr><tr class="have"><td><b>样机透视贴合</b></td><td>✅ 现有</td><td>2</td><td></td></tr><tr class="have"><td><b>静图 → 动效 / 视频</b></td><td>✅ CapCut 强项</td><td>2</td><td></td></tr></tbody></table>
+  <div class="sub">左边是创作者反复出现的问题/能力需求，右边是<strong>我们目前用哪些后编辑能力去解决它</strong>。🔬=尚不具备需攻关，✅=现有可封装。点「参考图生成」看深扒详解。</div>
+  <table class="captbl"><thead><tr><th>能力 / 需求（问题）</th><th>状态</th><th>命中案例</th><th>目前用哪些后编辑能力解决</th></tr></thead><tbody><tr class="need"><td><b>主体 / 角色一致性</b></td><td>🔬 攻关</td><td>11</td><td><a class="reflink" href="#refgen">参考图生成 ↗</a> · 角度调整(视角变换) · 风格锁定</td></tr><tr class="need"><td><b>重打光 relight</b></td><td>🔬 攻关</td><td>9</td><td>AI 局部光影编辑 / 重打光（待攻关）</td></tr><tr class="need"><td><b>智能多尺寸重排（保版式语义）</b></td><td>🔬 攻关</td><td>7</td><td>多尺寸自适应 + 智能重排</td></tr><tr class="need"><td><b>调色 / 指定色 / 色调迁移</b></td><td>✅/🔬 部分</td><td>4</td><td>指令调色 + 配色建议</td></tr><tr class="need"><td><b>调角度 / 视角变换</b></td><td>🔬 攻关</td><td>3</td><td><a class="reflink" href="#refgen">参考图生成 ↗</a>（同样服务一致性）</td></tr><tr class="need"><td><b>图像 → 可编辑设计稿</b></td><td>🔬 攻关</td><td>3</td><td>图层反解 + 截图转稿</td></tr><tr class="need"><td><b>平面图反解为可编辑图层</b></td><td>🔬 攻关</td><td>2</td><td>图层分离</td></tr><tr class="have"><td><b>基础文生图 / 图生图</b></td><td>✅ 现有</td><td>35</td><td>文生图 / 图生图（现有）</td></tr><tr class="have"><td><b>局部指令编辑（去除/替换/添加）</b></td><td>✅ 现有</td><td>22</td><td>指令编辑：去除 / 替换 / 添加（现有）</td></tr><tr class="have"><td><b>批量 / 数据驱动合成</b></td><td>✅ 产品侧</td><td>17</td><td>批量模板 + 数据驱动合成</td></tr><tr class="have"><td><b>配色/字体/版式/质检建议</b></td><td>✅ 现有</td><td>16</td><td>智能建议（LLM）</td></tr><tr class="have"><td><b>抠图 / 去背</b></td><td>✅ 现有</td><td>15</td><td>一键抠图 / 去背（现有）</td></tr><tr class="have"><td><b>换背景 / 场景替换</b></td><td>✅ 现有</td><td>12</td><td>换背景 / 场景替换（现有）</td></tr><tr class="have"><td><b>图内文字编辑 / 渲染</b></td><td>✅ 改进中</td><td>8</td><td>指定字库文字编辑</td></tr><tr class="have"><td><b>风格迁移 / 风格锁定</b></td><td>✅ 现有</td><td>6</td><td><a class="reflink" href="#refgen">参考图生成 ↗</a> / 风格锁定 / 参考库</td></tr><tr class="have"><td><b>位图转矢量</b></td><td>✅ 现有</td><td>5</td><td>位图转矢量（现有）</td></tr><tr class="have"><td><b>设计 → 代码</b></td><td>✅ 外延</td><td>4</td><td>结构化导出 → 代码</td></tr><tr class="have"><td><b>扩图 outpaint</b></td><td>✅ 现有</td><td>2</td><td>扩图 outpaint（现有）</td></tr><tr class="have"><td><b>放大 / 修复</b></td><td>✅ 现有</td><td>2</td><td>超分放大 / 修复（现有）</td></tr><tr class="have"><td><b>样机透视贴合</b></td><td>✅ 现有</td><td>2</td><td>样机透视贴合（现有）</td></tr><tr class="have"><td><b>静图 → 动效 / 视频</b></td><td>✅ CapCut 强项</td><td>2</td><td>图 → 动效 / 视频（CapCut 强项）</td></tr></tbody></table>
   <div class="legend">🔬 攻关项按命中案例数排序在前 = 需求最旺且我们尚不具备的能力，最该立项。✅ 现有项 = 产品侧+现有模型即可封装。</div>
+<div class="summary" id="refgen">
+  <h2>🔗 后编辑能力详解：参考图生成（解一致性问题）</h2>
+  <div class="sub">「参考图生成」= <strong>先生成一张「风格/主体」锚点图 → 锁住，让后续所有生成与编辑都照它走</strong>。它和 Moodboard 下游机制相同，区别是<strong>锚点由模型生成（而非用户上传现成图）</strong>。「角度调整(视角变换)」是同一目标的另一手——让同一主体换角度仍保持一致。下面把市面做了这件事的产品扒细：操作步骤 · 效果 · 用户评价/局限。</div>
+  <div class="reqgrid"><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">Midjourney — sref random / Style Creator</span><span class="rqstr">🟢 模型生成锚点·最纯粹</span></div>
+  <div class="rqrow"><span class="rqlb l1">怎么操作</span>① prompt 里加 <code>--sref random</code>，模型随机生成一种风格，提交后「random」固化成一个<strong>风格码 style code</strong>；② 之后 reroll/variations 自动沿用同一码；③ 点<strong>锁形图标</strong>把它钉在 Imagine 栏，多条 prompt 复用；④ 用 <code>--sw</code> 调影响强度，可混多个码。<br><strong>Style Creator(V8)</strong>：从一组图网格里挑你喜欢/不喜欢的，系统据此生成一个<strong>专属风格码</strong>反复用。</div>
+  <div class="rqrow"><span class="rqlb l2">效果</span>风格通常 <strong>5–10 轮趋于稳定</strong>，10–15 轮加细节；V8.1 Draft 下 <code>--sref random</code> 一次出 <strong>24 个不同方向</strong>，适合快速发散探索。</div>
+  <div class="rqrow"><span class="rqlb l3">用户评价 / 局限</span>口碑：被称作「品牌一致性的杠杆」。局限：sref random 偏「碰运气」，不是按需精确生成指定锚点；早期需 Discord 操作门槛（V8 已改善）。</div>
+  <div class="rqrow"><span class="rqlb l4">链接</span><a href="https://docs.midjourney.com/hc/en-us/articles/41308374558221-Style-Creator" target="_blank" rel="noopener">🔗 Style Creator 文档</a> · <a href="https://docs.midjourney.com/hc/en-us/articles/32180011136653-Style-Reference" target="_blank" rel="noopener">Style Reference 文档</a></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">Ideogram — Character</span><span class="rqstr">🟡 主体锚点·一致性最强</span></div>
+  <div class="rqrow"><span class="rqlb l1">怎么操作</span>① prompt 栏选 <strong>Character</strong> 按钮；② 上传一张参考图，<strong>或直接选你在 Ideogram 生成的图</strong>当锚点；③ 写 prompt 或选模板生成——同一个人出现在所有新图里。要点：参考图清晰、光照好、3/4 或正面、单人、少滤镜。</div>
+  <div class="rqrow"><span class="rqlb l2">效果</span>单图即可锁身份；第三方实测：在和 MJ/Leonardo 的对比里，<strong>Ideogram 是唯一在所有测试中都锁住身份</strong>的。背景印证：一致性是 2025 年 <strong>65% AI 用户的头号痛点</strong>；游戏团队用它把概念图时间<strong>砍半</strong>。</div>
+  <div class="rqrow"><span class="rqlb l3">用户评价 / 局限</span>口碑：角色聚焦胜过 DALL-E、一致性胜过 MJ、无需 Discord。局限：身份会「漂」时多因参考图模糊/光照差/多角色。</div>
+  <div class="rqrow"><span class="rqlb l4">链接</span><a href="https://ideogram.ai/features/character/" target="_blank" rel="noopener">🔗 Ideogram Character</a> · <a href="https://docs.ideogram.ai/using-ideogram/features-and-tools/reference-features/character-reference" target="_blank" rel="noopener">文档</a></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">Leonardo — Character Reference</span><span class="rqstr">🟡 主体锚点·可量化</span></div>
+  <div class="rqrow"><span class="rqlb l1">怎么操作</span>① 点 prompt 栏左侧图片缩略图进 Character Reference；② <strong>先生成一张光照/对比都好的基准角色图</strong>当锚点；③ 上传该脸图，设强度 <strong>Low/Mid/High</strong>（默认 Mid）——强度越高越像、越低越自由；④ 换不同 prompt 让角色出现在各种场景/姿势。</div>
+  <div class="rqrow"><span class="rqlb l2">效果</span>参考式系统达 <strong>85–95% 面部相似度</strong>（纯文字仅 ~60%）；用户报告<strong>少 80% 反复调整</strong>；有游戏开发者 <strong>1 小时内出 12 姿势表</strong>（手动要数天）。</div>
+  <div class="rqrow"><span class="rqlb l3">用户评价 / 局限</span>口碑：解决了论坛上 90% 的抱怨。局限：<strong>仅支持 SDXL 模型</strong>、需付费；画面里其他角色的脸也可能被改，多角色时要用低/中强度。</div>
+  <div class="rqrow"><span class="rqlb l4">链接</span><a href="https://leonardo.ai/learn/core-feature/how-to-create-consistent-characters-with-character-reference" target="_blank" rel="noopener">🔗 Leonardo Character Reference</a></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">Krea 2 Moodboards / Recraft Styles</span><span class="rqstr">🔵 上传参考(非生成)·对照</span></div>
+  <div class="rqrow"><span class="rqlb l1">怎么操作</span>Krea：上传一组参考图→模型做语义分析抽出<strong>风格向量</strong>→约束后续所有生成；带<strong>风格强度滑块</strong>，会话级。Recraft：参考图存为<strong>账号级可复用 Style 资产</strong>，一键套用、可团队共享。</div>
+  <div class="rqrow"><span class="rqlb l2">效果</span>省去每条 prompt 重写风格描述；建议上传 <strong>5–10 张同光照参考</strong>；反直觉——<strong>低权重有时融合更自然</strong>。</div>
+  <div class="rqrow"><span class="rqlb l3">用户评价 / 局限</span>定位差异：Krea 偏实时探索、Recraft 偏量产一致(近似品牌系统管理)。局限：参考靠<strong>用户上传</strong>，不是模型生成锚点。</div>
+  <div class="rqrow"><span class="rqlb l4">链接</span><a href="https://www.mindstudio.ai/blog/how-to-use-mood-boards-ai-image-generation-krea-recraft" target="_blank" rel="noopener">🔗 Krea/Recraft 对比</a></div>
+</div></div>
+  <div class="note" style="background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);border-radius:10px;padding:13px 16px;font-size:13px;color:var(--muted);margin-top:14px">
+    <strong style="color:var(--text)">对我们的启示：</strong>① 真正「模型生成锚点」目前只有 Midjourney 做了，且偏随机、不可控——<strong>「按需精确生成一张锚点→一键锁住后续生成+编辑」是市场空位</strong>；② 角色侧(Ideogram/Leonardo)比风格侧成熟，因需求更刚、且效果可量化(85–95% 相似度)；③ 难点始终落在<strong>锚点风格/身份能否稳稳传到后续每张图和每轮编辑</strong>=一致性，与「多轮编辑稳定性」同根，是给 Seed 的攻关核心。
+  </div>
+</div>
 </div>
 <div class="summary" id="newreq">
   <h2>🧪 新增模型需求验证（8 方向 · 跨平台取证）</h2>

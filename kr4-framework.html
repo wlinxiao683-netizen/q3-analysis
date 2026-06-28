@@ -3,442 +3,1438 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KR4 · 后编辑宇宙</title>
+<title>KR4 框架思维导图</title>
 <style>
-  :root{
-    --bg:#05060d; --text:#e8ecf8; --muted:#8b93b8;
-    --c1:#6366f1; --c2:#06b6d4; --c3:#10b981; --c4:#f59e0b; --c5:#ec4899;
-    --panel:rgba(18,21,38,.82); --border:rgba(120,130,200,.22);
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3352;
+    --text: #e2e8f0;
+    --text-muted: #7c85a8;
+    --accent1: #6366f1; /* indigo */
+    --accent2: #06b6d4; /* cyan */
+    --accent3: #10b981; /* emerald */
+    --accent4: #f59e0b; /* amber */
+    --accent5: #ec4899; /* pink */
+    --accent6: #8b5cf6; /* violet */
+    --glow: rgba(99,102,241,0.15);
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{
-    background:radial-gradient(ellipse at 50% 30%,#0c1024 0%,#05060d 70%);
-    color:var(--text);
-    font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
-    overflow:hidden;
-  }
-  #stars{position:fixed;inset:0;z-index:0}
-
-  /* ─── top bar ─── */
-  .topbar{
-    position:fixed;top:0;left:0;right:0;z-index:50;
-    display:flex;align-items:center;gap:12px;padding:16px 24px;
-    pointer-events:none;
-  }
-  .crumb{
-    display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);
-    pointer-events:auto;
-  }
-  .crumb span{cursor:pointer;transition:color .2s}
-  .crumb span:hover{color:var(--text)}
-  .crumb .sep{cursor:default;opacity:.5}
-  .crumb .cur{color:var(--text);font-weight:600;cursor:default}
-  .back-btn{
-    pointer-events:auto;display:none;align-items:center;gap:6px;
-    background:rgba(255,255,255,.04);border:1px solid var(--border);
-    color:var(--muted);border-radius:20px;padding:6px 16px;font-size:13px;cursor:pointer;
-    backdrop-filter:blur(8px);transition:all .2s;
-  }
-  .back-btn:hover{color:var(--text);border-color:var(--c1)}
-  .back-btn.show{display:inline-flex}
-
-  /* ─── stage / scenes ─── */
-  #stage{position:relative;z-index:10;width:100%;height:100vh}
-  .scene{
-    position:absolute;inset:0;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    opacity:0;pointer-events:none;
-    transition:opacity .6s ease, transform .6s ease;
-    transform:scale(1.15);
-  }
-  .scene.active{opacity:1;pointer-events:auto;transform:scale(1)}
-  .scene.exit-out{opacity:0;transform:scale(0.6)}
-
-  .scene-title{
-    position:absolute;top:11%;left:0;right:0;text-align:center;
-    pointer-events:none;
-  }
-  .scene-title h1{
-    font-size:clamp(22px,4vw,40px);font-weight:800;letter-spacing:2px;
-    background:linear-gradient(135deg,#fff,#9aa6ff);
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  }
-  .scene-title p{color:var(--muted);font-size:14px;margin-top:8px;letter-spacing:1px}
-
-  /* ─── orbit field (L0/L1 star nodes) ─── */
-  .field{position:relative;width:min(820px,92vw);height:min(620px,72vh)}
-  .node{
-    position:absolute;transform:translate(-50%,-50%);
-    display:flex;flex-direction:column;align-items:center;gap:10px;
-    cursor:pointer;text-align:center;
-    transition:transform .35s cubic-bezier(.2,.8,.3,1.2);
-    animation:float 6s ease-in-out infinite;
-  }
-  @keyframes float{0%,100%{margin-top:0}50%{margin-top:-10px}}
-  .node:hover{transform:translate(-50%,-50%) scale(1.12)}
-  .orb{
-    width:var(--sz,86px);height:var(--sz,86px);border-radius:50%;
-    position:relative;
-    background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.9),var(--cc) 45%,rgba(0,0,0,.4) 100%);
-    box-shadow:0 0 24px var(--cc),0 0 60px color-mix(in srgb,var(--cc) 55%,transparent),inset -6px -8px 18px rgba(0,0,0,.45);
-  }
-  .orb::after{
-    content:'';position:absolute;inset:-14px;border-radius:50%;
-    border:1px solid color-mix(in srgb,var(--cc) 40%,transparent);
-    opacity:.5;animation:ring 8s linear infinite;
-  }
-  @keyframes ring{0%{transform:rotate(0) scale(1)}50%{transform:rotate(180deg) scale(1.08)}100%{transform:rotate(360deg) scale(1)}}
-  .node .lbl{font-size:15px;font-weight:700;color:var(--text);text-shadow:0 2px 12px rgba(0,0,0,.8)}
-  .node .sub{font-size:11px;color:var(--muted);letter-spacing:1px}
-  .node .kicker{
-    font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-    color:var(--cc);opacity:.85;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
 
-  /* svg connector lines for constellation */
-  .lines{position:absolute;inset:0;pointer-events:none;overflow:visible}
-  .lines line{stroke:var(--cc,#6366f1);stroke-width:1;opacity:.18;stroke-dasharray:3 5}
-
-  /* ─── L2 content panel ─── */
-  .panel-scene{
-    position:absolute;inset:0;z-index:20;
-    display:none;flex-direction:column;
-    background:linear-gradient(180deg,rgba(5,6,13,.4),rgba(5,6,13,.85));
-    backdrop-filter:blur(2px);
+  /* ─── NAV BAR ─── */
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 24px;
+    background: rgba(15,17,23,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
   }
-  .panel-scene.active{display:flex;animation:panelIn .5s ease}
-  @keyframes panelIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-  .panel-inner{
-    width:min(960px,94vw);margin:0 auto;flex:1;overflow-y:auto;
-    padding:84px 8px 60px;
+  .nav-back {
+    display: none;
+    background: none; border: 1px solid var(--border);
+    color: var(--text-muted); border-radius: 8px;
+    padding: 6px 14px; cursor: pointer; font-size: 13px;
+    transition: all .2s;
   }
-  .panel-inner::-webkit-scrollbar{width:8px}
-  .panel-inner::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+  .nav-back:hover { border-color: var(--accent1); color: var(--accent1); }
+  .nav-back.visible { display: flex; align-items: center; gap: 6px; }
+  .nav-title { font-size: 14px; color: var(--text-muted); }
+  .nav-crumb { color: var(--text); font-weight: 600; }
 
-  .phead{margin-bottom:24px}
-  .phead .ktag{
-    display:inline-block;font-size:11px;font-weight:700;letter-spacing:1.5px;
-    text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:12px;
-    background:color-mix(in srgb,var(--cc) 18%,transparent);color:var(--cc);
+  /* ─── PAGES ─── */
+  .page { display: none; padding: 80px 24px 40px; max-width: 1100px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* ─── HOME: MIND MAP ─── */
+  .map-header {
+    text-align: center; margin-bottom: 48px;
   }
-  .phead h2{font-size:26px;font-weight:800;margin-bottom:8px}
-  .phead p{color:var(--muted);font-size:14px;line-height:1.7;max-width:720px}
-
-  .cat{
-    background:var(--panel);border:1px solid var(--border);
-    border-radius:14px;margin-bottom:12px;overflow:hidden;
-    backdrop-filter:blur(10px);
+  .map-header h1 {
+    font-size: 28px; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
   }
-  .cat>summary{
-    list-style:none;cursor:pointer;padding:16px 20px;
-    display:flex;flex-direction:column;gap:8px;transition:background .2s;
+  .map-header p { color: var(--text-muted); font-size: 14px; }
+
+  .map-root {
+    display: flex; flex-direction: column; align-items: center; gap: 0;
   }
-  .cat>summary::-webkit-details-marker{display:none}
-  .cat>summary:hover{background:rgba(255,255,255,.03)}
-  .cat-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .cat-head .nm{font-size:15px;font-weight:700;display:flex;align-items:center;gap:10px}
-  .cat-head .nm .dot{width:8px;height:8px;border-radius:50%;background:var(--cc);box-shadow:0 0 8px var(--cc);flex-shrink:0}
-  .cat-head .tg{font-size:11px;color:var(--muted);flex-shrink:0}
-  .cat[open] .cat-head .tg::after{content:'收起 ▲'}
-  .cat:not([open]) .cat-head .tg::after{content:'展开 ▼'}
-  .concl{font-size:13px;line-height:1.7;color:var(--muted)}
-  .concl strong{color:var(--text)}
-  .cbody{padding:4px 20px 20px;border-top:1px solid var(--border);padding-top:14px;font-size:13px;line-height:1.75;color:var(--muted)}
-  .cbody ul{padding-left:18px;margin:6px 0}
-  .cbody li{margin-bottom:5px}
-  .cbody strong{color:var(--text)}
-
-  .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;margin-right:6px;letter-spacing:.5px}
-  .t-verified{background:rgba(16,185,129,.16);color:var(--c3)}
-  .t-crawl{background:rgba(245,158,11,.16);color:var(--c4)}
-  .t-moat{background:rgba(99,102,241,.16);color:var(--c1)}
-  .t-arms{background:rgba(139,147,176,.16);color:var(--muted)}
-
-  .links{list-style:none;padding:0;margin:8px 0 0}
-  .links li{margin-bottom:7px}
-  .links a{
-    display:inline-flex;align-items:center;gap:7px;color:var(--c2);text-decoration:none;
-    font-size:13px;padding:6px 11px;border-radius:8px;background:rgba(255,255,255,.04);transition:.15s;
+  .map-center {
+    background: linear-gradient(135deg, var(--accent1), var(--accent6));
+    border-radius: 16px; padding: 16px 32px;
+    font-size: 18px; font-weight: 700;
+    box-shadow: 0 0 40px rgba(99,102,241,.4);
+    position: relative; z-index: 2;
   }
-  .links a:hover{background:rgba(255,255,255,.1);color:var(--text)}
-  .vwrap{position:relative;width:100%;padding-bottom:56.25%;height:0;margin:12px 0;border-radius:10px;overflow:hidden;background:#000;border:1px solid var(--border)}
-  .vwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-  .vph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;height:100%;color:var(--muted);font-size:13px;text-align:center;padding:0 16px;background:linear-gradient(135deg,rgba(30,34,60,.6),rgba(10,12,24,.6))}
-  .vph a{color:var(--c2);text-decoration:none}
-  .ctable{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
-  .ctable th{background:rgba(255,255,255,.04);padding:9px 12px;text-align:left;color:var(--muted);font-weight:600;font-size:11px}
-  .ctable td{padding:9px 12px;border-top:1px solid var(--border);vertical-align:top;line-height:1.6}
-  .note{background:color-mix(in srgb,var(--cc) 8%,transparent);border:1px solid color-mix(in srgb,var(--cc) 25%,transparent);border-radius:10px;padding:13px 16px;font-size:13px;line-height:1.7;color:var(--muted);margin:16px 0}
-  .note strong{color:var(--text)}
-  .matrix{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
-  .quad{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px}
-  .quad h5{font-size:13px;margin-bottom:8px}
-  .quad ul{padding-left:16px}.quad li{font-size:12px;color:var(--muted);line-height:1.8}
+  .map-connector-v {
+    width: 2px; height: 32px;
+    background: linear-gradient(to bottom, var(--accent1), transparent);
+  }
+  .map-branches {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px; width: 100%;
+  }
+  @media (max-width: 900px) {
+    .map-branches { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 500px) {
+    .map-branches { grid-template-columns: 1fr; }
+  }
 
-  .hint{position:fixed;bottom:22px;left:0;right:0;text-align:center;font-size:12px;color:var(--muted);z-index:40;pointer-events:none;letter-spacing:1px;opacity:.7}
-  @media(max-width:600px){.matrix{grid-template-columns:1fr}.field{height:64vh}}
+  .branch-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .branch-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+  .branch-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,.4);
+  }
+  .branch-card .step-num {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 8px; opacity: .7;
+  }
+  .branch-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .branch-card p { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+  .branch-card .arrow {
+    position: absolute; bottom: 14px; right: 16px;
+    font-size: 16px; opacity: .4; transition: .2s;
+  }
+  .branch-card:hover .arrow { opacity: 1; transform: translateX(3px); }
+
+  /* Color themes per section */
+  .c1::before { background: var(--accent1); }
+  .c1 .step-num, .c1 h3 { color: var(--accent1); }
+  .c1:hover { border-color: var(--accent1); box-shadow: 0 12px 40px rgba(99,102,241,.2); }
+
+  .c2::before { background: var(--accent2); }
+  .c2 .step-num, .c2 h3 { color: var(--accent2); }
+  .c2:hover { border-color: var(--accent2); box-shadow: 0 12px 40px rgba(6,182,212,.2); }
+
+  .c3::before { background: var(--accent3); }
+  .c3 .step-num, .c3 h3 { color: var(--accent3); }
+  .c3:hover { border-color: var(--accent3); box-shadow: 0 12px 40px rgba(16,185,129,.2); }
+
+  .c4::before { background: var(--accent4); }
+  .c4 .step-num, .c4 h3 { color: var(--accent4); }
+  .c4:hover { border-color: var(--accent4); box-shadow: 0 12px 40px rgba(245,158,11,.2); }
+
+  .c5::before { background: var(--accent5); }
+  .c5 .step-num, .c5 h3 { color: var(--accent5); }
+  .c5:hover { border-color: var(--accent5); box-shadow: 0 12px 40px rgba(236,72,153,.2); }
+
+  /* ─── DETAIL PAGES ─── */
+  .detail-hero {
+    margin-bottom: 36px;
+    padding: 28px;
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .detail-hero::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+  .h1::after { background: var(--accent1); }
+  .h2::after { background: var(--accent2); }
+  .h3::after { background: var(--accent3); }
+  .h4::after { background: var(--accent4); }
+  .h5::after { background: var(--accent5); }
+
+  .detail-hero .tag {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .detail-hero h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .detail-hero .subtitle { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
+
+  .sections-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .section-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px;
+    transition: all .2s;
+  }
+  .section-card:hover { border-color: var(--border); background: var(--surface2); }
+  .section-card .sc-icon { font-size: 22px; margin-bottom: 10px; }
+  .section-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .section-card p, .section-card li {
+    font-size: 13px; color: var(--text-muted); line-height: 1.7;
+  }
+  .section-card ul { padding-left: 16px; }
+  .section-card .badge {
+    display: inline-block; font-size: 11px; padding: 2px 8px;
+    border-radius: 20px; margin-top: 10px; font-weight: 600;
+  }
+
+  /* table */
+  .cap-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px; margin-top: 24px;
+    background: var(--surface); border-radius: 12px; overflow: hidden;
+  }
+  .cap-table th {
+    background: var(--surface2); padding: 12px 16px;
+    text-align: left; color: var(--text-muted); font-weight: 600;
+    font-size: 12px; text-transform: uppercase; letter-spacing: .5px;
+  }
+  .cap-table td {
+    padding: 12px 16px; border-top: 1px solid var(--border);
+    vertical-align: top; line-height: 1.6;
+  }
+  .cap-table tr:hover td { background: var(--surface2); }
+  .tag-a { background: rgba(99,102,241,.15); color: var(--accent1); }
+  .tag-b { background: rgba(6,182,212,.15); color: var(--accent2); }
+  .tag-core { background: rgba(16,185,129,.12); color: var(--accent3); font-size: 11px; padding: 2px 8px; border-radius: 20px; }
+  .tag-new  { background: rgba(245,158,11,.12); color: var(--accent4); font-size: 11px; padding: 2px 8px; border-radius: 20px; }
+
+  /* matrix */
+  .matrix {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-top: 24px;
+  }
+  .quadrant {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px;
+  }
+  .quadrant h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+  .quadrant ul { padding-left: 16px; }
+  .quadrant li { font-size: 12px; color: var(--text-muted); line-height: 1.8; }
+  .q-hi-hi { border-color: var(--accent3); }
+  .q-hi-hi h4 { color: var(--accent3); }
+  .q-hi-lo { border-color: var(--accent4); }
+  .q-hi-lo h4 { color: var(--accent4); }
+  .q-lo-hi { border-color: var(--accent2); }
+  .q-lo-hi h4 { color: var(--accent2); }
+  .q-lo-lo { border-color: var(--border); }
+  .q-lo-lo h4 { color: var(--text-muted); }
+
+  .axis-label {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--text-muted); margin-top: 8px; padding: 0 4px;
+  }
+
+  /* five-dim fill table */
+  .fivedim-table {
+    width: 100%; border-collapse: collapse; font-size: 12px;
+    background: var(--surface); border-radius: 12px; overflow: hidden;
+    margin-top: 16px;
+  }
+  .fivedim-table th {
+    background: var(--surface2); padding: 10px 14px;
+    text-align: left; font-weight: 600; font-size: 11px;
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .fivedim-table th:first-child { width: 120px; }
+  .fivedim-table td {
+    padding: 10px 14px; border-top: 1px solid var(--border);
+    color: var(--text-muted); vertical-align: top; line-height: 1.7;
+  }
+  .fivedim-table td:first-child { color: var(--text); font-weight: 600; }
+  .fivedim-table td.placeholder { color: #3a3f5c; font-style: italic; }
+
+  /* deliverable cards */
+  .deliverable-pair {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px;
+  }
+  .deliverable-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px;
+  }
+  .deliverable-card .dc-icon { font-size: 28px; margin-bottom: 12px; }
+  .deliverable-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+  .deliverable-card ul { padding-left: 18px; }
+  .deliverable-card li { font-size: 13px; color: var(--text-muted); line-height: 1.8; }
+
+  /* dim descriptions */
+  .dim-cards {
+    display: grid; grid-template-columns: 1fr;
+    gap: 12px; margin-top: 16px;
+  }
+  .dim-card {
+    display: flex; gap: 16px; align-items: flex-start;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+  }
+  .dim-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; flex-shrink: 0;
+  }
+  .dim-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .dim-card p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
+  .note-box {
+    background: rgba(99,102,241,.08); border: 1px solid rgba(99,102,241,.2);
+    border-radius: 10px; padding: 14px 18px;
+    font-size: 13px; color: var(--text-muted); line-height: 1.7;
+    margin-top: 16px;
+  }
+  .note-box strong { color: var(--accent1); }
+
+  /* ─── RESEARCH / SCENARIO SUBPAGE ─── */
+  .subpage-entry {
+    cursor: pointer;
+    border: 1px dashed var(--accent1) !important;
+    background: rgba(99,102,241,.06) !important;
+    transition: all .2s;
+  }
+  .subpage-entry:hover {
+    background: rgba(99,102,241,.12) !important;
+    transform: translateX(3px);
+  }
+  .subpage-entry .enter-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 8px; font-size: 12px; font-weight: 600; color: var(--accent1);
+  }
+
+  .module-block { margin-top: 36px; }
+  .module-title {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 17px; font-weight: 700; margin-bottom: 6px;
+  }
+  .module-title .mt-num {
+    width: 26px; height: 26px; border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0;
+    background: rgba(6,182,212,.15); color: var(--accent2);
+  }
+  .module-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+
+  /* conclusion-first expandable item */
+  .res-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; margin-bottom: 12px; overflow: hidden;
+  }
+  .res-item > summary {
+    list-style: none; cursor: pointer; padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 8px;
+    transition: background .2s;
+  }
+  .res-item > summary::-webkit-details-marker { display: none; }
+  .res-item > summary:hover { background: var(--surface2); }
+  .res-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .res-head .res-name { font-size: 14px; font-weight: 700; color: var(--text); }
+  .res-head .res-toggle { font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
+  .res-item[open] .res-head .res-toggle::after { content: '收起 ▲'; }
+  .res-item:not([open]) .res-head .res-toggle::after { content: '展开链接/视频 ▼'; }
+  .res-conclusion {
+    font-size: 13px; line-height: 1.7; color: var(--text-muted);
+  }
+  .res-conclusion strong { color: var(--text); }
+  .res-tag {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 12px; margin-right: 6px;
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .rt-verified { background: rgba(16,185,129,.15); color: var(--accent3); }
+  .rt-tocrawl  { background: rgba(245,158,11,.15); color: var(--accent4); }
+  .rt-moat     { background: rgba(99,102,241,.15); color: var(--accent1); }
+  .rt-arms     { background: rgba(124,133,168,.15); color: var(--text-muted); }
+
+  .res-body {
+    padding: 0 18px 18px; border-top: 1px solid var(--border);
+    margin-top: 0; padding-top: 16px;
+  }
+  .link-list { list-style: none; padding: 0; }
+  .link-list li { margin-bottom: 8px; }
+  .link-list a {
+    display: inline-flex; align-items: center; gap: 7px;
+    color: var(--accent2); text-decoration: none; font-size: 13px;
+    padding: 6px 10px; border-radius: 8px; background: var(--surface2);
+    transition: all .15s;
+  }
+  .link-list a:hover { background: var(--border); color: var(--text); }
+  .link-list a .lnk-ico { opacity: .7; }
+  .link-note { font-size: 12px; color: var(--text-muted); margin-left: 4px; }
+
+  /* video embed */
+  .video-wrap {
+    position: relative; width: 100%; padding-bottom: 56.25%;
+    height: 0; margin: 12px 0; border-radius: 10px; overflow: hidden;
+    background: #000; border: 1px solid var(--border);
+  }
+  .video-wrap iframe {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+  }
+  .video-placeholder {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; height: 100%; color: var(--text-muted); font-size: 13px;
+    background: linear-gradient(135deg, var(--surface2), var(--surface));
+  }
+  .video-placeholder a { color: var(--accent2); text-decoration: none; }
+
+  /* scenario table reuse cap-table */
+  .scenario-conclusion {
+    background: rgba(16,185,129,.06); border: 1px solid rgba(16,185,129,.25);
+    border-radius: 10px; padding: 14px 18px; font-size: 13px;
+    line-height: 1.7; color: var(--text-muted); margin: 16px 0;
+  }
+  .scenario-conclusion strong { color: var(--accent3); }
+
+  .platform-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px; margin-top: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .matrix, .deliverable-pair { grid-template-columns: 1fr; }
+    .map-branches { grid-template-columns: 1fr 1fr; }
+    .platform-grid { grid-template-columns: 1fr; }
+  }
+
+  .resf-btn{background:var(--surface);border:1px solid var(--border);color:var(--text-muted);border-radius:20px;padding:6px 14px;font-size:12px;cursor:pointer;transition:all .2s}
+  .resf-btn:hover{color:var(--text);border-color:var(--accent1)}
+  .resf-btn.on{background:var(--accent1);color:#fff;border-color:var(--accent1)}
 </style>
 </head>
 <body>
-<canvas id="stars"></canvas>
 
-<div class="topbar">
-  <button class="back-btn" id="backBtn">&#8592; 返回</button>
-  <div class="crumb" id="crumb"><span class="cur">KR4 后编辑宇宙</span></div>
+<!-- NAV -->
+<nav class="navbar">
+  <button class="nav-back" id="navBack" onclick="goHome()">&#8592; 返回</button>
+  <span class="nav-title" id="navTitle">KR4 后编辑框架</span>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+  <div class="map-header">
+    <h1>KR4 后编辑能力框架</h1>
+    <p>点击任意模块，进入详细分析视图</p>
+  </div>
+
+  <div class="map-root">
+    <div class="map-center">KR4 · 画布后编辑</div>
+    <div class="map-connector-v"></div>
+    <div class="map-branches">
+
+      <div class="branch-card c1" onclick="goTo('s1')">
+        <div class="step-num">Part 01</div>
+        <h3>定义成功</h3>
+        <p>北极星 · 指标分层 · 一句话验收标准</p>
+        <div class="arrow">→</div>
+      </div>
+
+      <div class="branch-card c2" onclick="goTo('s2')">
+        <div class="step-num">Part 02</div>
+        <h3>能力盘点与分线</h3>
+        <p>A线核心能力 vs B线新发现能力的工作方法分野</p>
+        <div class="arrow">→</div>
+      </div>
+
+      <div class="branch-card c3" onclick="goTo('s3')">
+        <div class="step-num">Part 03</div>
+        <h3>五维分析框架</h3>
+        <p>用户场景 · 竞品差异化 · 模型协同 · 链路 · 价值指标</p>
+        <div class="arrow">→</div>
+      </div>
+
+      <div class="branch-card c4" onclick="goTo('s4')">
+        <div class="step-num">Part 04</div>
+        <h3>优先级与降级</h3>
+        <p>价值 × 可行性矩阵 · 降级策略 · Seed需求排序</p>
+        <div class="arrow">→</div>
+      </div>
+
+      <div class="branch-card c5" onclick="goTo('s5')">
+        <div class="step-num">Part 05</div>
+        <h3>交付物</h3>
+        <p>产品侧路线图 · Seed模型需求清单 · 周三会材料</p>
+        <div class="arrow">→</div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
-<div id="stage"></div>
-<div class="panel-scene" id="panel"></div>
-<div class="hint" id="hint">✦ 点击星球进入 · 滚轮浏览</div>
+<!-- ════════════════════════════════════════════
+     PAGE S1: 定义成功
+════════════════════════════════════════════ -->
+<div class="page" id="page-s1">
+  <div class="detail-hero h1">
+    <div class="tag" style="background:rgba(99,102,241,.15);color:var(--accent1)">Part 01</div>
+    <h2>定义成功——KR4 顶层锚</h2>
+    <p class="subtitle">在拆能力之前先把目标翻译成可衡量的东西，否则后面挖出的需求没法排序。</p>
+  </div>
+
+  <div class="sections-grid">
+
+    <div class="section-card">
+      <div class="sc-icon">🧭</div>
+      <h4>北极星指标</h4>
+      <p>KR4 不直接背 DAU，它的本质是：<br><br>
+        <strong style="color:var(--text)">「让用户在画布里把图改到位，并愿意继续改」</strong><br><br>
+        核心是编辑深度与复用意愿，而非纯粹的功能覆盖数量。
+      </p>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">📊</div>
+      <h4>指标分层（漏斗）</h4>
+      <ul>
+        <li><strong style="color:var(--text)">L1 渗透率</strong>：多少生成用户进入了后编辑流程</li>
+        <li><strong style="color:var(--text)">L2 完成率</strong>：单次编辑的成功/满意率</li>
+        <li><strong style="color:var(--text)">L3 留存复用</strong>：编辑后下次继续用画布改图的比例</li>
+      </ul>
+      <p style="margin-top:10px">每个能力后面都必须挂到其中一个指标上，否则不排序。</p>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">✅</div>
+      <h4>一句话验收标准</h4>
+      <p>KR4 结束时，能不能说出：</p>
+      <p style="margin-top:10px;padding:12px;background:var(--surface2);border-radius:8px;color:var(--text);font-style:italic;line-height:1.8">
+        「用户现在能在画布里完成 <strong>X</strong>，<br>而 Q2 完不成。」
+      </p>
+      <p style="margin-top:10px">X 必须具体到场景和动作，不能是功能名词。</p>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">⚠️</div>
+      <h4>常见陷阱</h4>
+      <ul>
+        <li>用功能数量代替用户价值</li>
+        <li>指标只到 L1（渗透率）就停，不看 L2/L3</li>
+        <li>验收标准写成「上线了某功能」而非「用户能做到某事」</li>
+        <li>每个能力都说打 DAU，实际无法区分优先级</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">🔗</div>
+      <h4>与下游模块的连接</h4>
+      <p>这里定义的指标分层是 Part 04（优先级排序）的基础输入。<br><br>
+        Part 03 五维分析的第 5 维「价值/指标」必须对应到 L1/L2/L3 某一层，才能闭环。
+      </p>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">📝</div>
+      <h4>填写建议（待补充）</h4>
+      <p>此处后续可补充：</p>
+      <ul>
+        <li>具体数字目标（如 L1 渗透率从 X% 到 Y%）</li>
+        <li>时间范围（Q3 结束时）</li>
+        <li>测量方式（埋点名称 / 数据平台）</li>
+      </ul>
+      <div class="badge" style="background:rgba(245,158,11,.1);color:var(--accent4)">待补充数据</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE S2: 能力盘点与分线
+════════════════════════════════════════════ -->
+<div class="page" id="page-s2">
+  <div class="detail-hero h2">
+    <div class="tag" style="background:rgba(6,182,212,.15);color:var(--accent2)">Part 02</div>
+    <h2>能力盘点与分线</h2>
+    <p class="subtitle">关键原则：别让「发现」盖过「做深」。两条线工作方法完全不同，必须拆开管理。</p>
+  </div>
+
+  <div class="sections-grid">
+    <div class="section-card" style="border-color:rgba(99,102,241,.3)">
+      <div class="sc-icon">🏗️</div>
+      <h4 style="color:var(--accent1)">A 线 · 做深已承诺核心能力</h4>
+      <p>这三个是 KR 点名要和 Seed 深度合作的，问题不是「做不做」，而是「怎么到产品可用水位」。</p>
+      <ul style="margin-top:10px">
+        <li>图层分离</li>
+        <li>文字编辑</li>
+        <li>指令编辑</li>
+      </ul>
+      <p style="margin-top:10px"><strong>主战场在模型协同，不在需求发现。</strong></p>
+      <div class="badge tag-a">模型协同主场</div>
+    </div>
+
+    <div class="section-card" style="border-color:rgba(6,182,212,.3)">
+      <div class="sc-icon">🔭</div>
+      <h4 style="color:var(--accent2)">B 线 · 发现并补齐新能力</h4>
+      <p>这条线才是调研引擎真正发力的地方。</p>
+      <ul style="margin-top:10px">
+        <li>调色 / 色调迁移</li>
+        <li>调角度 / 视角变换</li>
+        <li>打光 / 光影控制</li>
+        <li>多尺寸适配</li>
+        <li>其他调研挖出的未包装需求（待填）</li>
+      </ul>
+      <div class="badge tag-b">需求发现主场</div>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">⚖️</div>
+      <h4>精力分配警告</h4>
+      <p>分线之后，精力才不会被「调色/打光」这类好做的增量带跑，而忽略真正撬动 KR 的三个核心。</p>
+      <p style="margin-top:10px">建议比例参考（待确认）：</p>
+      <ul>
+        <li>A 线：占总投入 60–70%</li>
+        <li>B 线：占总投入 30–40%</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">📋</div>
+      <h4>工作方法差异</h4>
+      <table style="width:100%;font-size:12px;margin-top:8px;border-collapse:collapse">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding:6px 8px;background:var(--surface2);color:var(--text-muted)">维度</th>
+            <th style="text-align:left;padding:6px 8px;background:var(--surface2);color:var(--accent1)">A 线</th>
+            <th style="text-align:left;padding:6px 8px;background:var(--surface2);color:var(--accent2)">B 线</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:6px 8px;border-top:1px solid var(--border);color:var(--text-muted)">核心问题</td>
+            <td style="padding:6px 8px;border-top:1px solid var(--border)">怎么到产品可用水位</td>
+            <td style="padding:6px 8px;border-top:1px solid var(--border)">做不做、做哪个</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border-top:1px solid var(--border);color:var(--text-muted)">主要输出</td>
+            <td style="padding:6px 8px;border-top:1px solid var(--border)">模型评测标准 + 验收水位</td>
+            <td style="padding:6px 8px;border-top:1px solid var(--border)">用户需求报告 + 竞品分析</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border-top:1px solid var(--border);color:var(--text-muted)">主要协作方</td>
+            <td style="padding:6px 8px;border-top:1px solid var(--border)">Seed 团队</td>
+            <td style="padding:6px 8px;border-top:1px solid var(--border)">用研 + 设计</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <table class="cap-table" style="margin-top:24px">
+    <thead>
+      <tr>
+        <th>能力</th>
+        <th>线路</th>
+        <th>类型</th>
+        <th>当前状态</th>
+        <th>主打指标</th>
+        <th>备注</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>图层分离</td>
+        <td><span class="badge tag-a">A 线</span></td>
+        <td><span class="tag-core">核心承诺</span></td>
+        <td>与 Seed 合作中</td>
+        <td>L2 完成率</td>
+        <td>电商/海报场景高频</td>
+      </tr>
+      <tr>
+        <td>文字编辑</td>
+        <td><span class="badge tag-a">A 线</span></td>
+        <td><span class="tag-core">核心承诺</span></td>
+        <td>与 Seed 合作中</td>
+        <td>L2 完成率</td>
+        <td>品牌物料核心需求</td>
+      </tr>
+      <tr>
+        <td>指令编辑</td>
+        <td><span class="badge tag-a">A 线</span></td>
+        <td><span class="tag-core">核心承诺</span></td>
+        <td>与 Seed 合作中</td>
+        <td>L3 留存复用</td>
+        <td>组合能力护城河</td>
+      </tr>
+      <tr>
+        <td>调色 / 色调迁移</td>
+        <td><span class="badge tag-b">B 线</span></td>
+        <td><span class="tag-new">新发现</span></td>
+        <td>待评估</td>
+        <td>L1 渗透率</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>调角度 / 视角变换</td>
+        <td><span class="badge tag-b">B 线</span></td>
+        <td><span class="tag-new">新发现</span></td>
+        <td>待评估</td>
+        <td>L1 渗透率</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>打光 / 光影控制</td>
+        <td><span class="badge tag-b">B 线</span></td>
+        <td><span class="tag-new">新发现</span></td>
+        <td>待评估</td>
+        <td>L2 完成率</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>多尺寸适配</td>
+        <td><span class="badge tag-b">B 线</span></td>
+        <td><span class="tag-new">新发现</span></td>
+        <td>待评估</td>
+        <td>L1 渗透率</td>
+        <td>跨平台投放场景</td>
+      </tr>
+      <tr>
+        <td style="color:var(--text-muted);font-style:italic" colspan="6">+ 其他调研待补充...</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE S3: 五维分析框架
+════════════════════════════════════════════ -->
+<div class="page" id="page-s3">
+  <div class="detail-hero h3">
+    <div class="tag" style="background:rgba(16,185,129,.15);color:var(--accent3)">Part 03</div>
+    <h2>五维分析框架</h2>
+    <p class="subtitle">把三个原有维度 + 补充的两个维度整合后的完整版。对 A/B 线里每个能力都跑一遍。</p>
+  </div>
+
+  <div class="dim-cards">
+    <div class="dim-card subpage-entry" onclick="goTo('scenarios')">
+      <div class="dim-num" style="background:rgba(99,102,241,.15);color:var(--accent1)">1</div>
+      <div>
+        <h4>用户与场景　<span style="font-size:11px;font-weight:600;color:var(--accent1)">· 已填充调研数据</span></h4>
+        <p>YouTube / 海外平台看真实需求，重点抓「没被包装、但用户在用 coding 自己实现」的能力。明确落在哪个场景（电商图？海报？品牌物料？）。</p>
+        <p style="margin-top:6px;color:var(--accent1);font-size:12px">→ 输出：场景定义 + 用户痛点描述</p>
+        <span class="enter-link">进入调研子页：场景拆解 · 平台品牌 · 博主清单 · 痛点 →</span>
+      </div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-num" style="background:rgba(6,182,212,.15);color:var(--accent2)">2</div>
+      <div>
+        <h4>竞品与差异化（加一刀）</h4>
+        <p>不只看「竞品做了我没做」，要进一步分两类：</p>
+        <ul style="margin-top:6px;padding-left:16px;font-size:13px;color:var(--text-muted);line-height:1.7">
+          <li><strong style="color:var(--text)">护城河型</strong>：靠「画布后编辑 + Seed 深度合作」才做得动、别人抄不了的（如图层分离 ＋ 指令编辑组合）→ 优先占 Seed 产能</li>
+          <li><strong style="color:var(--text)">军备竞赛型</strong>：补齐功能缺口，竞品也在做的</li>
+        </ul>
+      </div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-num" style="background:rgba(16,185,129,.15);color:var(--accent3)">3</div>
+      <div>
+        <h4>模型协同（往上推一层）</h4>
+        <p>不止「哪个模型效果好」，而是定义模型该优化什么：</p>
+        <ul style="margin-top:6px;padding-left:16px;font-size:13px;color:var(--text-muted);line-height:1.7">
+          <li>每个能力的评测标准</li>
+          <li>关键失败 case</li>
+          <li>需要的数据</li>
+          <li>做到什么水位算产品可用</li>
+        </ul>
+        <p style="margin-top:6px;color:var(--accent3);font-size:12px">→ 这是周三会的核心产出</p>
+      </div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-num" style="background:rgba(245,158,11,.15);color:var(--accent4)">4</div>
+      <div>
+        <h4>链路（独立维度）</h4>
+        <p>用户是否顺手进得了后编辑？几个能力能否串起来连续改？</p>
+        <p style="margin-top:6px;color:var(--text-muted);font-size:13px">这是「优化后编辑链路」那句的落点，不能用离散能力的加总代替。</p>
+        <p style="margin-top:6px;color:var(--accent4);font-size:12px">→ 输出：链路串联方案 + 入口设计</p>
+      </div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-num" style="background:rgba(236,72,153,.15);color:var(--accent5)">5</div>
+      <div>
+        <h4>价值 / 指标</h4>
+        <p>这个能力打哪个指标、怎么量。</p>
+        <p style="margin-top:6px;color:var(--text-muted);font-size:13px">这一维填完，前四维挖出的需求才排得出序。对应 Part 01 的 L1/L2/L3 分层。</p>
+        <p style="margin-top:6px;color:var(--accent5);font-size:12px">→ 输出：埋点方案 + 目标数字</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box" style="margin-top:24px">
+    <strong>使用说明：</strong>以下是可填写的五维分析表，每行是一个能力，每列是一个维度。后续可逐步填入调研数据。
+  </div>
+
+  <table class="fivedim-table">
+    <thead>
+      <tr>
+        <th>能力</th>
+        <th>① 用户与场景</th>
+        <th>② 竞品差异化</th>
+        <th>③ 模型协同</th>
+        <th>④ 链路</th>
+        <th>⑤ 价值指标</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>图层分离</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+      <tr>
+        <td>文字编辑</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+      <tr>
+        <td>指令编辑</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+      <tr>
+        <td>调色</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+      <tr>
+        <td>调角度</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+      <tr>
+        <td>打光</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+      <tr>
+        <td>多尺寸适配</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SUBPAGE: 用户场景与调研（挂在五维①下）
+════════════════════════════════════════════ -->
+<div class="page" id="page-scenarios">
+  <div class="detail-hero h3">
+    <div class="tag" style="background:rgba(99,102,241,.15);color:var(--accent1)">Part 03 · 维度①子页</div>
+    <h2>用户与场景 · 调研工作台</h2>
+    <p class="subtitle">每个条目都是「<strong style="color:var(--text)">结论先行</strong>」：默认只看一句话判断；需要溯源时点开，看具体链接，部分支持视频内嵌预览。
+      标签含义：<span class="res-tag rt-verified">已验证</span>头部已确认 ·
+      <span class="res-tag rt-tocrawl">待爬取</span>需进一步抓主页 ·
+      <span class="res-tag rt-moat">护城河</span>别人抄不了 ·
+      <span class="res-tag rt-arms">军备竞赛</span>补齐缺口</p>
+  </div>
+
+  <!-- ─── 模块 1：场景拆解 ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">1</span>后编辑能力 · 场景拆解</div>
+    <div class="module-desc">后编辑的价值不在单个能力，而在「用户生成一张图后，还需要反复改到能用」。按场景大类映射到具体后编辑能力。</div>
+
+    <div class="scenario-conclusion">
+      <strong>一句话结论：</strong>单点能力竞品都有，真正的护城河是「<strong>图层分离 + 指令编辑</strong>」的组合连续编辑——用户能像 PS 一样分层、再用自然语言连续改。这是「画布 + Seed 深度合作」才做得动的方向，应优先占 Seed 产能。
+    </div>
+
+    <table class="cap-table">
+      <thead>
+        <tr><th>场景大类</th><th>典型需求</th><th>吃哪些后编辑能力</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>电商商品图</strong></td>
+          <td>换背景、抠主体、改促销文案、出多尺寸（主图/详情/banner）</td>
+          <td>图层分离 · 文字编辑 · 多尺寸 · 打光</td>
+        </tr>
+        <tr>
+          <td><strong>海报 / 营销物料</strong></td>
+          <td>调整标题排版、改配色统一品牌、局部替换元素</td>
+          <td>文字编辑 · 调色 · 指令编辑</td>
+        </tr>
+        <tr>
+          <td><strong>品牌视觉系统</strong></td>
+          <td>同一套素材衍生多版本、保持风格一致</td>
+          <td>图层分离 · 调色 · 多尺寸</td>
+        </tr>
+        <tr>
+          <td><strong>社媒内容</strong></td>
+          <td>同一张图适配 IG/小红书/X 不同比例、换文案</td>
+          <td>多尺寸 · 文字编辑</td>
+        </tr>
+        <tr>
+          <td><strong>产品 / 包装设计</strong></td>
+          <td>换角度看效果、不同打光下的质感</td>
+          <td>调角度 · 打光</td>
+        </tr>
+        <tr>
+          <td><strong>影视 / 游戏概念图</strong></td>
+          <td>局部精修、光影氛围调整</td>
+          <td>指令编辑 · 打光 · 图层分离</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ─── 模块 2：平台与品牌能力盘点 ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">2</span>平台与品牌能力盘点</div>
+    <div class="module-desc">竞品/模型当前的后编辑能力做到什么程度——分「护城河型」和「军备竞赛型」，决定 Seed 产能怎么分配。</div>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">Lovart · ChatCanvas + Touch Edit</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-arms">军备竞赛</span><span class="res-tag rt-tocrawl">待爬取</span>
+          <strong>正面竞品，重点对标。</strong>自然语言生成设计 + ChatCanvas 画布微调 + Brand Kit 自动套品牌色/字体/logo + 按精确尺寸导出。号称 1000 万+ 创作者。后编辑链路完整度高，是我们「链路」维度的主要参照系。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://www.lovart.ai/blog/twitter-image-design-guide" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>Lovart 官方博客：Twitter 图像设计指南（含 ChatCanvas/Touch Edit 说明）</a></li>
+        </ul>
+        <div class="link-note">待爬：进官网逐个录后编辑功能截图，对照我们的图层分离/指令编辑链路。</div>
+      </div>
+    </details>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">Adobe Firefly · Generative Fill</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-moat">护城河参照</span>
+          <strong>「图层分离」的对标基准。</strong>深度集成进 Photoshop 的选区/蒙版工具，结果非破坏性（non-destructive），是行业标准。我们的图层分离要达到「产品可用水位」，参照系就是它的非破坏性体验。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://www.aiphotogenerator.net/blog/2026/02/ai-inpainting-guide" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>AI Inpainting Explained: How to Edit Any Image Like a Pro (2026)</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">主流生成模型：Midjourney V8 / Seedream 4.5–5.0 / Nano Banana Pro</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-arms">军备竞赛</span>
+          <strong>模型层的编辑能力对比，决定 A 线水位。</strong>Nano Banana Pro 角色/特征一致性最强；Seedream 4.x 走高端商业写实，适合电商/设计师；Midjourney V8（2026.3）生成快 5×、原生 2K、文字渲染大幅改善。组合用法：Nano Banana 出基图 → Seedream 升采样/补细节。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://www.atlascloud.ai/blog/guides/best-ai-image-editing-models-2026" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>Best AI Image Editing Models 2026：GPT Image 2 / Flux 2 Pro / Nano Banana 2 / Seedream 横评</a></li>
+          <li><a href="https://www.amplifilabs.com/post/google-nano-banana-vs-seedream-4-ai-image-editing-tool-showdown" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>Nano Banana vs Seedream 4：编辑能力对决</a></li>
+          <li><a href="https://aireiter.com/blog/best-ai-image-generator-2026-comparison" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>Seedream 5.0 vs Nano Banana Pro（2026）</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">GPT Image 2 / GPT-4o 原生图像</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-arms">军备竞赛</span>
+          <strong>原生多模态的指令编辑标杆。</strong>在同一个模型内理解上下文并生成/改图，可按自然语言改特定元素、文字渲染准确。对标我们的「指令编辑」维度。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://miraflow.ai/blog/ai-image-generation-arms-race-2026-everything-changes" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>The AI Image Generation Arms Race：Why 2026 Changes Everything</a></li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <!-- ─── 模块 3：博主 / 账号清单 ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">3</span>博主 / 账号清单</div>
+    <div class="module-desc">分享 AI 设计方法的创作者。头部已验证，长尾从这些账号的关注链/转发往下挖。点开可看链接，预留视频内嵌位。</div>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">@fofrAI（X / Twitter）</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-verified">已验证</span>
+          <strong>挖「未被包装需求」的首选侦察兵。</strong>5.4 万粉，每天发图像/视频/音频生成模型的新玩法，是「趋势变成产品之前」的早期信号源。建议从他的关注列表横向扩散，扒出一整圈实验者。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://x.com/fofrAI" target="_blank" rel="noopener"><span class="lnk-ico">𝕏</span>@fofrAI 主页</a></li>
+        </ul>
+        <div class="video-wrap">
+          <div class="video-placeholder">
+            <span>🎬 视频预览位（X 视频需登录，建议改挂其 YouTube 演示）</span>
+            <a href="https://x.com/fofrAI" target="_blank" rel="noopener">前往 X 查看 →</a>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">@ammaar（Ammaar Reshi · Google AI Studio）</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-verified">已验证</span>
+          <strong>定义新一代 AI 工具审美标准。</strong>Google AI Studio 产品/设计负责人，vibe coding 演示出圈。看他的内容能把握「AI 设计工作流」的产品化方向和体验基线。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://x.com/ammaar" target="_blank" rel="noopener"><span class="lnk-ico">𝕏</span>@ammaar 主页</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">YouTube · AI 图像编辑工作流教程（频道待锁定）</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-tocrawl">待爬取</span>
+          <strong>信息密度最高、最该批量爬的一类。</strong>长视频能看到完整后编辑链路。下面是按关键词的检索入口；确认方向后我批量抓确切视频 ID 内嵌进来（示例嵌入已就位）。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://www.youtube.com/results?search_query=Nano+Banana+editing+workflow" target="_blank" rel="noopener"><span class="lnk-ico">▶</span>搜索：Nano Banana editing workflow</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=Seedream+4+design+workflow" target="_blank" rel="noopener"><span class="lnk-ico">▶</span>搜索：Seedream 4 design workflow</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=AI+product+photography+post+editing" target="_blank" rel="noopener"><span class="lnk-ico">▶</span>搜索：AI product photography post editing</a></li>
+        </ul>
+        <div class="video-wrap">
+          <div class="video-placeholder">
+            <span>🎬 视频内嵌示例位 — 锁定具体视频后替换为：</span>
+            <span style="font-size:11px;color:var(--text-muted)">&lt;iframe src="https://www.youtube-nocookie.com/embed/视频ID"&gt;</span>
+          </div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- ─── 模块 4：Medium 长文复盘 ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">4</span>Medium 长文 · 工作流复盘</div>
+    <div class="module-desc">设计师写的长文复盘，看完整 AI 工作流和方法论。按主题拆成模块。</div>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">「生成只是第一步」——规模化工作流</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-moat">核心论点</span>
+          <strong>标题就是 KR4 的命题。</strong>《The AI Image Workflow That Actually Scales: Why Generation Is Only Step One》——论证生成只是第一步，后编辑才是规模化关键。可直接引用为后编辑价值的外部佐证。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://medium.com/ai-analytics-diaries/the-ai-image-workflow-that-actually-scales-why-generation-is-only-step-one-961a14ed3636" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>Data Mind — Why Generation Is Only Step One</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">把 AI 接入真实设计工作流</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-tocrawl">待精读</span>
+          <strong>看设计师怎么把 AI 嵌进现有流程。</strong>《AI for Graphic Designers in 2026: How to Integrate AI Into a Real Design Workflow》——重点提取「哪些环节用户在用 coding 自己补」，对应 B 线未包装需求。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://medium.com/@ant_95138/ai-for-graphic-designers-in-2026-how-to-integrate-ai-into-a-real-design-workflow-464971e28e03" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>House of gAi — Integrate AI Into a Real Design Workflow</a></li>
+          <li><a href="https://medium.com/design-bootcamp/ultimate-design-workflow-in-2026-edbfd727ebbf" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>Design Bootcamp — Ultimate Design Workflow in 2026</a></li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <!-- ─── 模块 5：Reddit 痛点 ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">5</span>Reddit · 真实痛点挖掘</div>
+    <div class="module-desc">用户吐槽「XX 改不动 / 一致性保不住」的地方，就是后编辑能力的机会点。重点搜社区里的抱怨贴。</div>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">r/StableDiffusion · r/midjourney（合计 5 万+ 经验分享）</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-tocrawl">待爬取</span>
+          <strong>挖痛点最好的地方。</strong>用户重视「能用文字改图、不用 Photoshop 专业技能」的工具。重点搜：保持一致性失败、inpainting 翻车、局部改动牵连全图——这些直接对应我们「指令编辑/图层分离」要解决的失败 case。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://www.reddit.com/r/StableDiffusion/" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>r/StableDiffusion</a></li>
+          <li><a href="https://www.reddit.com/r/midjourney/" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>r/midjourney</a></li>
+          <li><a href="https://www.reddit.com/r/graphic_design/" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>r/graphic_design</a></li>
+          <li><a href="https://www.reddit.com/r/photography/" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>r/photography</a></li>
+        </ul>
+        <div class="link-note">待爬：抓高赞抱怨贴标题 + 链接，归类到对应能力的「关键失败 case」（喂给 Part 03 维度③）。</div>
+      </div>
+    </details>
+  </div>
+
+  <!-- ─── 模块 6：海外平台补充 ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">6</span>值得加的海外平台</div>
+    <div class="module-desc">除 YouTube 外，按内容形态补全的调研渠道。</div>
+
+    <div class="platform-grid">
+      <div class="section-card">
+        <div class="sc-icon">🎓</div>
+        <h4>Skillshare / Domestika</h4>
+        <p>付费系统课，设计师完整讲 AI 工作流，<strong style="color:var(--text)">深度最高</strong>。</p>
+      </div>
+      <div class="section-card">
+        <div class="sc-icon">💬</div>
+        <h4>Discord</h4>
+        <p>Midjourney / 各模型官方社区，实时讨论 + 新功能第一手反馈。</p>
+      </div>
+      <div class="section-card">
+        <div class="sc-icon">🚀</div>
+        <h4>Product Hunt</h4>
+        <p>竞品发新后编辑功能的<strong style="color:var(--text)">第一落点</strong>。</p>
+      </div>
+      <div class="section-card">
+        <div class="sc-icon">🎨</div>
+        <h4>Behance / ArtStation</h4>
+        <p>设计师传 AI 作品集并写 process；ArtStation 偏影视/游戏，是「打光、调角度」高质量案例集中地。</p>
+      </div>
+      <div class="section-card">
+        <div class="sc-icon">📱</div>
+        <h4>Instagram Reels / TikTok</h4>
+        <p>短视频技巧，看哪些后编辑操作最<strong style="color:var(--text)">病毒式传播</strong>。</p>
+      </div>
+      <div class="section-card">
+        <div class="sc-icon">🧵</div>
+        <h4>Threads</h4>
+        <p>近期 AI 设计师讨论也在涨，补充 X 的信息源。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 模块 7：调研数据库（174 条实抓） ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">7</span>调研数据库 · 设计师 AI 提效技巧（174 条实抓）</div>
+    <div class="module-desc">跨平台搜集「可被封装成产品能力」的辅助设计技巧，每条＝结论＋真实链接。按平台 → 子主题分组，点开展开。Reddit 因爬虫被平台屏蔽未抓取（见下方）。</div>
+
+    <div class="scenario-conclusion">
+      <strong>五类最该封装的能力（按出现频率 × 可封装度 × 命中 KR4 核心）：</strong>
+      ① 批量/多尺寸自动化（封装易、感知强）→ L1 入口；② 电商换背景＋重打光 → 对标 Seed 打光水位；
+      ③ 局部编辑＋参考图引导 → 命中指令编辑护城河；④ 角色/风格一致性锁定 → 别人抄不了；⑤ 一键模板/智能提示 → 近零模型成本可上线。
+    </div>
+
+    <!-- 平台筛选 -->
+    <div id="resFilter" style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0"></div>
+    <!-- 渲染容器 -->
+    <div id="resDB"></div>
+
+    <div class="section-card" style="margin-top:16px;border-color:rgba(245,158,11,.3)">
+      <div class="sc-icon">🚫</div>
+      <h4>Reddit（被平台屏蔽，0 条）</h4>
+      <p>Anthropic 爬虫无法访问 reddit.com（robots 级，返回 400）。以下为直达搜索入口，可手动浏览；后续可用浏览器自动化补抓。</p>
+      <ul class="link-list" style="margin-top:8px">
+        <li><a href="https://www.reddit.com/r/StableDiffusion/search/?q=workflow" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>r/StableDiffusion · workflow</a></li>
+        <li><a href="https://www.reddit.com/r/midjourney/search/?q=consistency" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>r/midjourney · consistency</a></li>
+        <li><a href="https://www.reddit.com/r/graphic_design/search/?q=AI%20workflow" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>r/graphic_design · AI workflow</a></li>
+        <li><a href="https://www.reddit.com/r/photography/search/?q=AI%20editing" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>r/photography · AI editing</a></li>
+      </ul>
+      <p style="margin-top:8px"><strong style="color:var(--text)">交叉印证的痛点：</strong>角色/物体一致性保不住、inpainting 局部改动牵连全图、风格不连续——正好是后编辑护城河要解决的失败 case。</p>
+    </div>
+  </div>
+
+  <div class="note-box" style="margin-top:32px">
+    <strong>下一步（等你确认）：</strong>① 把任一类技巧深挖 → 逐个视频拆解成「模型该优化什么」的失败 case；② 用浏览器自动化抓 Reddit 高赞抱怨贴补全痛点；③ 锁定博主后把确切视频 ID 内嵌进模块 3。
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE S4: 优先级与降级
+════════════════════════════════════════════ -->
+<div class="page" id="page-s4">
+  <div class="detail-hero h4">
+    <div class="tag" style="background:rgba(245,158,11,.15);color:var(--accent4)">Part 04</div>
+    <h2>优先级与降级策略</h2>
+    <p class="subtitle">用「产品价值（指标撬动）× 模型可行性（Seed 当前水位）」做二维矩阵，每个强依赖能力先想好降级版本。</p>
+  </div>
+
+  <div class="sections-grid">
+    <div class="section-card">
+      <div class="sc-icon">📐</div>
+      <h4>排序标准</h4>
+      <ul>
+        <li><strong style="color:var(--text)">X 轴：</strong>产品价值（对 L1/L2/L3 的撬动程度）</li>
+        <li><strong style="color:var(--text)">Y 轴：</strong>模型可行性（Seed 当前水位评估）</li>
+      </ul>
+      <p style="margin-top:10px">两维相乘出优先级，而不是产品拍脑袋。</p>
+    </div>
+    <div class="section-card">
+      <div class="sc-icon">🔽</div>
+      <h4>降级策略原则</h4>
+      <p>每个强依赖 Seed 的能力，先想清楚：</p>
+      <p style="margin-top:8px;padding:10px;background:var(--surface2);border-radius:8px;font-style:italic;color:var(--text)">
+        「模型没到预期时，产品侧的可降级版本是什么？」
+      </p>
+      <p style="margin-top:8px">「不负向即合格」→ 决定它敢不敢放主链路，还是只能做灰度。</p>
+    </div>
+  </div>
+
+  <div style="margin-top:8px;font-size:12px;color:var(--text-muted);padding:0 4px;display:flex;justify-content:space-between">
+    <span>← 产品价值 低</span><span>产品价值 高 →</span>
+  </div>
+  <div class="matrix">
+    <div class="quadrant">
+      <h4>🔵 低价值 × 高可行</h4>
+      <ul>
+        <li>快速补齐但非主链路</li>
+        <li>可作为后续迭代</li>
+        <li>调色（待评估后放置）</li>
+      </ul>
+    </div>
+    <div class="quadrant q-hi-hi">
+      <h4>🟢 高价值 × 高可行 → 主链路</h4>
+      <ul>
+        <li>直接进 Q3 主链路</li>
+        <li>文字编辑（预判）</li>
+        <li>图层分离（预判）</li>
+      </ul>
+    </div>
+    <div class="quadrant q-lo-lo">
+      <h4>⚫ 低价值 × 低可行 → 先放</h4>
+      <ul>
+        <li>当前 quarter 不做</li>
+        <li>持续观察竞品动向</li>
+      </ul>
+    </div>
+    <div class="quadrant q-hi-lo">
+      <h4>🟡 高价值 × 低可行 → Seed 需求清单</h4>
+      <ul>
+        <li>进周三会的核心讨论</li>
+        <li>指令编辑（预判）</li>
+        <li>打光控制（预判）</li>
+        <li>明确评测标准 + 目标水位</li>
+      </ul>
+    </div>
+  </div>
+  <div style="margin-top:8px;font-size:12px;color:var(--text-muted);padding:0 4px;display:flex;justify-content:space-between">
+    <span>↑ 模型可行性 高</span><span style="text-align:right">↓ 模型可行性 低</span>
+  </div>
+
+  <div class="note-box">
+    <strong>注意：</strong>矩阵中各能力的放置位置均为预判，需要在 Part 03 五维分析完成后，根据实际评估数据重新定位。
+  </div>
+
+  <div class="sections-grid" style="margin-top:24px">
+    <div class="section-card">
+      <div class="sc-icon">🎚️</div>
+      <h4>降级方案模板（每个能力填一份）</h4>
+      <table style="width:100%;font-size:12px;border-collapse:collapse;margin-top:8px">
+        <tr>
+          <td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">能力名称</td>
+          <td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:var(--text-muted)">待填</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">理想版本</td>
+          <td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:var(--text-muted)">待填</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">降级版本</td>
+          <td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:var(--text-muted)">待填</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">触发条件</td>
+          <td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:var(--text-muted)">模型未达到 X 水位</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;color:var(--text-muted)">灰度还是主链路</td>
+          <td style="padding:6px 0;font-style:italic;color:var(--text-muted)">待决策</td>
+        </tr>
+      </table>
+    </div>
+    <div class="section-card">
+      <div class="sc-icon">📅</div>
+      <h4>排序输出物</h4>
+      <ul>
+        <li>能力按象限归类清单</li>
+        <li>每个高价值低可行能力的 Seed 需求卡</li>
+        <li>降级版本备案表</li>
+        <li>灰度发布计划</li>
+      </ul>
+      <p style="margin-top:10px;color:var(--text-muted)">这些输出直接流入 Part 05 的两份交付物。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE S5: 交付物
+════════════════════════════════════════════ -->
+<div class="page" id="page-s5">
+  <div class="detail-hero h5">
+    <div class="tag" style="background:rgba(236,72,153,.15);color:var(--accent5)">Part 05</div>
+    <h2>交付物</h2>
+    <p class="subtitle">框架跑完，产出两份东西。第二份才是真正立住「model-product co-design 判断力」的实物证据。</p>
+  </div>
+
+  <div class="deliverable-pair">
+    <div class="deliverable-card" style="border-color:rgba(99,102,241,.3)">
+      <div class="dc-icon">🗺️</div>
+      <h4 style="color:var(--accent1)">交付物 A：产品侧能力路线图</h4>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">对内（产品团队）</p>
+      <ul>
+        <li>按指标价值排序的 KR4 能力列表</li>
+        <li>标清 A 线 / B 线归属</li>
+        <li>链路串法（能力如何连续使用）</li>
+        <li>各能力打的指标（L1/L2/L3）</li>
+        <li>时间排期与里程碑</li>
+        <li>降级版本备案</li>
+      </ul>
+      <div class="badge" style="background:rgba(99,102,241,.1);color:var(--accent1);margin-top:16px">产品 Roadmap 格式</div>
+    </div>
+
+    <div class="deliverable-card" style="border-color:rgba(236,72,153,.3)">
+      <div class="dc-icon">🧪</div>
+      <h4 style="color:var(--accent5)">交付物 B：Seed 模型需求清单</h4>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">对 Seed 团队 · 周三会核心材料</p>
+      <ul>
+        <li>按产品价值排序（非随机列表）</li>
+        <li>每项写明：评测标准</li>
+        <li>每项写明：关键失败 case</li>
+        <li>每项写明：所需数据</li>
+        <li>每项写明：目标水位（产品可用的定义）</li>
+        <li>优先级标注（高价值低可行优先讨论）</li>
+      </ul>
+      <div class="badge" style="background:rgba(236,72,153,.1);color:var(--accent5);margin-top:16px">模型需求卡格式</div>
+    </div>
+  </div>
+
+  <div class="note-box" style="margin-top:24px;border-color:rgba(236,72,153,.2);background:rgba(236,72,153,.06)">
+    <strong>关键区别：</strong>周三会上拿出交付物 B，而不是一张功能清单，分量完全不同。<br>
+    前者是在<strong>定义「模型该为什么优化」</strong>，后者只是在许愿。
+  </div>
+
+  <div class="sections-grid" style="margin-top:24px">
+    <div class="section-card">
+      <div class="sc-icon">📋</div>
+      <h4>模型需求卡模板（每个能力一张）</h4>
+      <table style="width:100%;font-size:12px;border-collapse:collapse;margin-top:8px">
+        <tr><td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">能力</td><td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:#3a3f5c">待填</td></tr>
+        <tr><td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">产品价值</td><td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:#3a3f5c">打 L? 指标，预期提升 X%</td></tr>
+        <tr><td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">评测标准</td><td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:#3a3f5c">待填</td></tr>
+        <tr><td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">关键失败 case</td><td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:#3a3f5c">待填</td></tr>
+        <tr><td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">所需数据</td><td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:#3a3f5c">待填</td></tr>
+        <tr><td style="padding:6px 0;color:var(--text-muted)">目标水位</td><td style="padding:6px 0;font-style:italic;color:#3a3f5c">产品可用 = 待填</td></tr>
+      </table>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">🎯</div>
+      <h4>周三会议程建议</h4>
+      <ul>
+        <li>开场：用 Part 01 北极星对齐目标（5 min）</li>
+        <li>A 线：三个核心能力的当前水位 review（20 min）</li>
+        <li>优先讨论：高价值低可行的 Seed 需求卡（20 min）</li>
+        <li>B 线：新能力的可行性快评（10 min）</li>
+        <li>收尾：确认下一个 milestone 和验收水位（5 min）</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">✅</div>
+      <h4>完成标准</h4>
+      <p>框架跑完的标志：</p>
+      <ul style="margin-top:8px">
+        <li>每个能力都有五维填写（不一定满）</li>
+        <li>所有能力都落在矩阵四象限</li>
+        <li>强依赖 Seed 的能力都有降级版本</li>
+        <li>交付物 B 每张卡都有评测标准</li>
+      </ul>
+    </div>
+  </div>
+</div>
 
 <script>
-/* ════════════ DATA MODEL ════════════ */
-const PARTS = [
-  {
-    id:'s1', cc:'#6366f1', kicker:'Part 01', title:'定义成功', sub:'顶层锚',
-    desc:'在拆能力之前先把目标翻译成可衡量的东西，否则后面挖出的需求没法排序。',
-    branches:[
-      {name:'北极星指标', concl:'<strong>本质：让用户在画布里把图改到位，并愿意继续改。</strong>不直接背 DAU，核心是编辑深度与复用意愿，而非功能覆盖数量。'},
-      {name:'指标分层（漏斗）', concl:'<strong>L1 渗透率 → L2 完成率 → L3 留存复用。</strong>每个能力必须挂到其中一层，否则不排序。',
-        body:'<ul><li><strong>L1 渗透率</strong>：多少生成用户进入后编辑流程</li><li><strong>L2 完成率</strong>：单次编辑的成功/满意率</li><li><strong>L3 留存复用</strong>：编辑后下次继续用画布改图的比例</li></ul>'},
-      {name:'一句话验收标准', concl:'KR4 结束时能说出：<strong>「用户现在能在画布里完成 X，而 Q2 完不成」</strong>。X 必须具体到场景和动作，不能是功能名词。'},
-      {name:'常见陷阱', concl:'用功能数量代替用户价值；指标只到 L1 就停；验收写成「上线了某功能」；每个能力都说打 DAU 导致无法区分优先级。'},
-    ]
-  },
-  {
-    id:'s2', cc:'#06b6d4', kicker:'Part 02', title:'能力盘点与分线', sub:'A线 vs B线',
-    desc:'关键原则：别让「发现」盖过「做深」。两条线工作方法完全不同，必须拆开管理。',
-    branches:[
-      {name:'A 线 · 做深核心能力', concl:'<span class="tag t-moat">模型协同主场</span><strong>图层分离 / 文字编辑 / 指令编辑。</strong>KR 点名要和 Seed 深度合作，问题不是做不做，而是怎么到产品可用水位。',
-        body:'主战场在模型协同，不在需求发现。建议占总投入 <strong>60–70%</strong>。'},
-      {name:'B 线 · 发现新能力', concl:'<span class="tag t-arms">需求发现主场</span><strong>调色 / 调角度 / 打光 / 多尺寸</strong>，及调研挖出的未包装需求。这才是调研引擎发力的地方，占 <strong>30–40%</strong>。'},
-      {name:'精力分配警告', concl:'分线之后，精力才不会被「调色/打光」这类好做的增量带跑，而忽略真正撬动 KR 的三个核心。'},
-      {name:'工作方法差异', concl:'A线产出「模型评测标准+验收水位」，对接 Seed；B线产出「用户需求报告+竞品分析」，对接用研+设计。',
-        body:'<table class="ctable"><tr><th>维度</th><th>A 线</th><th>B 线</th></tr><tr><td>核心问题</td><td>怎么到可用水位</td><td>做不做、做哪个</td></tr><tr><td>主要输出</td><td>评测标准+水位</td><td>需求报告+竞品</td></tr><tr><td>协作方</td><td>Seed 团队</td><td>用研+设计</td></tr></table>'},
-    ]
-  },
-  {
-    id:'s3', cc:'#10b981', kicker:'Part 03', title:'五维分析框架', sub:'核心引擎',
-    desc:'三个原有维度 + 补充两维。对 A/B 线每个能力都跑一遍。维度①已填充调研数据。',
-    branches:[
-      {name:'① 用户与场景　★调研工作台', cc:'#6366f1',
-        concl:'<span class="tag t-verified">已填充</span><strong>看真实需求，抓「没被包装、用户在用 coding 自己实现」的能力。</strong>下含场景拆解·平台品牌·博主清单·痛点·海外平台。',
-        cats:'scenarios'},
-      {name:'② 竞品与差异化', concl:'不只看「竞品做了我没做」，分两类：<strong>护城河型</strong>（画布+Seed 才做得动，别人抄不了，如图层分离＋指令编辑组合）优先占 Seed 产能；<strong>军备竞赛型</strong>补齐缺口。'},
-      {name:'③ 模型协同', concl:'<strong>不止「哪个模型好」，而是定义模型该优化什么。</strong>这是周三会的核心产出。',
-        body:'每个能力明确：<ul><li>评测标准</li><li>关键失败 case</li><li>需要的数据</li><li>做到什么水位算产品可用</li></ul>'},
-      {name:'④ 链路', concl:'<strong>用户是否顺手进得了后编辑？几个能力能否串起来连续改？</strong>「优化后编辑链路」的落点，不能用离散能力的加总代替。'},
-      {name:'⑤ 价值 / 指标', concl:'<strong>这个能力打哪个指标、怎么量。</strong>对应 Part 01 的 L1/L2/L3。这一维填完，前四维挖出的需求才排得出序。'},
-    ]
-  },
-  {
-    id:'s4', cc:'#f59e0b', kicker:'Part 04', title:'优先级与降级', sub:'价值×可行',
-    desc:'用「产品价值 × 模型可行性（Seed 当前水位）」做二维矩阵，每个强依赖能力先想好降级版本。',
-    branches:[
-      {name:'排序标准', concl:'<strong>X 轴产品价值（对 L1/L2/L3 撬动）× Y 轴模型可行性（Seed 水位）。</strong>两维相乘出优先级，而非拍脑袋。'},
-      {name:'四象限矩阵', concl:'高价值高可行→主链路；高价值低可行→Seed 需求清单（周三会核心）；低价值放后。',
-        body:'<div class="matrix"><div class="quad"><h5 style="color:var(--c3)">🟢 高价值×高可行 → 主链路</h5><ul><li>文字编辑（预判）</li><li>图层分离（预判）</li></ul></div><div class="quad"><h5 style="color:var(--c4)">🟡 高价值×低可行 → Seed 清单</h5><ul><li>指令编辑（预判）</li><li>打光控制（预判）</li></ul></div><div class="quad"><h5 style="color:var(--c2)">🔵 低价值×高可行 → 后续迭代</h5><ul><li>调色（待评估）</li></ul></div><div class="quad"><h5 style="color:var(--muted)">⚫ 低价值×低可行 → 先放</h5><ul><li>持续观察竞品</li></ul></div></div>'},
-      {name:'降级策略', concl:'<strong>每个强依赖 Seed 的能力，先想清楚「模型没到预期时，产品侧的可降级版本是什么」。</strong>「不负向即合格」决定它敢不敢放主链路，还是只能做灰度。'},
-    ]
-  },
-  {
-    id:'s5', cc:'#ec4899', kicker:'Part 05', title:'交付物', sub:'周三会材料',
-    desc:'框架跑完产出两份。第二份才是真正立住「model-product co-design 判断力」的实物证据。',
-    branches:[
-      {name:'交付物 A · 产品路线图', concl:'<span class="tag t-moat">对内</span>按指标价值排序的 KR4 能力列表，标清 A/B 线、链路串法、各能力打的指标、排期、降级备案。'},
-      {name:'交付物 B · Seed 需求清单', concl:'<span class="tag t-arms">对 Seed</span><strong>周三会核心材料。</strong>按产品价值排序，每项写明评测标准、关键失败 case、所需数据、目标水位。',
-        body:'<div class="note"><strong>关键区别：</strong>拿出交付物 B 而非一张功能清单，分量完全不同——前者在<strong>定义「模型该为什么优化」</strong>，后者只是在许愿。</div>'},
-      {name:'周三会议程', concl:'北极星对齐(5min) → A线水位 review(20min) → 高价值低可行 Seed 卡(20min) → B线快评(10min) → 确认 milestone(5min)。'},
-    ]
-  },
-];
+  const pages = ['home','s1','s2','s3','scenarios','s4','s5'];
+  const titles = {
+    home: 'KR4 后编辑框架',
+    s1: '① 定义成功',
+    s2: '② 能力盘点与分线',
+    s3: '③ 五维分析框架',
+    scenarios: '③·① 用户场景调研工作台',
+    s4: '④ 优先级与降级',
+    s5: '⑤ 交付物'
+  };
 
-/* 维度①的深层类目（场景调研工作台） */
-const SCENARIOS = {
-  title:'用户与场景 · 调研工作台', cc:'#6366f1',
-  desc:'每个条目结论先行：默认只看一句话判断，点开看链接，部分支持视频内嵌。标签：已验证 / 待爬取 / 护城河 / 军备竞赛。',
-  cats:[
-    {name:'① 后编辑能力 · 场景拆解',
-      concl:'<strong>护城河是「图层分离 + 指令编辑」的组合连续编辑</strong>——像 PS 一样分层，再用自然语言连续改。画布+Seed 才做得动，应优先占 Seed 产能。',
-      body:'<table class="ctable"><tr><th>场景大类</th><th>典型需求</th><th>吃哪些能力</th></tr>'+
-        '<tr><td><strong>电商商品图</strong></td><td>换背景、抠主体、改促销文案、出多尺寸</td><td>图层分离·文字编辑·多尺寸·打光</td></tr>'+
-        '<tr><td><strong>海报/营销物料</strong></td><td>调整标题排版、改配色统一品牌、局部替换</td><td>文字编辑·调色·指令编辑</td></tr>'+
-        '<tr><td><strong>品牌视觉系统</strong></td><td>同套素材衍生多版本、保持风格一致</td><td>图层分离·调色·多尺寸</td></tr>'+
-        '<tr><td><strong>社媒内容</strong></td><td>适配 IG/小红书/X 不同比例、换文案</td><td>多尺寸·文字编辑</td></tr>'+
-        '<tr><td><strong>产品/包装设计</strong></td><td>换角度看效果、不同打光下的质感</td><td>调角度·打光</td></tr>'+
-        '<tr><td><strong>影视/游戏概念图</strong></td><td>局部精修、光影氛围调整</td><td>指令编辑·打光·图层分离</td></tr></table>'},
-    {name:'② 平台与品牌能力盘点',
-      concl:'<strong>Lovart 是正面竞品（链路最完整），Adobe Firefly 是图层分离的对标基准。</strong>模型层 Nano Banana 一致性最强、Seedream 走高端写实。',
-      body:'<ul>'+
-        '<li><span class="tag t-arms">军备竞赛</span><strong>Lovart · ChatCanvas+Touch Edit</strong>：自然语言生成+画布微调+Brand Kit 自动套色/字体/logo，1000万+ 创作者。后编辑链路对标系。</li>'+
-        '<li><span class="tag t-moat">护城河参照</span><strong>Adobe Firefly · Generative Fill</strong>：深度集成 PS 选区/蒙版，非破坏性，行业标准。</li>'+
-        '<li><span class="tag t-arms">军备竞赛</span><strong>Midjourney V8 / Seedream 4.5-5.0 / Nano Banana Pro</strong>：组合用法 = Nano Banana 出基图 → Seedream 升采样补细节。</li></ul>'+
-        '<ul class="links">'+
-        '<li><a href="https://www.lovart.ai/blog/twitter-image-design-guide" target="_blank" rel="noopener">🔗 Lovart 官方：ChatCanvas/Touch Edit 说明</a></li>'+
-        '<li><a href="https://www.atlascloud.ai/blog/guides/best-ai-image-editing-models-2026" target="_blank" rel="noopener">🔗 Best AI Image Editing Models 2026 横评</a></li>'+
-        '<li><a href="https://www.amplifilabs.com/post/google-nano-banana-vs-seedream-4-ai-image-editing-tool-showdown" target="_blank" rel="noopener">🔗 Nano Banana vs Seedream 4 对决</a></li>'+
-        '<li><a href="https://miraflow.ai/blog/ai-image-generation-arms-race-2026-everything-changes" target="_blank" rel="noopener">🔗 AI Image Generation Arms Race 2026</a></li></ul>'},
-    {name:'③ 博主 / 账号清单',
-      concl:'<span class="tag t-verified">已验证</span><strong>@fofrAI 是挖「未被包装需求」的首选侦察兵，@ammaar 定义工具审美标准。</strong>长尾从他们的关注链往下扒。',
-      body:'<ul>'+
-        '<li><strong>@fofrAI（X）</strong>：5.4万粉，每天发生成模型新玩法，趋势变产品前的早期信号源。</li>'+
-        '<li><strong>@ammaar（Google AI Studio）</strong>：产品/设计负责人，vibe coding 出圈。</li></ul>'+
-        '<ul class="links">'+
-        '<li><a href="https://x.com/fofrAI" target="_blank" rel="noopener">𝕏 @fofrAI 主页</a></li>'+
-        '<li><a href="https://x.com/ammaar" target="_blank" rel="noopener">𝕏 @ammaar 主页</a></li>'+
-        '<li><a href="https://www.youtube.com/results?search_query=Nano+Banana+editing+workflow" target="_blank" rel="noopener">▶ YouTube：Nano Banana editing workflow</a></li>'+
-        '<li><a href="https://www.youtube.com/results?search_query=Seedream+4+design+workflow" target="_blank" rel="noopener">▶ YouTube：Seedream 4 design workflow</a></li></ul>'+
-        '<div class="vwrap"><div class="vph"><span>🎬 视频内嵌示例位</span><span style="font-size:11px">锁定具体视频后替换为 &lt;iframe src="youtube-nocookie.com/embed/视频ID"&gt;</span></div></div>'},
-    {name:'④ Medium 长文 · 工作流复盘',
-      concl:'<span class="tag t-moat">核心论点</span><strong>《Why Generation Is Only Step One》标题就是 KR4 命题</strong>——生成只是第一步，后编辑才是规模化关键，可直接引用为外部佐证。',
-      body:'<ul class="links">'+
-        '<li><a href="https://medium.com/ai-analytics-diaries/the-ai-image-workflow-that-actually-scales-why-generation-is-only-step-one-961a14ed3636" target="_blank" rel="noopener">🔗 Why Generation Is Only Step One</a></li>'+
-        '<li><a href="https://medium.com/@ant_95138/ai-for-graphic-designers-in-2026-how-to-integrate-ai-into-a-real-design-workflow-464971e28e03" target="_blank" rel="noopener">🔗 Integrate AI Into a Real Design Workflow</a></li>'+
-        '<li><a href="https://medium.com/design-bootcamp/ultimate-design-workflow-in-2026-edbfd727ebbf" target="_blank" rel="noopener">🔗 Ultimate Design Workflow in 2026</a></li></ul>'},
-    {name:'⑤ Reddit · 真实痛点挖掘',
-      concl:'<span class="tag t-crawl">待爬取</span><strong>用户吐槽「改不动 / 一致性保不住 / inpainting 翻车」就是后编辑机会点。</strong>归类成失败 case 喂给模型协同维度。',
-      body:'<ul class="links">'+
-        '<li><a href="https://www.reddit.com/r/StableDiffusion/" target="_blank" rel="noopener">🔗 r/StableDiffusion</a></li>'+
-        '<li><a href="https://www.reddit.com/r/midjourney/" target="_blank" rel="noopener">🔗 r/midjourney</a></li>'+
-        '<li><a href="https://www.reddit.com/r/graphic_design/" target="_blank" rel="noopener">🔗 r/graphic_design</a></li>'+
-        '<li><a href="https://www.reddit.com/r/photography/" target="_blank" rel="noopener">🔗 r/photography</a></li></ul>'},
-    {name:'⑥ 值得加的海外平台',
-      concl:'<strong>YouTube 之外：Skillshare/Domestika 深度最高 · Discord 第一手反馈 · Product Hunt 竞品新功能首落点 · ArtStation 打光/调角度案例集中地。</strong>',
-      body:'<ul><li><strong>Skillshare / Domestika</strong>：付费系统课，深度最高</li><li><strong>Discord</strong>：MJ/各模型官方社区，实时反馈</li><li><strong>Product Hunt</strong>：竞品新后编辑功能第一落点</li><li><strong>Behance / ArtStation</strong>：作品集+process，影视游戏打光案例</li><li><strong>Instagram Reels / TikTok</strong>：看哪些操作病毒式传播</li><li><strong>Threads</strong>：补充 X 信息源</li></ul>'},
-  ]
-};
-
-/* ════════════ STARFIELD ════════════ */
-const cv=document.getElementById('stars'),ctx=cv.getContext('2d');
-let W,H,stars=[],warp=0;
-function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight}
-resize();addEventListener('resize',resize);
-for(let i=0;i<260;i++)stars.push({x:Math.random(),y:Math.random(),z:Math.random()*.8+.2,t:Math.random()*6.28});
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  for(const s of stars){
-    s.t+=0.02;
-    const tw=.5+.5*Math.sin(s.t);
-    let px=s.x*W,py=s.y*H;
-    if(warp>0){const dx=px-W/2,dy=py-H/2;px+=dx*warp*s.z*0.6;py+=dy*warp*s.z*0.6;}
-    const r=s.z*1.6*(warp>0?(1+warp*2):1);
-    ctx.beginPath();ctx.arc(px,py,r,0,6.28);
-    ctx.fillStyle=`rgba(${200+s.z*55|0},${210+s.z*45|0},255,${(.25+.6*tw)*s.z})`;
-    ctx.fill();
-    if(warp>0){ctx.strokeStyle=`rgba(180,200,255,${.15*warp})`;ctx.lineWidth=r;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(W/2+(px-W/2)*.8,H/2+(py-H/2)*.8);ctx.stroke();}
-  }
-  if(warp>0)warp*=0.9,warp<0.01&&(warp=0);
-  requestAnimationFrame(draw);
-}
-draw();
-function doWarp(){warp=1;}
-
-/* ════════════ NAV / RENDER ════════════ */
-const stage=document.getElementById('stage'),panel=document.getElementById('panel');
-const backBtn=document.getElementById('backBtn'),crumb=document.getElementById('crumb'),hint=document.getElementById('hint');
-let level=0,curPart=null;
-
-// positions for nodes scattered like constellation
-function scatter(n){
-  // returns n {x%,y%} spread, avoiding center title area
-  const pts=[];const cx=50,cy=56;
-  for(let i=0;i<n;i++){
-    const ang=(i/n)*6.28 - 1.57 + (n>4?0:0.3);
-    const rad=n<=3?30:34+(i%2)*6;
-    pts.push({x:cx+Math.cos(ang)*rad*(W>700?1:.8), y:cy+Math.sin(ang)*rad*0.86});
-  }
-  return pts;
-}
-
-function renderUniverse(){
-  level=0;curPart=null;
-  hint.textContent='✦ 点击星球进入对应模块';
-  backBtn.classList.remove('show');
-  crumb.innerHTML='<span class="cur">KR4 后编辑宇宙</span>';
-  const pts=scatter(PARTS.length);
-  let html='<div class="scene active" id="sceneU"><div class="scene-title"><h1>KR4 · 后编辑宇宙</h1><p>五大模块 · 点击星球展开星空</p></div><div class="field" id="fieldU">';
-  html+=svgLines(pts,'#6366f1');
-  PARTS.forEach((p,i)=>{
-    html+=`<div class="node" style="left:${pts[i].x}%;top:${pts[i].y}%;--cc:${p.cc};animation-delay:${i*.4}s" onclick="openPart('${p.id}')">
-      <div class="orb" style="--sz:${78+ (p.id==='s3'?16:0)}px"></div>
-      <div class="kicker">${p.kicker}</div>
-      <div class="lbl">${p.title}</div><div class="sub">${p.sub}</div></div>`;
-  });
-  html+='</div></div>';
-  stage.innerHTML=html;
-  panel.classList.remove('active');
-}
-
-function svgLines(pts,cc){
-  // connect sequential + to center
-  let s=`<svg class="lines" style="--cc:${cc}">`;
-  for(let i=0;i<pts.length;i++){
-    const a=pts[i],b=pts[(i+1)%pts.length];
-    s+=`<line x1="${a.x}%" y1="${a.y}%" x2="${b.x}%" y2="${b.y}%"></line>`;
-    s+=`<line x1="50%" y1="56%" x2="${a.x}%" y2="${a.y}%"></line>`;
-  }
-  return s+'</svg>';
-}
-
-function openPart(id){
-  doWarp();
-  const p=PARTS.find(x=>x.id===id);curPart=p;level=1;
-  setTimeout(()=>{
-    hint.textContent='✦ 点击分支星星查看类目';
-    backBtn.classList.add('show');
-    crumb.innerHTML=`<span onclick="renderUniverse()">宇宙</span><span class="sep">›</span><span class="cur">${p.title}</span>`;
-    const pts=scatter(p.branches.length);
-    let html=`<div class="scene active"><div class="scene-title"><h1 style="background:linear-gradient(135deg,#fff,${p.cc});-webkit-background-clip:text">${p.title}</h1><p>${p.desc}</p></div><div class="field">`;
-    html+=svgLines(pts,p.cc);
-    p.branches.forEach((b,i)=>{
-      const cc=b.cc||p.cc;
-      html+=`<div class="node" style="left:${pts[i].x}%;top:${pts[i].y}%;--cc:${cc};animation-delay:${i*.3}s" onclick="openBranch('${id}',${i})">
-        <div class="orb" style="--sz:58px"></div>
-        <div class="lbl" style="font-size:13px;max-width:150px">${b.name}</div></div>`;
+  function goTo(id) {
+    pages.forEach(p => {
+      document.getElementById('page-' + p).classList.toggle('active', p === id);
     });
-    html+='</div></div>';
-    stage.innerHTML=html;
-    panel.classList.remove('active');
-  },260);
-}
+    document.getElementById('navBack').classList.add('visible');
+    document.getElementById('navTitle').innerHTML =
+      '<span class="nav-crumb">' + titles[id] + '</span>';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
-function openBranch(id,idx){
-  const p=PARTS.find(x=>x.id===id);const b=p.branches[idx];
-  // special deep page: scenarios workbench
-  if(b.cats==='scenarios'){renderPanel(SCENARIOS,()=>openPart(id),p.title);return;}
-  level=2;
-  backBtn.classList.add('show');
-  crumb.innerHTML=`<span onclick="renderUniverse()">宇宙</span><span class="sep">›</span><span onclick="openPart('${id}')">${p.title}</span><span class="sep">›</span><span class="cur">${b.name}</span>`;
-  hint.textContent='';
-  const cc=b.cc||p.cc;
-  let html=`<div class="panel-inner" style="--cc:${cc}"><div class="phead"><div class="ktag">${p.kicker} · 分支</div><h2>${b.name}</h2></div>`;
-  html+=`<div class="cat" open><summary><div class="cat-head"><div class="nm"><span class="dot"></span>结论</div></div><div class="concl">${b.concl}</div></summary>`;
-  if(b.body)html+=`<div class="cbody">${b.body}</div>`;
-  html+='</div></div>';
-  panel.innerHTML=html;panel.style.setProperty('--cc',cc);
-  panel.classList.add('active');
-  backBtn.onclick=()=>{panel.classList.remove('active');openPart(id);};
-}
+  function goHome() {
+    pages.forEach(p => {
+      document.getElementById('page-' + p).classList.toggle('active', p === 'home');
+    });
+    document.getElementById('navBack').classList.remove('visible');
+    document.getElementById('navTitle').textContent = 'KR4 后编辑框架';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
-function renderPanel(data,backFn,parentTitle){
-  level=2;backBtn.classList.add('show');hint.textContent='';
-  crumb.innerHTML=`<span onclick="renderUniverse()">宇宙</span><span class="sep">›</span><span onclick="openPart('s3')">五维分析框架</span><span class="sep">›</span><span class="cur">${data.title}</span>`;
-  let html=`<div class="panel-inner" style="--cc:${data.cc}"><div class="phead"><div class="ktag">Part 03 · 维度① 深层</div><h2>${data.title}</h2><p>${data.desc}</p></div>`;
-  data.cats.forEach((c,i)=>{
-    html+=`<details class="cat" ${i===0?'open':''}><summary><div class="cat-head"><div class="nm"><span class="dot"></span>${c.name}</div><span class="tg"></span></div><div class="concl">${c.concl}</div></summary>`;
-    if(c.body)html+=`<div class="cbody">${c.body}</div>`;
-    html+='</details>';
-  });
-  html+='</div>';
-  panel.innerHTML=html;panel.style.setProperty('--cc',data.cc);
-  panel.classList.add('active');
-  backBtn.onclick=backFn;
-}
+  /* ─── 模块7：调研数据库渲染 ─── */
+  const RESDB = [{"name":"YouTube","groups":[{"title":"整体 AI 设计工作流（看「完整链路」怎么串）","items":[{"c":"UI/UX 极简 AI 工作流。","u":"https://www.youtube.com/watch?v=mrXOSXLb8-g"},{"c":"4 小时完整 AI 设计流程大课，链路最全。","u":"https://www.youtube.com/watch?v=idPrScvnSro"},{"c":"UX 设计师 2026 完整工具链。","u":"https://www.youtube.com/watch?v=1ClbYm_mgpk"},{"c":"构建\"会思考/自适应\"的 AI 工作流 5 步法。","u":"https://www.youtube.com/watch?v=gihVEnsh2Ls"},{"c":"UI/UX 终极 AI 工作流。","u":"https://www.youtube.com/watch?v=GcNwDqqoafo"},{"c":"\"像作弊\"的工作流，主打爽点。","u":"https://www.youtube.com/watch?v=AfmFnzg6pZ0"},{"c":"AI 平面设计工具排名（横评）。","u":"https://www.youtube.com/watch?v=6JInQYdSWAc"},{"c":"AI 工作流的未来形态（Framia Pro）。","u":"https://www.youtube.com/watch?v=dUZqxumtaTs"}]},{"title":"Figma / UI 设计 AI 插件（看\"嵌进现有工具\"的能力）","items":[{"c":"可封装：Figma AI 插件集，砍掉一半设计时间。","u":"https://www.youtube.com/watch?v=IPHN7K58Bdw"},{"c":"跨工具（Envato/Figma/PS）必备 AI 工具串讲。","u":"https://www.youtube.com/watch?v=QzbB5yG0kq4"},{"c":"UX Pilot：想法→结构化界面。","u":"https://www.youtube.com/watch?v=nx_j4y6Zakg"},{"c":"Figma Make 出更好 UI 的进阶提示技巧。","u":"https://www.youtube.com/watch?v=tty90cDna3A"},{"c":"Figma AI 让网站 10X 好看。","u":"https://www.youtube.com/watch?v=_-FEgdQ_L4I"},{"c":"可封装：从现有设计生成 Figma 屏。","u":"https://www.youtube.com/watch?v=Q7CABljHMEs"},{"c":"Figma AI 完整课（2026）。","u":"https://www.youtube.com/watch?v=tBK4pmNUoBc"},{"c":"Figma AI 入门指南（2026）。","u":"https://www.youtube.com/watch?v=NqNjx7KEKPw"},{"c":"可封装：Figma MCP + Cursor 设计→代码新工作流。","u":"https://www.youtube.com/watch?v=09VgyFFLrOw"}]},{"title":"批量自动化（最容易封装成\"一键\"产品能力）","items":[{"c":"可封装：批量去背。","u":"https://www.youtube.com/watch?v=zT68U_u8EBI"},{"c":"可封装：批量放大+去背（MyDesigns）。","u":"https://www.youtube.com/watch?v=5GW9AhLZDV4"},{"c":"可封装：批量修背景（2026）。","u":"https://www.youtube.com/watch?v=a9iTBgQfgF4"},{"c":"可封装：整文件夹批处理去背（ComfyUI）。","u":"https://www.youtube.com/watch?v=DLFPuXFSnQE"},{"c":"批量去背 AI 艺术（MyDesigns）。","u":"https://www.youtube.com/watch?v=XvR7uxRH_Fo"},{"c":"可封装：PS 动作+批处理自动化。","u":"https://www.youtube.com/watch?v=kxziDfysBbs"},{"c":"免费批量去背器。","u":"https://www.youtube.com/watch?v=L2MyYrYcqN4"},{"c":"Microsoft Designer 一键去背。","u":"https://www.youtube.com/watch?v=5FWAFawSEWQ"},{"c":"免费 AI 去背\"改变游戏规则\"。","u":"https://www.youtube.com/watch?v=5kS-c3ayiVU"}]},{"title":"电商产品图（核心商业场景，对标我们电商能力）","items":[{"c":"可封装：AI 换背景做电商图（核心 hack）。","u":"https://www.youtube.com/watch?v=9b6fl3oHamo"},{"c":"免费生成无限电商产品图。","u":"https://www.youtube.com/watch?v=JSj64pGcr94"},{"c":"Shopify 产品图（X-Design）。","u":"https://www.youtube.com/watch?v=g0x0rqgv3sU"},{"c":"Instant Studio：电商产品摄影棚。","u":"https://www.youtube.com/watch?v=UPZppv0gX70"},{"c":"电商新手去产品背景。","u":"https://www.youtube.com/watch?v=1sIejUSfytg"},{"c":"Krea AI：产品图转专业棚拍。","u":"https://www.youtube.com/watch?v=oyVczeHm7hY"},{"c":"用 AI 做电商产品图全流程。","u":"https://www.youtube.com/watch?v=qDwgNnPLboM"},{"c":"Etsy/Shopify 产品图。","u":"https://www.youtube.com/watch?v=4yqxpCPn91s"},{"c":"可封装：无需 PS 的 AI 重打光。","u":"https://www.youtube.com/watch?v=-bHhPgiU1UM"}]},{"title":"Nano Banana / Midjourney 产品图与提示词（对标 Seed 模型能力）","items":[{"c":"可封装：在 Nano Banana 里精确控制 MJ 风格。","u":"https://www.youtube.com/watch?v=1L9TehBIhZ4"},{"c":"Nano Banana + Midjourney 全流程\"上帝模式\"。","u":"https://www.youtube.com/watch?v=dkkcX6gmnlQ"},{"c":"MJ + ComfyUI 完美产品摄影工作流 V2。","u":"https://www.youtube.com/watch?v=64bOxqzQ0pg"},{"c":"建筑可视化：MJ + Nano Banana Pro + FLUX。","u":"https://www.youtube.com/watch?v=uJN59t3SvGI"},{"c":"Nano Banana vs MJ 能力对比测试。","u":"https://www.youtube.com/watch?v=tmwkWnRZkUg"},{"c":"最佳 Nano Banana 产品图 App。","u":"https://www.youtube.com/watch?v=xWObTbZgbW4"},{"c":"可封装：Nano Banana 做 mockup（含提示词）。","u":"https://www.youtube.com/watch?v=RP-KurR9KvY"},{"c":"跨模型提示词写法完整指南。","u":"https://www.youtube.com/watch?v=vOLiOgZvd-A"},{"c":"Nano Banana 极致产品图教程。","u":"https://www.youtube.com/watch?v=tSDSSJlHFL4"},{"c":"\"Nano Banana 改变了产品摄影\"。","u":"https://www.youtube.com/watch?v=EQd0U0ohPZc"}]},{"title":"品牌 / Logo（看\"品牌物料\"场景）","items":[{"c":"Skywork：更快做品牌内容的完整工作流。","u":"https://www.youtube.com/watch?v=JRAGi9AUWic"},{"c":"AI 做完整品牌识别（含 logo maker）。","u":"https://www.youtube.com/watch?v=NBZAHaE5jQk"},{"c":"Design.com 一站式快速出全套设计。","u":"https://www.youtube.com/watch?v=99dGOIM09Vc"},{"c":"用 AI 更快出稿打动客户。","u":"https://www.youtube.com/watch?v=UTaKkj_GE6Q"},{"c":"AI + Illustrator 生成专业 logo。","u":"https://www.youtube.com/watch?v=N6fDPP0UFQk"},{"c":"可封装：ChatGPT 图像 hack 快速建品牌视觉。","u":"https://www.youtube.com/watch?v=SF5K4weDGlg"},{"c":"logo：AI + Illustrator 砍掉一半构思时间。","u":"https://www.youtube.com/watch?v=26Vi9qy_nW4"},{"c":"Looka AI 低成本快速做 logo。","u":"https://www.youtube.com/watch?v=vUNQx7cqt7I"}]},{"title":"社媒批量出图（多尺寸 + 批量，强可封装）","items":[{"c":"可封装：Canva AI 10 分钟出 100 条社媒图。","u":"https://www.youtube.com/watch?v=VEaJkjf0cvE"},{"c":"Canva 批量做社媒图教程。","u":"https://www.youtube.com/watch?v=yEUkiU7tIT0"},{"c":"可封装：Canva Sheets 批量+独立背景图。","u":"https://www.youtube.com/watch?v=ekP4ov3z6Q4"},{"c":"Canva 批量社媒图。","u":"https://www.youtube.com/watch?v=J_WbmeHnbSQ"},{"c":"Canva Bulk + Sheets + AI 一键 20+ 设计。","u":"https://www.youtube.com/watch?v=f-0_j-f1TuQ"},{"c":"可封装：Claude + Canva 8 分钟出 60 个设计。","u":"https://www.youtube.com/watch?v=3ysZujOI-NE"},{"c":"Canva 几分钟批量 30 条。","u":"https://www.youtube.com/watch?v=4sk0idYZ2RU"},{"c":"Canva AI 出社媒图。","u":"https://www.youtube.com/watch?v=_hp-DITrwzU"},{"c":"Canva Sheets+AI 批量一个月内容。","u":"https://www.youtube.com/watch?v=pT_8EuBHMQc"}]},{"title":"调色 / 字体（B 线\"调色\"能力对标）","items":[{"c":"AI 辅助配色基础（Adobe）。","u":"https://www.youtube.com/watch?v=IooTBRwce2s"},{"c":"可封装：提示词生成配色（Illustrator Generative Recolor）。","u":"https://www.youtube.com/watch?v=iDgMb8cX7i8"},{"c":"AI 配色 + 字体工具实验。","u":"https://www.youtube.com/watch?v=VggyXZPEmdg"},{"c":"可封装：给 AI 生成图精确指定颜色的 4 种方法。","u":"https://www.youtube.com/watch?v=sYnW9R4qoqg"}]},{"title":"Generative Fill 隐藏技巧（指令/局部编辑对标）","items":[{"c":"可封装：Generative Fill 5 个隐藏技巧。","u":"https://www.youtube.com/watch?v=86s7AhpOIII"},{"c":"可封装：强度（intensity）控制技巧。","u":"https://www.youtube.com/watch?v=ZUJSIzCW5L4"},{"c":"Generative Fill 完整技巧教程。","u":"https://www.youtube.com/watch?v=9e8aOzwDPr4"}]},{"title":"角色一致性 / 多尺寸衍生（对标\"一致性\"失败 case）","items":[{"c":"可封装：从单图生成一致角色（FLUX/ComfyUI）。","u":"https://www.youtube.com/watch?v=Uls_jXy9RuU"},{"c":"可封装：单图→无限一致角色。","u":"https://www.youtube.com/watch?v=grtmiWbmvv0"},{"c":"100% 一致角色的实战做法。","u":"https://www.youtube.com/watch?v=h5kjDJrHw_g"},{"c":"Leonardo AI 角色参考特性。","u":"https://www.youtube.com/watch?v=5pa3vTWGBuc"}]},{"title":"动态 / 演示 / 设计系统（外延场景，判断要不要做）","items":[{"c":"可封装：AI 生成专业 mockup（几分钟）。","u":"https://www.youtube.com/watch?v=8gbkoavLHIg"},{"c":"AI 几秒做演示稿（Gamma）。","u":"https://www.youtube.com/watch?v=vqTQPKQPv0o"},{"c":"动态设计师 2026 该怎么用 AI。","u":"https://www.youtube.com/watch?v=0e8jNWKU-5k"},{"c":"可封装：4 小时用 AI 搭完整设计系统（Claude+Cursor+Figma）。","u":"https://www.youtube.com/watch?v=nafNPuElCtY"},{"c":"自动化你的设计系统。","u":"https://www.youtube.com/watch?v=X2CpBOoYblg"},{"c":"设计系统自动化：什么该自动、何时自动。","u":"https://www.youtube.com/watch?v=Z0O3lmWghsA"}]}],"summary":"YouTube 是\"可封装能力\"密度最高的平台——绝大多数视频本质是在演示**一个可被产品化的单点操作**（批量去背、换背景、重打光、配色生成、截图转稿、角色一致性、多尺寸批量）。三个最该重点拆解的方向：①**批量/多尺寸自动化**（1.3+1.7，封装难度低、用户感知强）；②**电商换背景+重打光**（1.4，正面商业场景，对标 Seed 打光能力）；③**Generative Fill 的参考图引导 + 角色一致性**（1.9+1.10，正好命中我们\"指令编辑/图层分离\"的护城河方向）。建议把这三类各挑 3-5 个视频做逐帧拆解，提炼成\"模型该优化什么\"的失败 case 清单。"},{"name":"Medium","groups":[{"title":"\"我的 AI 工作流\"个人复盘（最适合挖未包装需求）","items":[{"c":"5 个真正省时间的 AI 工具。","u":"https://medium.com/@zenvertise/ai-tools-design-workflow-5195a6edea08"},{"c":"AI 如何重塑平面设计工作流（效率视角）。","u":"https://medium.com/@atasan/embracing-efficiency-how-ai-is-transforming-graphic-design-workflows-56bdabf857f5"},{"c":"设计师的 AI 工具之旅（支撑而非替代）。","u":"https://medium.com/@rkoscinski07/ai-tools-supporting-graphic-design-a-designers-journey-6134d29eb975"},{"c":"AI 工作流优化 7 个实操技巧。","u":"https://medium.com/@vicki-larson/ai-workflow-optimization-7-game-changing-tips-that-actually-work-414862126f5f"},{"c":"把 AI 接进真实设计工作流（2026）。","u":"https://medium.com/@ant_95138/ai-for-graphic-designers-in-2026-how-to-integrate-ai-into-a-real-design-workflow-464971e28e03"},{"c":"产品设计师的 AI 工作流。","u":"https://medium.com/@mariamargarida/ai-in-my-design-workflow-as-a-product-designer-feb120d8fe38"},{"c":"支撑我工作流的 AI 设计栈。","u":"https://medium.com/design-bootcamp/the-ai-design-stack-that-powers-my-workflow-de3efcb220af"},{"c":"UX 设计师该懂的 AI 提效工具（含怎么用）。","u":"https://medium.com/design-bootcamp/ai-productivity-tools-every-ux-designer-should-know-and-how-i-use-them-in-my-workflow-b57d0b8462fe"},{"c":"团队级：用 AI 让 UX/UI 更快更人性。","u":"https://medium.com/@ssd_design/how-we-use-ai-to-design-smarter-faster-and-more-human-digital-products-c6d9910c4053"},{"c":"我的设计工作流如何因 AI 改变。","u":"https://medium.com/@kazdenc/how-my-design-workflow-is-changing-with-ai-bc80e7fa3323"},{"c":"用 AI 提速但不丢创意。","u":"https://medium.com/@mkumud24/how-i-use-ai-to-speed-up-my-design-workflow-without-losing-creativity-2979d2629582"},{"c":"可封装：AI 在设计工作流的 5 个真实例子。","u":"https://medium.com/@jackanglesea/real-examples-of-using-ai-in-my-design-workflow-3992bfe3a3f2"},{"c":"用 AI 规模化设计工作。","u":"https://medium.com/design-bootcamp/scaling-design-work-with-ai-a-new-era-of-creative-productivity-d54b8c08d775"},{"c":"可封装：16 个让创意产出 10x 的 AI 工具。","u":"https://medium.com/artificial-corner/16-ai-tools-for-designers-to-10x-their-creative-output-d978ad5b7f38"}]},{"title":"后编辑 / inpainting / 一致性（最贴近 KR4 核心）","items":[{"c":"可封装：FLUX.1 inpainting/outpainting 工具革新。","u":"https://medium.com/@wxbxtxr/revolutionize-ai-image-editing-in-comfyui-with-flux-1-tools-for-inpainting-and-outpainting-c48f45e8cf91"},{"c":"可封装：产品图多角度/高保真变体生成。","u":"https://garystafford.medium.com/ai-powered-product-perfection-part-2-of-2-leveraging-generative-ai-techniques-for-diverse-ba8d5ea7986e"},{"c":"ComfyUI inpaint/outpaint 技巧。","u":"https://medium.com/@techlatest.net/inpainting-and-outpainting-techniques-in-comfyui-d708d3ea690d"},{"c":"动画场景一致性与连续性（OpenArt）。","u":"https://medium.com/@latouralexandre/my-ai-animators-dream-achieving-scene-consistency-and-continuity-in-animation-with-openart-ai-76b32b2bed87"},{"c":"可封装：FLUX.1 Kontext 多模态图像编辑。","u":"https://medium.com/diffusion-doodles/flux-1-kontext-dev-multimodal-image-editing-19a003714b40"}]},{"title":"提示词工程（设计向）","items":[{"c":"设计师的提示词工程实操指南。","u":"https://medium.com/@uxraspberry/prompt-engineering-for-designers-a-practical-guide-what-i-learned-so-far-140d70879c7e"},{"c":"AI 图像提示词技巧是否用对了。","u":"https://medium.com/@david-ocean/ai-image-generation-prompt-engineering-are-you-applying-proper-prompt-techniques-when-generating-0753d0ee3666"},{"c":"可封装：设计向提示（整体排版为主角）。","u":"https://medium.com/@david-ocean/crafting-visual-designs-with-ai-design-focused-prompting-explained-b5ca10f256e8"},{"c":"掌握 AI 图像提示词。","u":"https://medium.com/digital-miru/mastering-ai-image-generator-prompts-a-guide-to-creating-stunning-visuals-5ac9b4038a7e"},{"c":"写出专业平面设计师级提示词。","u":"https://medium.com/@jamesoconnorai/how-to-create-ai-generated-prompts-worthy-of-a-pro-graphic-designer-d2c3f19babd1"},{"c":"25 个强力视觉 AI 提示词。","u":"https://medium.com/write-a-catalyst/master-visual-ai-25-powerful-prompts-to-create-stunning-images-designs-a08cd615f47f"}]},{"title":"Logo / 品牌","items":[{"c":"AI logo 生成器革新品牌流程。","u":"https://medium.com/uxness/how-ai-logo-generators-are-revolutionizing-the-branding-process-a76883891cb3"},{"c":"可封装：用 AI 做 logo+视觉品牌（案例）。","u":"https://xetrocube.medium.com/how-to-create-a-logo-and-visual-brand-with-ai-a-case-study-84bee87b0538"},{"c":"我如何在品牌流程里用 AI。","u":"https://jennyhendersonstudio.medium.com/how-i-use-ai-in-my-branding-process-acfa348c440f"},{"c":"2026 logo 设计师的 7 个 AI 工具。","u":"https://medium.com/design-bootcamp/best-7-ai-tools-for-logo-designers-in-2026-d6695edc2d42"},{"c":"测了 30+ logo 生成器选 9 个。","u":"https://medium.com/freelancers-hub/i-tried-6-ai-logo-generators-this-is-my-favorite-by-far-e46b7422ef48"}]},{"title":"UX 研究 / 线框 / persona（外延场景）","items":[{"c":"可封装：用 AI 建 3 个 persona 的工作流。","u":"https://medium.com/design-bootcamp/how-i-built-3-personas-using-ai-a-designers-workflow-3c82ff6cde2c"},{"c":"AI 进线框流程：提效还是添乱（含边界）。","u":"https://medium.com/@nsks_83006/ai-in-the-wireframing-workflow-efficiency-or-extra-work-8807af82420f"},{"c":"线框 + AI + 设计师大脑的真实体验。","u":"https://medium.com/@sandysh/wireframes-ai-and-a-designers-brain-my-experience-using-generative-tools-ee261796ac30"},{"c":"8 个 UX 新人能用的 AI 提示词。","u":"https://medium.com/@hashbyt/how-new-ux-designers-can-use-ai-prompts-8165b1b1b208"},{"c":"把 AI 集成进 UX 用户研究。","u":"https://medium.com/@hhnngvrie/integrating-ai-into-ux-workflows-user-research-edb7f5b07633"},{"c":"免费 AI UX 工具包。","u":"https://medium.com/design-bootcamp/how-i-use-ai-for-ux-design-without-paying-a-dime-9c633af06655"}]},{"title":"工具横评 / 选型（看竞品全景）","items":[{"c":"测了 50+ AI 设计工具选 10 个必备。","u":"https://medium.com/@DilSalaKamina/i-tested-50-ai-design-tools-so-you-dont-have-to-the-10-every-product-designer-actually-needs-in-5bce66cdb74a"},{"c":"Figma vs Adobe vs Canva 设计 AI 对决。","u":"https://medium.com/design-bootcamp/ai-product-case-study-3-battle-of-the-design-ais-figma-vs-adobe-vs-canva-7ed41a05fa02"},{"c":"2026 最佳 AI 图像工具横评。","u":"https://jimmacleod.medium.com/the-best-ai-image-tools-for-2026-compared-and-evaluated-4dee99b4b565"},{"c":"MJ vs Firefly 设计师视角对决。","u":"https://medium.com/design-bootcamp/ai-art-showdown-midjourney-vs-adobe-firefly-for-designers-2025-ebec364673c4"},{"c":"MJ vs DALL-E vs Firefly 谁更值。","u":"https://medium.com/@glasier067/midjourney-vs-dall-e-vs-adobe-firefly-which-image-ai-is-actually-worth-it-f78b14136041"},{"c":"Figma AI 特性如何改变 2026 设计方式。","u":"https://medium.com/@ryan.almeida86/how-figmas-ai-features-are-changing-the-way-designers-work-in-2026-5cef84801d38"},{"c":"被 AI 塑造的 7 个 2026 网页设计趋势。","u":"https://medium.com/creative-black-pug-studio/7-web-design-trends-being-shaped-by-ai-in-2026-4afbec683b34"}]},{"title":"反思 / 边界（反向喂\"产品该在哪让人接管\"）","items":[{"c":"AI 是面镜子，不是批判性思考工具——警惕\"无深度的自信\"。","u":"https://medium.com/@nuarle/overconfident-by-design-ais-feedback-loop-and-the-designer-s-god-complex-230bbbcc9d70"},{"c":"设计师和 AI：没人在谈的诚实对话。","u":"https://medium.com/design-bootcamp/designers-and-ai-the-honest-conversation-were-not-having-dcba719dee2b"},{"c":"AI 对设计师日常的真实影响：什么仍重要。","u":"https://uxmag.medium.com/the-real-impact-of-ai-on-designers-day-to-day-and-interfaces-what-still-matters-f9162c199cdf"},{"c":"设计师其实已在用 AI（即便没意识到）。","u":"https://medium.com/design-bootcamp/how-designers-are-already-using-ai-even-if-they-dont-realize-it-29b7cefe715f"},{"c":"我能做而 AI 做不到的：UX 设计师视角。","u":"https://medium.com/design-bootcamp/what-i-can-do-that-ai-cant-a-ux-designer-s-perspective-655b239cb3fe"}]},{"title":"Agent / 10x 自动化","items":[{"c":"AI Agent 改造设计与开发工作流。","u":"https://makotokern-iiimpact.medium.com/ai-agents-transforming-design-and-development-workflows-3045861fee9c"},{"c":"可封装：搭建自动化创意内容工作流系统。","u":"https://medium.com/@elosarah85/how-i-built-an-ai-content-workflow-system-to-automate-my-creative-process-fffaad970ae0"}]}],"summary":"Medium 是\"方法论 + 边界\"的金矿，价值在两端——**正向**（2.1/2.2 的个人工作流复盘里藏着大量\"用户在用 coding/ComfyUI 自己补\"的未包装需求，尤其是 inpainting、产品图多角度变体、角色一致性，全部正中 KR4 后编辑核心）；**反向**（2.7 的反思文直接告诉你\"AI 在哪让设计师更慢/更不可控\"，这正是产品该设计\"人工接管/可降级\"的地方）。建议把 2.2 的 6 篇和 2.7 的反思文逐篇精读，分别产出\"可封装能力清单\"和\"失败 case/降级触发条件清单\"。"},{"name":"Behance","groups":[{"title":"方法/资源文章（含可封装的能力分类法）","items":[{"c":"创意工作流 AI 实操（直播录像）。","u":"https://www.behance.net/live/videos/25567/Ai-in-Action-Hands-On-with-Creative-Workflows"},{"c":"AI 驱动的产品设计服务（看商业化打包方式）。","u":"https://www.behance.net/fineartdesignagency/services/319885/AI-Driven-Product-Design"}]},{"title":"分类检索入口（一键看整类案例）","items":[{"c":"入口：生成式设计案例集。","u":"https://www.behance.net/search/projects/generative%20design"},{"c":"入口：生成式 AI UI 设计。","u":"https://www.behance.net/search/projects/generative%20ai%20ui%20design"},{"c":"入口：生成式 AI 项目总集。","u":"https://www.behance.net/search/projects/generative%20ai"},{"c":"入口：AI 艺术项目。","u":"https://www.behance.net/search/projects/ai%20art?locale=en_US"},{"c":"入口：AI 自动化项目（看流程类）。","u":"https://www.behance.net/search/projects/ai%20automation?locale=en_US"},{"c":"入口：Midjourney 项目总集。","u":"https://www.behance.net/search/projects/?search=midjourney"},{"c":"入口：Midjourney 品牌识别。","u":"https://www.behance.net/search/projects/midjourney%20ai%20brand%20identity?locale=en_US"},{"c":"入口：Midjourney 社媒图。","u":"https://www.behance.net/search/projects/midjourney%20ai%20social%20media%20post?locale=en_US"},{"c":"入口：AI 海报。","u":"https://www.behance.net/search/projects/ai%20poster"},{"c":"入口：AI 演示稿设计。","u":"https://www.behance.net/search/projects/ai%20presentation"},{"c":"入口：人工智能主题海报。","u":"https://www.behance.net/search/projects/artificial%20intelligence%20poster"},{"c":"入口：Midjourney 标签聚合页。","u":"https://www.behance.net/tags/midjourney"},{"c":"入口：AI 标签聚合页。","u":"https://www.behance.net/tags/ai"},{"c":"入口：包装设计案例。","u":"https://www.behance.net/search/projects/packaging%20study?locale=en_US"}]},{"title":"具体作品/案例页（可直接拆解的成品）","items":[{"c":"MidJourney UI/UX 案例研究。","u":"https://www.behance.net/gallery/195228179/MidJourney-AI-UIUX-Case-Study"},{"c":"SolarPunk 游戏角色/道具/场景概念（一致性参考）。","u":"https://www.behance.net/gallery/176180091/SolarPunk-Game-Character-Prop-Environment-Concepts"},{"c":"MidJourney AI 艺术 App 概念 UI/UX 案例。","u":"https://www.behance.net/gallery/156623655/Midjourney-Ai-Art-App-Concept-UIUX-Study-Case"}]}],"summary":"Behance 的价值不在\"教程\"，而在**成品级案例**——设计师把 AI 做出的品牌/海报/包装当作品集展示，是验证\"某能力能不能撑起真实商业产出\"的样本库。但它对\"提效技巧\"的文字描述少，多靠看图。最高价值的一条是官方的 **Generative/Assistive/Analytical 三分法**（3.1 第一条），可直接拿来给我们的能力盘点做归类。建议把 3.2 的分类入口当作\"持续监测看板\"，定期扫该类目下的新作品看趋势。"},{"name":"X / Twitter","groups":[{"title":"官方/权威提示词指南（最可直接转成产品默认提示）","items":[{"c":"可封装：Nano Banana 六条文生图提示技巧（官方）。","u":"https://x.com/GoogleAIStudio/article/1962957615262224511"},{"c":"Nano Banana 开发者完整教程（官方）。","u":"https://x.com/GoogleAIStudio/status/1964024315638403231"},{"c":"可封装：Nano Banana Pro 专业资产生产 10 招（官方）。","u":"https://x.com/GoogleAIStudio/status/1994480371061469306"},{"c":"可封装：Nano Banana Pro 在产品设计的 3 个用法（应用新风格到现有 UI/图）。","u":"https://x.com/101babich/status/1991875088774283769"},{"c":"Nano Banana Pro 完美文字渲染。","u":"https://x.com/rjmans/status/2003479311525839123"}]},{"title":"提示词模板（可直接做成\"一键模板\"功能）","items":[{"c":"可封装：把任意 logo/设计转视觉资产的 JSON 提示模板。","u":"https://x.com/alex_prompter/status/1992013852897148989"},{"c":"可封装：整合 9 条技巧的 Nano Banana Pro JSON 母版提示。","u":"https://x.com/aigleeson/status/1998678041007194320"},{"c":"可封装：生成写实图（自拍/手机照/生活方式）提示模板。","u":"https://x.com/godofprompt/status/1994753701227991490"}]},{"title":"Midjourney 一致性 / 风格参考（对标一致性能力）","items":[{"c":"MJ 12 份帮助/提示资源合集。","u":"https://x.com/nickfloats/status/1763371638395895953"},{"c":"可封装：控制角色权重做一致角色。","u":"https://x.com/nickfloats/status/1768326351038112069"},{"c":"MJ omnireference（一致角色/物体/场景）系统预告。","u":"https://x.com/nickfloats/status/1917660347508613455"},{"c":"MJ + EverArt 做一致角色指南。","u":"https://x.com/skirano/status/1744711126892347653"},{"c":"SREF 新风格码示例（linocut/木刻）。","u":"https://x.com/michaelrabone/status/1999403859912065092"},{"c":"可封装工作流：MJ 建角色→后续动画化。","u":"https://x.com/aimikoda/status/2066447640829505886"}]},{"title":"设计观点 / 工作流（看趋势与心智）","items":[{"c":"\"多数设计师把 AI 当计算器，顶尖 1% 当整个创意团队\"——分层用法。","u":"https://x.com/shushant_l/status/2067502587335840057"},{"c":"可封装：图片一键转 Figma 可编辑组件。","u":"https://x.com/fardeentwt/status/1993660792298971542"},{"c":"Figma×Intent 详细工作流（MCP 拉设计数据）。","u":"https://x.com/LukeW/status/2030066421099884862"},{"c":"Figma 官方：AI Agent 直接在画布上设计（MCP）。","u":"https://x.com/figma/status/2036434766661296602"},{"c":"Figma 官方：编辑图像 + 生成图像新特性。","u":"https://x.com/figma/status/1915098380331839541"},{"c":"跨工具实测：Figma MCP 在 V0/Cursor/Claude Code 表现对比。","u":"https://x.com/melodyskim/status/2014530834385056222"},{"c":"\"直接设计\"（Direct Design）理念。","u":"https://x.com/alexkehr/status/2021667248608584183"},{"c":"AI 让设计直接出代码组件，自动套站点样式。","u":"https://x.com/SubframeApp/status/1928505958009024827"}]},{"title":"账号（持续跟踪源）","items":[{"c":"跟踪源：Nano Banana 官方实验室。","u":"https://x.com/NanoBanana_labs"},{"c":"跟踪源：Sref 风格码聚合账号。","u":"https://x.com/SrefCodeAi"},{"c":"跟踪源：Nick St. Pierre（MJ 头部教学）。","u":"https://x.com/nickfloats"},{"c":"跟踪源：Tatiana Tsiguleva（SREF 实测）。","u":"https://x.com/ciguleva"}]}],"summary":"X 是\"提示词技巧 + 一致性参数\"最快的一手来源，且最容易直接转成产品功能——**4.1/4.2 的官方与模板类**几乎可以原样做成画布里的\"一键模板/智能提示\"能力；**4.3 的 SREF/omnireference**是我们做\"风格锁定/角色一致\"时绕不开的对标，建议把这几条的参数玩法整理给 Seed 当\"产品可用水位\"参照。跟踪策略：先关注 4.5 四个账号 + Google AI Studio 官方，从它们的转发/关注链横向扩散。注意：X 帖子需登录才能看完整内容/视频，链接仅作锚点。"}];
+  function escapeHTML(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function renderResDB(active){
+    const wrap=document.getElementById('resDB');
+    const fbar=document.getElementById('resFilter');
+    if(!wrap) return;
+    const colors={'YouTube':'var(--accent5)','Medium':'var(--accent3)','Behance':'var(--accent2)','X / Twitter':'var(--accent1)'};
+    if(!fbar.dataset.init){
+      let fb='<button class="resf-btn" data-f="all">全部</button>';
+      RESDB.forEach(p=>{const n=p.groups.reduce((a,g)=>a+g.items.length,0);fb+=`<button class="resf-btn" data-f="${p.name}">${p.name} · ${n}</button>`;});
+      fbar.innerHTML=fb;
+      fbar.querySelectorAll('.resf-btn').forEach(b=>b.onclick=()=>renderResDB(b.dataset.f));
+      fbar.dataset.init='1';
+    }
+    fbar.querySelectorAll('.resf-btn').forEach(b=>b.classList.toggle('on', b.dataset.f===(active||'all')));
+    let html='';
+    RESDB.forEach(p=>{
+      if(active && active!=='all' && p.name!==active) return;
+      const cc=colors[p.name]||'var(--accent1)';
+      const n=p.groups.reduce((a,g)=>a+g.items.length,0);
+      html+=`<div style="margin-top:18px"><div style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;margin-bottom:6px"><span style="width:10px;height:10px;border-radius:50%;background:${cc};display:inline-block"></span>${escapeHTML(p.name)} <span style="font-size:12px;color:var(--text-muted);font-weight:400">${n} 条</span></div>`;
+      if(p.summary) html+=`<div class="scenario-conclusion" style="margin:8px 0">${p.summary}</div>`;
+      p.groups.forEach(g=>{
+        html+=`<details class="res-item"><summary><div class="res-head"><span class="res-name">${escapeHTML(g.title||'其他')} <span style="color:var(--text-muted);font-weight:400;font-size:12px">(${g.items.length})</span></span><span class="res-toggle"></span></div></summary><div class="res-body"><ul class="link-list">`;
+        g.items.forEach(it=>{
+          html+=`<li style="margin-bottom:12px"><div style="font-size:13px;line-height:1.6;color:var(--text-muted);margin-bottom:4px">${it.c?escapeHTML(it.c):''}</div><a href="${it.u}" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>${escapeHTML(it.u.replace('https://www.','').replace('https://','').slice(0,60))}</a></li>`;
+        });
+        html+='</ul></div></details>';
+      });
+      html+='</div>';
+    });
+    wrap.innerHTML=html;
+  }
 
-backBtn.onclick=()=>{ if(level===2){panel.classList.remove('active');curPart?openPart(curPart.id):renderUniverse();} else renderUniverse(); };
-
-renderUniverse();
+  const _origGoTo=goTo;
+  window.goTo=function(id){_origGoTo(id);if(id==='scenarios')renderResDB('all');};
 </script>
 </body>
 </html>

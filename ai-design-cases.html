@@ -42,6 +42,23 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 .cap.need{background:rgba(245,158,11,.14);color:var(--a4)}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 16px 50px;border-top:1px solid var(--border);margin-top:40px}
 @media(max-width:600px){.cards{grid-template-columns:1fr}}
+
+.reqgrid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:6px}
+.reqcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px}
+.reqcard:hover{border-color:var(--a1)}
+.rqh{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.rqtitle{font-size:16px;font-weight:800}
+.rqstr{font-size:13px;font-weight:700}
+.rqrow{font-size:13px;color:var(--muted);line-height:1.7;margin-top:8px}
+.rqlb{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-right:8px;vertical-align:top}
+.rqlb.l1{background:rgba(6,182,212,.15);color:var(--a2)}
+.rqlb.l2{background:rgba(245,158,11,.15);color:var(--a4)}
+.rqlb.l3{background:rgba(139,147,176,.15);color:var(--muted)}
+.rqlb.l4{background:rgba(99,102,241,.15);color:var(--a1)}
+.rqlinks{display:inline-block;list-style:none;padding:0;margin:4px 0 0;vertical-align:top}
+.rqlinks li{margin-bottom:5px}
+.rqlinks a{color:var(--a2);text-decoration:none;font-size:12.5px}
+.rqlinks a:hover{color:var(--text);text-decoration:underline}
 </style></head><body>
 <div class="hero">
   <h1>创作者 AI 设计提效 · 88 案例能力提炼</h1>
@@ -53,6 +70,59 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 16px 50p
   <div class="sub">这是给模型团队（Seed）的核心抓手：哪些后编辑能力被反复需要、现有 vs 需攻关、命中多少案例。🔬 项即「现在还没有、值得让模型团队去做」的需求。</div>
   <table class="captbl"><thead><tr><th>模型能力</th><th>状态</th><th>命中案例</th><th>对标 / 备注</th></tr></thead><tbody><tr class="need"><td><b>主体 / 角色一致性</b></td><td>🔬 攻关</td><td>11</td><td>核心护城河</td></tr><tr class="need"><td><b>重打光 relight</b></td><td>🔬 攻关</td><td>9</td><td>对标打光能力水位</td></tr><tr class="need"><td><b>智能多尺寸重排（保版式语义）</b></td><td>🔬 攻关</td><td>7</td><td>真去摩擦</td></tr><tr class="need"><td><b>调色 / 指定色 / 色调迁移</b></td><td>✅/🔬 部分</td><td>4</td><td>精确锁色待提升</td></tr><tr class="need"><td><b>调角度 / 视角变换</b></td><td>🔬 攻关</td><td>3</td><td>保主体一致的新视角</td></tr><tr class="need"><td><b>图像 → 可编辑设计稿</b></td><td>🔬 攻关</td><td>3</td><td>强需求</td></tr><tr class="need"><td><b>平面图反解为可编辑图层</b></td><td>🔬 攻关</td><td>2</td><td>别人难抄·命中图层分离</td></tr><tr class="have"><td><b>基础文生图 / 图生图</b></td><td>✅ 现有</td><td>35</td><td></td></tr><tr class="have"><td><b>局部指令编辑（去除/替换/添加）</b></td><td>✅ 现有</td><td>22</td><td>复杂指令一致性待提升</td></tr><tr class="have"><td><b>批量 / 数据驱动合成</b></td><td>✅ 产品侧</td><td>17</td><td>社媒/电商</td></tr><tr class="have"><td><b>配色/字体/版式/质检建议</b></td><td>✅ 现有</td><td>16</td><td>LLM</td></tr><tr class="have"><td><b>抠图 / 去背</b></td><td>✅ 现有</td><td>15</td><td>L1 入口</td></tr><tr class="have"><td><b>换背景 / 场景替换</b></td><td>✅ 现有</td><td>12</td><td>电商核心</td></tr><tr class="have"><td><b>图内文字编辑 / 渲染</b></td><td>✅ 改进中</td><td>8</td><td>品牌/社媒</td></tr><tr class="have"><td><b>风格迁移 / 风格锁定</b></td><td>✅ 现有</td><td>6</td><td>sref 类</td></tr><tr class="have"><td><b>位图转矢量</b></td><td>✅ 现有</td><td>5</td><td>logo</td></tr><tr class="have"><td><b>设计 → 代码</b></td><td>✅ 外延</td><td>4</td><td></td></tr><tr class="have"><td><b>扩图 outpaint</b></td><td>✅ 现有</td><td>2</td><td></td></tr><tr class="have"><td><b>放大 / 修复</b></td><td>✅ 现有</td><td>2</td><td></td></tr><tr class="have"><td><b>样机透视贴合</b></td><td>✅ 现有</td><td>2</td><td></td></tr><tr class="have"><td><b>静图 → 动效 / 视频</b></td><td>✅ CapCut 强项</td><td>2</td><td></td></tr></tbody></table>
   <div class="legend">🔬 攻关项按命中案例数排序在前 = 需求最旺且我们尚不具备的能力，最该立项。✅ 现有项 = 产品侧+现有模型即可封装。</div>
+</div>
+<div class="summary" id="newreq">
+  <h2>🧪 新增模型需求验证（8 方向 · 跨平台取证）</h2>
+  <div class="sub">针对你补充的方向（科研图 / 垫图参考库 / 视频转封面 等）+ 截图「模型需求」清单，逐项验证：需求强不强、谁在要、别人现在怎么解决。🔴强 / 🟠中-强 / 🟡中。</div>
+  <div class="reqgrid"><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">① 科研 / 学术配图生成</span><span class="rqstr">🔴 强</span></div>
+  <div class="rqrow"><span class="rqlb l1">谁在要</span>科研人员、研究生、实验室——非设计专业但高频做图。</div>
+  <div class="rqrow"><span class="rqlb l2">需求强度/现状怎么解决</span>Nature Index：单篇论文配图平均耗 18–30 小时（找图标、重画、改配色对齐期刊要求）。现状靠 BioRender 拖拽图标，但贵、只服务生命科学、慢。</div>
+  <div class="rqrow"><span class="rqlb l3">代表工具/证据</span><ul class="rqlinks"><li><a href="https://www.natomy.com/blog/biorender-pricing-limitations-alternatives" target="_blank" rel="noopener">🔗 BioRender 局限与替代分析</a></li><li><a href="https://conceptviz.app/blog/best-ai-scientific-illustration-tools-2026" target="_blank" rel="noopener">🔗 ConceptViz 文字→带标注插图</a></li><li><a href="https://sci-draw.com/biorender-alternative" target="_blank" rel="noopener">🔗 SciDraw AI 文字生成科研图</a></li><li><a href="https://figpad.ai/generate-figure" target="_blank" rel="noopener">🔗 FigPad 通路/机制图生成</a></li><li><a href="https://arxiv.org/pdf/2601.04390" target="_blank" rel="noopener">🔗 SciFig 端到端学术框架(arXiv)</a></li><li><a href="https://www.techwalker.com/2026/0605/3189574.shtml" target="_blank" rel="noopener">🔗 CRAFTER 多智能体(UIUC+清华+北大)</a></li></ul></div>
+  <div class="rqrow"><span class="rqlb l4">对我们的启示</span>新蓝海场景：文字/论文→可编辑科研图。需机制图/流程图/通路图的结构化生成+可编辑(SVG)。和我们图层分离强相关。 <span class="cap need">🔬 需攻关</span></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">② 垫图参考库 / Moodboard</span><span class="rqstr">🔴 强</span></div>
+  <div class="rqrow"><span class="rqlb l1">谁在要</span>所有 AI 出图用户——已成主流产品标配。</div>
+  <div class="rqrow"><span class="rqlb l2">需求强度/现状怎么解决</span>用参考图集让模型锁定审美，避免反复试提示词。现状各家做成 mood board / style profile：上传参考图→抽取 taste profile→后续每次生成都被它约束。</div>
+  <div class="rqrow"><span class="rqlb l3">代表工具/证据</span><ul class="rqlinks"><li><a href="https://www.mindstudio.ai/blog/krea-2-mood-boards-visual-style-ai-image-generation" target="_blank" rel="noopener">🔗 Krea 2 Mood Boards：锁定视觉风格</a></li><li><a href="https://www.adobe.com/products/firefly/features/moodboard.html" target="_blank" rel="noopener">🔗 Adobe Firefly Boards</a></li><li><a href="https://www.mindstudio.ai/blog/how-to-use-mood-boards-ai-image-generation-krea-recraft" target="_blank" rel="noopener">🔗 Recraft：参考图存为可复用 Style</a></li><li><a href="https://moodyboards.ai/" target="_blank" rel="noopener">🔗 MoodyBoards：品牌视觉 DNA 约束生成</a></li></ul></div>
+  <div class="rqrow"><span class="rqlb l4">对我们的启示</span>竞品已标配，我们若缺=明显短板。可封装为画布内「参考库/风格档案」，每次生成/编辑都注入。✅风格锁定现有，库化是产品工程。 <span class="cap have">✅ 现有可封装</span></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">③ 视频 → 图文 / 封面</span><span class="rqstr">🔴 强</span></div>
+  <div class="rqrow"><span class="rqlb l1">谁在要</span>视频创作者刚需（YouTube/TikTok/短视频）。</div>
+  <div class="rqrow"><span class="rqlb l2">需求强度/现状怎么解决</span>输入视频→AI 理解关键帧/人脸/场景/情绪→输出多套封面候选，免手动截帧设计。CapCut 自身已有同类工具。</div>
+  <div class="rqrow"><span class="rqlb l3">代表工具/证据</span><ul class="rqlinks"><li><a href="https://www.capcut.com/resource/7-best-tools-for-video-cover-images" target="_blank" rel="noopener">🔗 CapCut 视频封面 AI 工具盘点</a></li><li><a href="https://vidiq.com/youtube-thumbnail-maker/" target="_blank" rel="noopener">🔗 vidIQ：上传视频→多套高表现封面</a></li><li><a href="https://www.thumbmagic.co/features/video-to-thumbnail" target="_blank" rel="noopener">🔗 Thumbmagic：抽关键帧+识别人脸生成</a></li><li><a href="https://wayin.ai/tools/youtube-thumbnail-maker/" target="_blank" rel="noopener">🔗 WayinVideo：贴链接秒出多张 HD</a></li></ul></div>
+  <div class="rqrow"><span class="rqlb l4">对我们的启示</span>CapCut 视频基因直接可做：视频理解→多套封面/图文。核心模型需求=视频内容理解+场景抽取→图像生成。强可迁移、强差异化。 <span class="cap need">🔬 需攻关</span></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">④ 参考图生成 / 视角·构图控制</span><span class="rqstr">🔴 强</span></div>
+  <div class="rqrow"><span class="rqlb l1">谁在要</span>角色/产品/营销设计师，要可控一致。</div>
+  <div class="rqrow"><span class="rqlb l2">需求强度/现状怎么解决</span>用参考图控制姿势/构图/结构而非纯文字。现状靠 ControlNet(pose/edge/depth)、Midjourney Omni Reference、Firefly Composition Reference、Ideogram/Leonardo Character Reference。</div>
+  <div class="rqrow"><span class="rqlb l3">代表工具/证据</span><ul class="rqlinks"><li><a href="https://www.neolemon.com/blog/ai-image-generators-that-support-image-reference/" target="_blank" rel="noopener">🔗 Midjourney Omni / 各家 image reference 对比</a></li><li><a href="https://help.scenario.com/en/articles/use-reference-images-for-enhanced-control/" target="_blank" rel="noopener">🔗 Scenario：参考图增强控制</a></li><li><a href="https://www.aiforthat.io/blog/consistent-ai-art-style-guide/" target="_blank" rel="noopener">🔗 ControlNet 结构控制(pose/depth/edge)</a></li></ul></div>
+  <div class="rqrow"><span class="rqlb l4">对我们的启示</span>对应你「参考图生成能力」。✅风格/构图参考多已有；🔬保主体一致的视角变换(novel-view)仍是攻关，和角色一致性同源。 <span class="cap need">🔬 需攻关</span></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑤ AI 文字修改：指定字库范围</span><span class="rqstr">🟠 中-强</span></div>
+  <div class="rqrow"><span class="rqlb l1">谁在要</span>品牌/营销/电商设计师，要改字不破版。</div>
+  <div class="rqrow"><span class="rqlb l2">需求强度/现状怎么解决</span>AI 读取原文字的字形/字重/间距/颜色/透视，原位重渲染新文案。现状多家可做(letterform fingerprinting)，但瓶颈明确：高度风格化/品牌专有字体(非安装字体)匹配差，brand-critical 场景仍需手动。</div>
+  <div class="rqrow"><span class="rqlb l3">代表工具/证据</span><ul class="rqlinks"><li><a href="https://imagera.ai/image/edit-text-in-image" target="_blank" rel="noopener">🔗 Imagera：按字形重绘，含品牌/手写字体</a></li><li><a href="https://www.pixazo.ai/edit-text-in-image" target="_blank" rel="noopener">🔗 Pixazo：匹配原字重/描边/位置</a></li><li><a href="https://framia.converge.ai/features/edit-text-in-image" target="_blank" rel="noopener">🔗 Framia Pro：Brand Kit 套品牌字体</a></li><li><a href="https://www.haimeta.com/blog/how-to-edit-text-in-image" target="_blank" rel="noopener">🔗 AI 改字保字体专业指南</a></li></ul></div>
+  <div class="rqrow"><span class="rqlb l4">对我们的启示</span>正中你「支持指定字库范围」：让用户传/指定品牌字库，约束模型只在该字库内渲染——现有工具的明确缺口，给 Seed 的差异化攻关。 <span class="cap need">🔬 需攻关</span></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑥ 多模态输入(表格/视频)→图表输出</span><span class="rqstr">🟡 中</span></div>
+  <div class="rqrow"><span class="rqlb l1">谁在要</span>做报告/演示/信息图的运营、PM、设计。</div>
+  <div class="rqrow"><span class="rqlb l2">需求强度/现状怎么解决</span>表格/CSV→AI 清洗+选图表类型+出信息图，已较成熟。但「视频→图表」这类跨模态较空白，多停在表格→图表。</div>
+  <div class="rqrow"><span class="rqlb l3">代表工具/证据</span><ul class="rqlinks"><li><a href="https://venngage.com/ai-tools/chart" target="_blank" rel="noopener">🔗 Venngage AI 图表生成</a></li><li><a href="https://text2infographic.com/feature/spreadsheet-to-infographic" target="_blank" rel="noopener">🔗 Text2infographic：表格→信息图</a></li><li><a href="https://www.thebricks.com/resources/how-to-use-ai-to-make-charts-and-graphs" target="_blank" rel="noopener">🔗 Bricks：表格→可分享信息图</a></li></ul></div>
+  <div class="rqrow"><span class="rqlb l4">对我们的启示</span>表格→图表✅现有；🔬「视频/多模态→图表」是空白，可作为差异化探索，但需求强度待验证，优先级低于①③。 <span class="cap need">🔬 需攻关</span></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑦ 多图(9张)输入与输出</span><span class="rqstr">🟠 中-强</span></div>
+  <div class="rqrow"><span class="rqlb l1">谁在要</span>批量出系列图、保持一致的设计/电商。</div>
+  <div class="rqrow"><span class="rqlb l2">需求强度/现状怎么解决</span>现状模型已在快速演进：Nano Banana Pro 接受 14 张参考图(前6高保真)、一次生成最多 20 张、可追踪 5 个人物/14 个物体保持一致；用 Grid Prompting 出九宫格。</div>
+  <div class="rqrow"><span class="rqlb l3">代表工具/证据</span><ul class="rqlinks"><li><a href="https://www.aifreeapi.com/en/posts/combine-multiple-images-nano-banana-pro" target="_blank" rel="noopener">🔗 Nano Banana 多图合成完整指南</a></li><li><a href="https://www.glbgpt.com/hub/how-many-images-can-nano-banana-2-generate-at-once/" target="_blank" rel="noopener">🔗 Nano Banana 一次 20 张/批量</a></li><li><a href="https://bananabatch.com/" target="_blank" rel="noopener">🔗 Banana Batch：多图一提示批处理</a></li></ul></div>
+  <div class="rqrow"><span class="rqlb l4">对我们的启示</span>你「多图9张输入输出」基本已被前沿模型覆盖。我们侧重把它产品化为画布「系列出图+一致性」，模型层跟随 Seed 即可。 <span class="cap have">✅ 现有可封装</span></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑧ 精准快速后编辑 + 多轮稳定性</span><span class="rqstr">🔴 强</span></div>
+  <div class="rqrow"><span class="rqlb l1">谁在要</span>所有后编辑用户——核心痛点。</div>
+  <div class="rqrow"><span class="rqlb l2">需求强度/现状怎么解决</span>学术实测：FLUX.1 Kontext / Qwen-Image 约 5 轮连续编辑后严重退化，根因=高频信息丢失+噪声/伪影累积。设计师抱怨精细/高迭代场景 AI 仍不如专业工具。已有 FreqEdit 等可稳定 10+ 轮。</div>
+  <div class="rqrow"><span class="rqlb l3">代表工具/证据</span><ul class="rqlinks"><li><a href="https://arxiv.org/abs/2512.01755" target="_blank" rel="noopener">🔗 多轮编辑退化与 FreqEdit(arXiv)</a></li><li><a href="https://arxiv.org/pdf/2505.04320" target="_blank" rel="noopener">🔗 多轮一致编辑(arXiv)</a></li><li><a href="https://www.cometapi.com/which-is-the-best-image-editing-ai-in-2025/" target="_blank" rel="noopener">🔗 设计师抱怨迭代慢/精度不足</a></li><li><a href="https://runware.ai/collections/fastest-image-generation" target="_blank" rel="noopener">🔗 Img2Img-Turbo 单步快速编辑</a></li></ul></div>
+  <div class="rqrow"><span class="rqlb l4">对我们的启示</span>直接对应你「精准快速后编辑」+「多轮编辑质量稳定性」。这是给 Seed 最高优先的攻关：多轮不退化+低延迟局部编辑，是画布后编辑的命门。 <span class="cap need">🔬 需攻关</span></div>
+</div></div>
 </div>
 <nav class="nav"><a href="#wf" class="navchip">🧭 整体 AI 设计工作流 <span>14</span></a><a href="#figma" class="navchip">🎚️ Figma / UI 设计 AI <span>10</span></a><a href="#batch" class="navchip">⚡ 批量自动化 <span>9</span></a><a href="#ecom" class="navchip">🛍️ 电商产品图 <span>10</span></a><a href="#nb" class="navchip">🍌 Nano Banana / Midjourney <span>10</span></a><a href="#brand" class="navchip">🅱️ 品牌 / Logo <span>8</span></a><a href="#social" class="navchip">📱 社媒批量出图 <span>9</span></a><a href="#color" class="navchip">🎨 调色 / 字体 <span>4</span></a><a href="#gfill" class="navchip">🖌️ Generative Fill 局部编辑 <span>4</span></a><a href="#consist" class="navchip">🧬 角色 / 风格一致性 <span>4</span></a><a href="#ext" class="navchip">🎬 动态 / 演示 / 设计系统 <span>6</span></a></nav>
 <div class="wrap"><section id="wf" class="grp"><h2>🧭 整体 AI 设计工作流 <span class="cnt">14 例</span></h2><div class="cards">
@@ -859,5 +929,5 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 16px 50p
   <div class="caps"><span class="cap have">配色/字体/版式/质检建议</span></div>
 </div>
 </div></section></div>
-<footer>88 例 · 11 主题 · 21 项模型能力聚合 · 提炼对标 CapCut Web Design 画布后编辑</footer>
+<footer>88 例 · 11 主题 · 21 项能力聚合 + 8 方向需求验证 · 提炼对标 CapCut Web Design 画布后编辑</footer>
 </body></html>

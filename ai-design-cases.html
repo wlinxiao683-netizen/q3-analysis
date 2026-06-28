@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>创作者 AI 设计提效 · 88 案例</title>
+<style>
+:root{--bg:#0f1117;--surface:#1a1d27;--surface2:#22263a;--border:#2e3352;--text:#e2e8f0;--muted:#8b93b8;
+--a1:#6366f1;--a2:#06b6d4;--a3:#10b981;--a4:#f59e0b;--a5:#ec4899;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.6}
+.hero{padding:48px 24px 28px;max-width:1180px;margin:0 auto;text-align:center}
+.hero h1{font-size:30px;font-weight:800;background:linear-gradient(135deg,var(--a1),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+.hero p{color:var(--muted);font-size:14px;max-width:760px;margin:0 auto}
+.fidelity{margin:18px auto 0;max-width:820px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:12px 16px;font-size:12.5px;color:var(--muted);text-align:left}
+.fidelity strong{color:var(--a4)}
+.nav{position:sticky;top:0;z-index:10;background:rgba(15,17,23,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.navchip{font-size:12px;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:20px;padding:5px 12px;transition:.2s;white-space:nowrap}
+.navchip:hover{color:var(--text);border-color:var(--a1)}
+.navchip span{opacity:.6;font-size:11px}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 16px 60px}
+.grp{margin-top:36px;scroll-margin-top:64px}
+.grp h2{font-size:18px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.grp h2 .cnt{font-size:12px;color:var(--muted);font-weight:400}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;transition:.2s}
+.card:hover{border-color:var(--a1);transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.ct{font-size:14px;font-weight:700;margin-bottom:8px;line-height:1.45}
+.link{display:inline-block;font-size:12px;color:var(--a2);text-decoration:none;background:var(--surface2);padding:4px 10px;border-radius:7px;margin-bottom:12px;word-break:break-all}
+.link:hover{background:var(--border);color:var(--text)}
+.pt{font-size:13px;color:var(--muted);margin-top:8px;padding-left:2px}
+.lb{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;margin-right:7px;vertical-align:middle}
+.lb1{background:rgba(6,182,212,.15);color:var(--a2)}
+.lb2{background:rgba(16,185,129,.15);color:var(--a3)}
+.lb3{background:rgba(99,102,241,.15);color:var(--a1)}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 16px 50px;border-top:1px solid var(--border);margin-top:40px}
+@media(max-width:600px){.cards{grid-template-columns:1fr}}
+</style></head>
+<body>
+<div class="hero">
+  <h1>创作者 AI 设计提效 · 88 案例</h1>
+  <p>跨创作者平台抓取的「如何用 AI 设计图片提效」分享。每例三点：做了什么 · 达成目的 · 可封装成什么产品能力（对标 CapCut Web Design 画布后编辑）。</p>
+  <div class="fidelity"><strong>⚠️ 保真度说明：</strong>本页 88 条结论基于各视频<strong>标题 + 公开检索摘要</strong>提炼。逐字稿级抓取受当前环境网络策略限制（YouTube 被出口策略封禁，代理 403），尚未落地。放行 youtube.com 后可按仓库内 <code>TRANSCRIPT-TASK.md</code> 升级为<strong>逐字稿级</strong>提炼（含具体操作步骤）。</div>
+</div>
+<nav class="nav"><a href="#wf" class="navchip">🧭 整体 AI 设计工作流 <span>14</span></a><a href="#figma" class="navchip">🎚️ Figma / UI 设计 AI <span>10</span></a><a href="#batch" class="navchip">⚡ 批量自动化 <span>9</span></a><a href="#ecom" class="navchip">🛍️ 电商产品图 <span>10</span></a><a href="#nb" class="navchip">🍌 Nano Banana / Midjourney <span>10</span></a><a href="#brand" class="navchip">🅱️ 品牌 / Logo <span>8</span></a><a href="#social" class="navchip">📱 社媒批量出图 <span>9</span></a><a href="#color" class="navchip">🎨 调色 / 字体 <span>4</span></a><a href="#gfill" class="navchip">🖌️ Generative Fill 局部编辑 <span>4</span></a><a href="#consist" class="navchip">🧬 角色 / 风格一致性 <span>4</span></a><a href="#ext" class="navchip">🎬 动态 / 演示 / 设计系统 <span>6</span></a></nav>
+<div class="wrap">
+<section id="wf" class="grp"><h2>🧭 整体 AI 设计工作流 <span class="cnt">14 例</span></h2><div class="cards">
+<div class="card">
+  <div class="ct">How I use AI to design faster (my complete workflow)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=ni19lPH_wy0" target="_blank" rel="noopener">▶ youtube.com/watch?v=ni19lPH_wy0</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>演示个人从生成到改稿到交付的完整 AI 设计流程，把 AI 嵌进每个环节。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>把分散的 AI 工具串成一条连续工作流，整体提速。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「连续编辑链路」——画布内一站式串联生成+多次后编辑，正是 KR4 链路维度核心。</div>
+</div>
+<div class="card">
+  <div class="ct">How I&#x27;m Using AI To 10x My Graphic Design Workflow 2026</div>
+  <a class="link" href="https://www.youtube.com/watch?v=WpkOJ-4sTlw" target="_blank" rel="noopener">▶ youtube.com/watch?v=WpkOJ-4sTlw</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>逐一识别拖慢设计师的摩擦点，用 AI 去摩擦而非替代创意。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>把重复/等待环节去掉，产出效率号称 10x。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「去摩擦清单」——把视频里点名的卡点对应成产品要消除的步骤。</div>
+</div>
+<div class="card">
+  <div class="ct">AI + Design Systems in 2026: The Workflow I Actually Use</div>
+  <a class="link" href="https://www.youtube.com/watch?v=XfezMs8B-O8" target="_blank" rel="noopener">▶ youtube.com/watch?v=XfezMs8B-O8</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>把 AI 接进设计系统，做组件级辅助与变体生成。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>在保持系统一致性的前提下加速出稿。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「组件级辅助」——画布元素按品牌系统自动衍生，对接 Brand Kit。</div>
+</div>
+<div class="card">
+  <div class="ct">My Simple AI Workflow for UI/UX Design in 2026</div>
+  <a class="link" href="https://www.youtube.com/watch?v=mrXOSXLb8-g" target="_blank" rel="noopener">▶ youtube.com/watch?v=mrXOSXLb8-g</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>极简版 UI/UX AI 工作流，少量工具覆盖主要环节。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>降低上手门槛、快速出可用稿。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「轻量默认工作流」——给新用户一条预设最短路径，提升 L1 渗透率。</div>
+</div>
+<div class="card">
+  <div class="ct">My AI Design Process (What Actually Works)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=BLW5NLtQVHM" target="_blank" rel="noopener">▶ youtube.com/watch?v=BLW5NLtQVHM</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>筛掉噱头，演示真正有用的 AI 环节（含自动评审）。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>用 AI 加速并自动化设计评审，少返工。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「自动评审/质检」——后编辑后给一致性、可读性的自动校验提示。</div>
+</div>
+<div class="card">
+  <div class="ct">COMPLETE GUIDE TO AI-POWERED DESIGN PROCESS (4 HOURS)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=idPrScvnSro" target="_blank" rel="noopener">▶ youtube.com/watch?v=idPrScvnSro</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>4 小时系统讲完整 AI 设计流程，链路最全。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>提供端到端方法论范本。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「链路蓝图参照」——拆出每阶段的可产品化节点，做能力地图。</div>
+</div>
+<div class="card">
+  <div class="ct">This completely changed my AI design workflow (21-min)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=ItsKfNAoqTU" target="_blank" rel="noopener">▶ youtube.com/watch?v=ItsKfNAoqTU</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>演示截图→HTML→快速改→导出 Figma 的转换流。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>把现成视觉一键转成可编辑稿，省重建时间。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「图像→可编辑稿」——上传参考图即拆成可编辑图层，命中图层分离。</div>
+</div>
+<div class="card">
+  <div class="ct">AI Tools for UX Designers: My Complete 2026 Workflow</div>
+  <a class="link" href="https://www.youtube.com/watch?v=1ClbYm_mgpk" target="_blank" rel="noopener">▶ youtube.com/watch?v=1ClbYm_mgpk</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>盘点 UX 设计全流程的 AI 工具链并串成工作流。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>覆盖研究到交付的完整 UX 链路。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「跨阶段工具编排」——画布把多能力按场景编排成模板。</div>
+</div>
+<div class="card">
+  <div class="ct">5 Steps to Build AI Workflows That Think, Adapt, and Scale</div>
+  <a class="link" href="https://www.youtube.com/watch?v=gihVEnsh2Ls" target="_blank" rel="noopener">▶ youtube.com/watch?v=gihVEnsh2Ls</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>讲构建可自适应、可扩展 AI 工作流的 5 步法。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>让工作流能随任务自适应、规模化。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「自适应流程」——按用户意图动态推荐下一步编辑动作。</div>
+</div>
+<div class="card">
+  <div class="ct">The Ultimate AI Design Workflow for UI/UX</div>
+  <a class="link" href="https://www.youtube.com/watch?v=GcNwDqqoafo" target="_blank" rel="noopener">▶ youtube.com/watch?v=GcNwDqqoafo</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>从粗略想法到部署上线，用 Claude Code 打通设计到代码。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>设计稿直接变可运行产品。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「设计→产出」闭环——画布成品一键导出多端可用资产。</div>
+</div>
+<div class="card">
+  <div class="ct">How I use (and don&#x27;t use) AI to design better in 2026</div>
+  <a class="link" href="https://www.youtube.com/watch?v=2u6bH17NIQk" target="_blank" rel="noopener">▶ youtube.com/watch?v=2u6bH17NIQk</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>讲 AI 该用与不该用的边界，哪些环节保留人工。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>在提速同时守住质量与判断力。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「人工接管位」——为后编辑设可降级/人工干预点，喂 Part04 降级策略。</div>
+</div>
+<div class="card">
+  <div class="ct">My AI Design Workflow (It&#x27;s Like Cheating)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=AfmFnzg6pZ0" target="_blank" rel="noopener">▶ youtube.com/watch?v=AfmFnzg6pZ0</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>演示一套高爽点、低门槛的快速出图工作流。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>用最少操作拿到惊艳结果。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「一键惊艳」——预设高质量默认参数，降低用户决策成本。</div>
+</div>
+<div class="card">
+  <div class="ct">Best AI Tools for Graphic Design in 2026 (Full Ranking)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=6JInQYdSWAc" target="_blank" rel="noopener">▶ youtube.com/watch?v=6JInQYdSWAc</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>横评主流 AI 平面设计工具并排名。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>给出工具选型全景。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「竞品全景」——对照各工具后编辑能力，定位我们差异化。</div>
+</div>
+<div class="card">
+  <div class="ct">The Future Of Graphic Design AI Workflows (Framia Pro)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=dUZqxumtaTs" target="_blank" rel="noopener">▶ youtube.com/watch?v=dUZqxumtaTs</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>展示 Framia Pro 对未来 AI 工作流形态的设想。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>预演下一代设计工作流。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「形态前瞻」——参考其交互范式判断画布后编辑演进方向。</div>
+</div>
+</div></section><section id="figma" class="grp"><h2>🎚️ Figma / UI 设计 AI <span class="cnt">10 例</span></h2><div class="cards">
+<div class="card">
+  <div class="ct">Best AI Design Agents in 2026 to Eliminate Repetitive Tasks</div>
+  <a class="link" href="https://www.youtube.com/watch?v=C7U_hMSCgZI" target="_blank" rel="noopener">▶ youtube.com/watch?v=C7U_hMSCgZI</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 AI Agent 自动处理重复任务，如跨平台 resize。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>消除重复劳动，自动出多尺寸。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「多尺寸适配 Agent」——一图自动产出各平台尺寸，强可封装。</div>
+</div>
+<div class="card">
+  <div class="ct">These Figma AI Plugins are a Game Changer</div>
+  <a class="link" href="https://www.youtube.com/watch?v=IPHN7K58Bdw" target="_blank" rel="noopener">▶ youtube.com/watch?v=IPHN7K58Bdw</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>演示一批 Figma AI 插件嵌进现有工作流。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>把设计时间砍掉一半。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「画布内 AI 插件位」——把高频后编辑做成画布原生动作。</div>
+</div>
+<div class="card">
+  <div class="ct">AI Tools Every Designer Should Use (Envato/Figma/PS)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=QzbB5yG0kq4" target="_blank" rel="noopener">▶ youtube.com/watch?v=QzbB5yG0kq4</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>跨工具串讲设计师必备 AI 工具。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>覆盖素材到成稿的跨工具链。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「跨工具整合」——画布内聚合常用能力，减少跳工具。</div>
+</div>
+<div class="card">
+  <div class="ct">UX Pilot Tutorial 2026 | Design Faster with Figma AI Plugin</div>
+  <a class="link" href="https://www.youtube.com/watch?v=nx_j4y6Zakg" target="_blank" rel="noopener">▶ youtube.com/watch?v=nx_j4y6Zakg</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 UX Pilot 把想法变结构化界面。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>加速早期界面草构。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「意图→结构」——文字描述直接生成可编辑布局。</div>
+</div>
+<div class="card">
+  <div class="ct">How to Get Better UI Design with Figma Make and AI</div>
+  <a class="link" href="https://www.youtube.com/watch?v=tty90cDna3A" target="_blank" rel="noopener">▶ youtube.com/watch?v=tty90cDna3A</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Figma Make 进阶提示技巧出更好 UI。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>提升 prompt→UI 的质量。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「智能提示模板」——把有效提示沉淀成画布内置模板。</div>
+</div>
+<div class="card">
+  <div class="ct">How to Use Figma AI To Make Sites 10X More Beautiful</div>
+  <a class="link" href="https://www.youtube.com/watch?v=_-FEgdQ_L4I" target="_blank" rel="noopener">▶ youtube.com/watch?v=_-FEgdQ_L4I</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Figma AI 快速美化站点视觉。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>短时间大幅提升视觉质感。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「一键美化」——对画布成稿做整体风格/排版优化。</div>
+</div>
+<div class="card">
+  <div class="ct">How to Use AI to Generate Figma Screens From Your Design</div>
+  <a class="link" href="https://www.youtube.com/watch?v=Q7CABljHMEs" target="_blank" rel="noopener">▶ youtube.com/watch?v=Q7CABljHMEs</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>从现有设计自动生成更多 Figma 屏。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>批量衍生界面，少重复搭。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「批量衍生」——一稿生成多版式，对接多尺寸/多风格。</div>
+</div>
+<div class="card">
+  <div class="ct">Complete Figma AI Course for Beginners 2026</div>
+  <a class="link" href="https://www.youtube.com/watch?v=tBK4pmNUoBc" target="_blank" rel="noopener">▶ youtube.com/watch?v=tBK4pmNUoBc</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>系统教 Figma AI 全部特性。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>让新手快速掌握 AI 设计。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「新手引导」——画布内置教学式 AI 引导流。</div>
+</div>
+<div class="card">
+  <div class="ct">How to Use Figma AI 2026 (Beginner Guide)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=NqNjx7KEKPw" target="_blank" rel="noopener">▶ youtube.com/watch?v=NqNjx7KEKPw</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>入门讲解 Figma AI 基本用法。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>降低 AI 设计上手门槛。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「上手门槛」——参照其引导设计画布的首用体验。</div>
+</div>
+<div class="card">
+  <div class="ct">Figma MCP + Cursor: The New AI Design System Workflow</div>
+  <a class="link" href="https://www.youtube.com/watch?v=09VgyFFLrOw" target="_blank" rel="noopener">▶ youtube.com/watch?v=09VgyFFLrOw</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Figma MCP + Cursor 打通设计到代码。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>设计数据直接驱动代码生成。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「设计→代码」——画布资产结构化导出供开发直接用。</div>
+</div>
+</div></section><section id="batch" class="grp"><h2>⚡ 批量自动化 <span class="cnt">9 例</span></h2><div class="cards">
+<div class="card">
+  <div class="ct">Best AI Tool for Image Background Removal – Batch</div>
+  <a class="link" href="https://www.youtube.com/watch?v=zT68U_u8EBI" target="_blank" rel="noopener">▶ youtube.com/watch?v=zT68U_u8EBI</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 AI 批量去除图片背景。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>一次处理大量图，免逐张抠。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「批量去背」——画布多选一键去背，封装难度低、感知强。</div>
+</div>
+<div class="card">
+  <div class="ct">FAST WAY to Upscale &amp; Remove Background in BULK (MyDesigns)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=5GW9AhLZDV4" target="_blank" rel="noopener">▶ youtube.com/watch?v=5GW9AhLZDV4</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>批量放大并去背。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>同时完成放大+去背两步。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「批量放大+去背组合」——多步合一的画布批处理动作。</div>
+</div>
+<div class="card">
+  <div class="ct">Best AI Apps to Fix Backgrounds and Batch Editing (2026)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=a9iTBgQfgF4" target="_blank" rel="noopener">▶ youtube.com/watch?v=a9iTBgQfgF4</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用多模型批量修/换背景。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>高分辨率批量出图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「批量换背景」——电商场景核心，对接背景库。</div>
+</div>
+<div class="card">
+  <div class="ct">Batch process a folder of images &amp; remove background in ComfyUI</div>
+  <a class="link" href="https://www.youtube.com/watch?v=DLFPuXFSnQE" target="_blank" rel="noopener">▶ youtube.com/watch?v=DLFPuXFSnQE</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>ComfyUI 工作流整文件夹批处理去背。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>无人值守批量处理。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「文件夹级批处理」——上传多图后台批量后编辑。</div>
+</div>
+<div class="card">
+  <div class="ct">How to Remove The Background of Ai Art in BULK (MyDesigns)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=XvR7uxRH_Fo" target="_blank" rel="noopener">▶ youtube.com/watch?v=XvR7uxRH_Fo</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>批量去除 AI 生成图背景。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>为 POD/电商快速备图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「生成图批量后处理」——生成后直接进批量后编辑链路。</div>
+</div>
+<div class="card">
+  <div class="ct">Create Automated Photoshop Actions and Batches FAST</div>
+  <a class="link" href="https://www.youtube.com/watch?v=kxziDfysBbs" target="_blank" rel="noopener">▶ youtube.com/watch?v=kxziDfysBbs</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 PS 动作+批处理自动化重复编辑。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>把固定编辑流程一键重放。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「动作录制/重放」——把用户常用后编辑序列存为可复用动作。</div>
+</div>
+<div class="card">
+  <div class="ct">BEST Ai Bulk Background Remover Ever (FREE)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=L2MyYrYcqN4" target="_blank" rel="noopener">▶ youtube.com/watch?v=L2MyYrYcqN4</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>免费批量去背工具演示。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>零成本批量抠图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「免费档去背」——基础能力免费引流，提升渗透。</div>
+</div>
+<div class="card">
+  <div class="ct">How to Remove Backdrop Microsoft Designer Ai</div>
+  <a class="link" href="https://www.youtube.com/watch?v=5FWAFawSEWQ" target="_blank" rel="noopener">▶ youtube.com/watch?v=5FWAFawSEWQ</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>Microsoft Designer 一键去背。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>网页端即点即去背。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「网页一键去背」——画布原生即时去背体验对标。</div>
+</div>
+<div class="card">
+  <div class="ct">This FREE AI Background Remover Is A Game Changer For Editors</div>
+  <a class="link" href="https://www.youtube.com/watch?v=5kS-c3ayiVU" target="_blank" rel="noopener">▶ youtube.com/watch?v=5kS-c3ayiVU</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>免费 AI 去背，主打编辑场景。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>为视频/图编辑快速备素材。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「编辑链路去背」——和视频/设计编辑无缝衔接。</div>
+</div>
+</div></section><section id="ecom" class="grp"><h2>🛍️ 电商产品图 <span class="cnt">10 例</span></h2><div class="cards">
+<div class="card">
+  <div class="ct">How to create AI backgrounds for product photos (ecommerce HACK)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=9b6fl3oHamo" target="_blank" rel="noopener">▶ youtube.com/watch?v=9b6fl3oHamo</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 AI 给产品图换/生成背景。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>免实拍出多套场景产品图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「AI 换背景」——电商主场景，对接场景模板库。</div>
+</div>
+<div class="card">
+  <div class="ct">FREE AI Tool — Unlimited Ecommerce Product Photos</div>
+  <a class="link" href="https://www.youtube.com/watch?v=JSj64pGcr94" target="_blank" rel="noopener">▶ youtube.com/watch?v=JSj64pGcr94</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>免费生成无限电商产品图。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>零成本规模化出图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「规模化产品图」——一品多场景批量生成+后编辑。</div>
+</div>
+<div class="card">
+  <div class="ct">How To Use AI For Perfect Shopify Product Photos (X-Design)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=g0x0rqgv3sU" target="_blank" rel="noopener">▶ youtube.com/watch?v=g0x0rqgv3sU</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 X-Design 出 Shopify 级产品图。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>贴合电商平台规格出图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「平台规格预设」——按 Shopify/Etsy 尺寸与风格出图。</div>
+</div>
+<div class="card">
+  <div class="ct">Instant Studio: AI Photo Studio for E-commerce</div>
+  <a class="link" href="https://www.youtube.com/watch?v=UPZppv0gX70" target="_blank" rel="noopener">▶ youtube.com/watch?v=UPZppv0gX70</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>AI 棚拍：把普通产品照变专业棚拍。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>免摄影棚出高质感产品图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「虚拟棚拍」——背景+打光+构图一体的后编辑套件。</div>
+</div>
+<div class="card">
+  <div class="ct">Product Photography with AI: It&#x27;s Re-Lighting for REAL</div>
+  <a class="link" href="https://www.youtube.com/watch?v=fLnGlP7mLqw" target="_blank" rel="noopener">▶ youtube.com/watch?v=fLnGlP7mLqw</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>AI 真实重打光产品照。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>改变光影让产品更高级。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「打光控制」——对标 Seed 打光能力，定义可用水位。</div>
+</div>
+<div class="card">
+  <div class="ct">Remove Product Backgrounds with AI for eCommerce Beginners</div>
+  <a class="link" href="https://www.youtube.com/watch?v=1sIejUSfytg" target="_blank" rel="noopener">▶ youtube.com/watch?v=1sIejUSfytg</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>新手向产品图去背。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>快速做出干净主图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「主图去背」——电商主图标准化处理。</div>
+</div>
+<div class="card">
+  <div class="ct">Krea AI: Turn PRODUCT PHOTOS into PROFESSIONAL SHOTS</div>
+  <a class="link" href="https://www.youtube.com/watch?v=oyVczeHm7hY" target="_blank" rel="noopener">▶ youtube.com/watch?v=oyVczeHm7hY</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>Krea AI 把产品照转专业棚拍。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>提升产品图质感与一致性。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「质感增强」——成稿后一键提质，对接打光/材质。</div>
+</div>
+<div class="card">
+  <div class="ct">Create Stunning Product Images for Ecommerce Using AI</div>
+  <a class="link" href="https://www.youtube.com/watch?v=qDwgNnPLboM" target="_blank" rel="noopener">▶ youtube.com/watch?v=qDwgNnPLboM</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 AI 出电商产品图全流程。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>覆盖换背景到出图全链。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「电商出图链路」——把多步骤打包成场景化模板。</div>
+</div>
+<div class="card">
+  <div class="ct">Use AI To Make Better Product Photos For Etsy, Shopify</div>
+  <a class="link" href="https://www.youtube.com/watch?v=4yqxpCPn91s" target="_blank" rel="noopener">▶ youtube.com/watch?v=4yqxpCPn91s</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>为 Etsy/Shopify 优化产品图。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>贴合中小卖家出图需求。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「中小卖家模板」——低门槛电商出图预设。</div>
+</div>
+<div class="card">
+  <div class="ct">How To Relight Images Using AI - No Photoshop Required</div>
+  <a class="link" href="https://www.youtube.com/watch?v=-bHhPgiU1UM" target="_blank" rel="noopener">▶ youtube.com/watch?v=-bHhPgiU1UM</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>无需 PS 的 AI 重打光。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>网页端直接改光影。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「网页重打光」——画布原生打光，免跳专业软件。</div>
+</div>
+</div></section><section id="nb" class="grp"><h2>🍌 Nano Banana / Midjourney <span class="cnt">10 例</span></h2><div class="cards">
+<div class="card">
+  <div class="ct">Midjourney v8 Hack: Get Total Control in Nano Banana</div>
+  <a class="link" href="https://www.youtube.com/watch?v=1L9TehBIhZ4" target="_blank" rel="noopener">▶ youtube.com/watch?v=1L9TehBIhZ4</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>在 Nano Banana 里精确控制 MJ 风格。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>拿到对生成风格的强控制。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「风格锁定」——把参考风格固定到后续编辑，命中一致性。</div>
+</div>
+<div class="card">
+  <div class="ct">Nano Banana + Midjourney = GOD MODE (Full-Process)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=dkkcX6gmnlQ" target="_blank" rel="noopener">▶ youtube.com/watch?v=dkkcX6gmnlQ</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>组合 Nano Banana 与 MJ 走全流程。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>取两模型之长得最佳结果。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「多模型编排」——后台按任务路由不同模型。</div>
+</div>
+<div class="card">
+  <div class="ct">Perfect Product Photography = Midjourney &amp; ComfyUI</div>
+  <a class="link" href="https://www.youtube.com/watch?v=64bOxqzQ0pg" target="_blank" rel="noopener">▶ youtube.com/watch?v=64bOxqzQ0pg</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>MJ+ComfyUI 做产品摄影工作流 V2。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>出可商用的产品图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「产品图管线」——把生成+后编辑固化成管线模板。</div>
+</div>
+<div class="card">
+  <div class="ct">Ultimate AI Visualization for Architects: MJ + Nano Banana Pro + FLUX</div>
+  <a class="link" href="https://www.youtube.com/watch?v=uJN59t3SvGI" target="_blank" rel="noopener">▶ youtube.com/watch?v=uJN59t3SvGI</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>建筑可视化多模型组合工作流。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>出高保真建筑/空间视觉。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「多模型协同」——验证 Seed 与他模型协作的水位参照。</div>
+</div>
+<div class="card">
+  <div class="ct">Nano Banana vs Midjourney The AI Image Test</div>
+  <a class="link" href="https://www.youtube.com/watch?v=tmwkWnRZkUg" target="_blank" rel="noopener">▶ youtube.com/watch?v=tmwkWnRZkUg</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>对比 Nano Banana 与 MJ 的能力。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>看清各模型擅长场景。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「模型能力对照」——为评测标准与失败 case 提供样本。</div>
+</div>
+<div class="card">
+  <div class="ct">NEW! Best Nano Banana Product Images App</div>
+  <a class="link" href="https://www.youtube.com/watch?v=xWObTbZgbW4" target="_blank" rel="noopener">▶ youtube.com/watch?v=xWObTbZgbW4</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Nano Banana 出产品图的 App。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>快速出电商级产品图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「产品图能力」——对接电商场景的生成+编辑。</div>
+</div>
+<div class="card">
+  <div class="ct">How to create mockups using Nano Banana (含提示词)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=RP-KurR9KvY" target="_blank" rel="noopener">▶ youtube.com/watch?v=RP-KurR9KvY</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Nano Banana 做 mockup，给出提示词。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>快速出包装/样机效果。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「mockup 生成」——画布内样机一键套用。</div>
+</div>
+<div class="card">
+  <div class="ct">How to Write AI Image Prompts (MJ/ChatGPT/Nano Banana/Flux)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=vOLiOgZvd-A" target="_blank" rel="noopener">▶ youtube.com/watch?v=vOLiOgZvd-A</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>跨模型提示词写法完整指南。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>提升出图命中率。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「智能提示」——把提示词工程封装成画布内置助手。</div>
+</div>
+<div class="card">
+  <div class="ct">Nano Banana INSANE Product Photos (TUTORIAL)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=tSDSSJlHFL4" target="_blank" rel="noopener">▶ youtube.com/watch?v=tSDSSJlHFL4</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>Nano Banana 极致产品图教程。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>出高质感产品图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「高质感产品图」——预设参数降低用户门槛。</div>
+</div>
+<div class="card">
+  <div class="ct">This A.I. Just Changed Product Photography (Nano Banana)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=EQd0U0ohPZc" target="_blank" rel="noopener">▶ youtube.com/watch?v=EQd0U0ohPZc</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Nano Banana 重塑产品摄影。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>免实拍出商业产品图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「免拍出图」——电商核心，对接背景/打光库。</div>
+</div>
+</div></section><section id="brand" class="grp"><h2>🅱️ 品牌 / Logo <span class="cnt">8 例</span></h2><div class="cards">
+<div class="card">
+  <div class="ct">Best AI Tool for Designers: Create Brand Content Faster (Skywork)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=JRAGi9AUWic" target="_blank" rel="noopener">▶ youtube.com/watch?v=JRAGi9AUWic</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Skywork 一站出品牌内容。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>快速产出整套品牌物料。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「品牌物料批量」——一套品牌输入衍生多物料。</div>
+</div>
+<div class="card">
+  <div class="ct">How To Design a Complete Brand Identity With AI</div>
+  <a class="link" href="https://www.youtube.com/watch?v=NBZAHaE5jQk" target="_blank" rel="noopener">▶ youtube.com/watch?v=NBZAHaE5jQk</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 AI logo maker 做完整品牌识别。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>从 logo 到全套 VI 快速成型。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「Brand Kit 驱动」——品牌色/字体/logo 自动套用到画布。</div>
+</div>
+<div class="card">
+  <div class="ct">This NEW AI Tool Creates ALL Your Designs FAST (Design.com)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=99dGOIM09Vc" target="_blank" rel="noopener">▶ youtube.com/watch?v=99dGOIM09Vc</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>Design.com 一站出 logo/社媒/网站。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>几分钟出全套设计。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「一站式套件」——画布聚合多物料生成。</div>
+</div>
+<div class="card">
+  <div class="ct">How To Design Faster &amp; Impress Clients Using AI</div>
+  <a class="link" href="https://www.youtube.com/watch?v=UTaKkj_GE6Q" target="_blank" rel="noopener">▶ youtube.com/watch?v=UTaKkj_GE6Q</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 AI 更快出稿打动客户。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>缩短提案周期。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「快速提案」——多方案一键生成供选。</div>
+</div>
+<div class="card">
+  <div class="ct">Generate Professional Logo Designs With AI In Illustrator</div>
+  <a class="link" href="https://www.youtube.com/watch?v=N6fDPP0UFQk" target="_blank" rel="noopener">▶ youtube.com/watch?v=N6fDPP0UFQk</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>AI + Illustrator 生成专业 logo。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>提升 logo 概念产出速度。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「矢量 logo」——生成可编辑矢量元素。</div>
+</div>
+<div class="card">
+  <div class="ct">ChatGPT Image Hacks To Build Your Brand Faster</div>
+  <a class="link" href="https://www.youtube.com/watch?v=SF5K4weDGlg" target="_blank" rel="noopener">▶ youtube.com/watch?v=SF5K4weDGlg</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 ChatGPT 图像能力快速建品牌视觉。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>用对话式生成做品牌图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「对话式品牌生成」——指令编辑做品牌素材。</div>
+</div>
+<div class="card">
+  <div class="ct">How to design a logo | AI + Illustrator</div>
+  <a class="link" href="https://www.youtube.com/watch?v=26Vi9qy_nW4" target="_blank" rel="noopener">▶ youtube.com/watch?v=26Vi9qy_nW4</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>AI+Illustrator 砍掉一半 logo 构思时间。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>加速 logo 构思。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「构思加速」——多方向 logo 草案快速产出。</div>
+</div>
+<div class="card">
+  <div class="ct">How To Make A Logo Fast And Low Cost With Looka AI</div>
+  <a class="link" href="https://www.youtube.com/watch?v=vUNQx7cqt7I" target="_blank" rel="noopener">▶ youtube.com/watch?v=vUNQx7cqt7I</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>Looka AI 低成本快速做 logo。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>零基础低成本出 logo。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「零基础 logo」——模板化 logo 生成。</div>
+</div>
+</div></section><section id="social" class="grp"><h2>📱 社媒批量出图 <span class="cnt">9 例</span></h2><div class="cards">
+<div class="card">
+  <div class="ct">100 Social Media Posts in 10 Minutes - Canva AI BULK</div>
+  <a class="link" href="https://www.youtube.com/watch?v=VEaJkjf0cvE" target="_blank" rel="noopener">▶ youtube.com/watch?v=VEaJkjf0cvE</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Canva AI 批量出 100 条社媒图。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>极速规模化社媒内容。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「社媒批量」——数据驱动批量出图，强可封装。</div>
+</div>
+<div class="card">
+  <div class="ct">Batch Create Social Media Post Graphics In Canva</div>
+  <a class="link" href="https://www.youtube.com/watch?v=yEUkiU7tIT0" target="_blank" rel="noopener">▶ youtube.com/watch?v=yEUkiU7tIT0</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>Canva 批量做社媒图。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>一次产出整月内容。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「批量出图」——模板+数据合成。</div>
+</div>
+<div class="card">
+  <div class="ct">Bulk Create Social Designs in Canva Sheets with UNIQUE Images</div>
+  <a class="link" href="https://www.youtube.com/watch?v=ekP4ov3z6Q4" target="_blank" rel="noopener">▶ youtube.com/watch?v=ekP4ov3z6Q4</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Canva Sheets 批量+每条独立背景图。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>批量但不千篇一律。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「批量+差异化」——每条自动配不同背景/文案。</div>
+</div>
+<div class="card">
+  <div class="ct">How to Use Canva to Batch Create Social Graphics</div>
+  <a class="link" href="https://www.youtube.com/watch?v=J_WbmeHnbSQ" target="_blank" rel="noopener">▶ youtube.com/watch?v=J_WbmeHnbSQ</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用表格+Bulk Create 批量出社媒图。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>规模化产出。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「表格驱动批量」——上传表格一键合成多图。</div>
+</div>
+<div class="card">
+  <div class="ct">Create 20+ Canva Designs in ONE Click (Bulk + Sheets + AI)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=f-0_j-f1TuQ" target="_blank" rel="noopener">▶ youtube.com/watch?v=f-0_j-f1TuQ</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>一键出 20+ 设计。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>极速批量。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「一键批量」——画布批处理入口。</div>
+</div>
+<div class="card">
+  <div class="ct">60 Social Media Designs in 8 Minutes using Claude + Canva</div>
+  <a class="link" href="https://www.youtube.com/watch?v=3ysZujOI-NE" target="_blank" rel="noopener">▶ youtube.com/watch?v=3ysZujOI-NE</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>Claude 生成内容 + Canva 合成 60 个设计。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>内容+视觉一体批量。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「内容+视觉合成」——文案与图一体批量生成。</div>
+</div>
+<div class="card">
+  <div class="ct">Bulk Create 30 Social Media Posts in MINUTES with Canva</div>
+  <a class="link" href="https://www.youtube.com/watch?v=4sk0idYZ2RU" target="_blank" rel="noopener">▶ youtube.com/watch?v=4sk0idYZ2RU</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>几分钟批量出 30 条。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>快速铺内容。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「快速铺量」——低门槛批量。</div>
+</div>
+<div class="card">
+  <div class="ct">How to Create Social Media Images using AI in Canva</div>
+  <a class="link" href="https://www.youtube.com/watch?v=_hp-DITrwzU" target="_blank" rel="noopener">▶ youtube.com/watch?v=_hp-DITrwzU</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Canva AI 出社媒图。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>AI 辅助单图出图。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「AI 出图」——画布生成基础能力。</div>
+</div>
+<div class="card">
+  <div class="ct">Bulk Create a Month of Social Posts (Canva Sheets &amp; AI)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=pT_8EuBHMQc" target="_blank" rel="noopener">▶ youtube.com/watch?v=pT_8EuBHMQc</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Sheets+AI 批量一个月内容。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>一次规划整月。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「内容日历批量」——按日历批量产出。</div>
+</div>
+</div></section><section id="color" class="grp"><h2>🎨 调色 / 字体 <span class="cnt">4 例</span></h2><div class="cards">
+<div class="card">
+  <div class="ct">Tips To Build A Color Palette | AI | Adobe</div>
+  <a class="link" href="https://www.youtube.com/watch?v=IooTBRwce2s" target="_blank" rel="noopener">▶ youtube.com/watch?v=IooTBRwce2s</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>讲 AI 辅助配色基础。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>做出贴合品牌的配色。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「智能配色」——画布一键生成/应用配色。</div>
+</div>
+<div class="card">
+  <div class="ct">Generate Color Palettes With A Prompt (Illustrator Recolor)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=iDgMb8cX7i8" target="_blank" rel="noopener">▶ youtube.com/watch?v=iDgMb8cX7i8</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>提示词生成配色并重着色。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>用文字驱动整体改色。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「指令调色」——自然语言改全图配色，命中调色能力。</div>
+</div>
+<div class="card">
+  <div class="ct">Experimenting with AI Colour Palettes and Typography Tools</div>
+  <a class="link" href="https://www.youtube.com/watch?v=VggyXZPEmdg" target="_blank" rel="noopener">▶ youtube.com/watch?v=VggyXZPEmdg</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>试 AI 配色与字体工具。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>探索配色+字体自动化。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「配色+字体」——画布字体/色彩智能建议。</div>
+</div>
+<div class="card">
+  <div class="ct">4 ways to add specific colors to your AI-generated images</div>
+  <a class="link" href="https://www.youtube.com/watch?v=sYnW9R4qoqg" target="_blank" rel="noopener">▶ youtube.com/watch?v=sYnW9R4qoqg</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>给 AI 生成图精确指定颜色的 4 法。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>对生成图做精确色彩控制。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「精确控色」——后编辑里锁定/替换指定色。</div>
+</div>
+</div></section><section id="gfill" class="grp"><h2>🖌️ Generative Fill 局部编辑 <span class="cnt">4 例</span></h2><div class="cards">
+<div class="card">
+  <div class="ct">5 Secret Tips for Generative Fill in Photoshop</div>
+  <a class="link" href="https://www.youtube.com/watch?v=86s7AhpOIII" target="_blank" rel="noopener">▶ youtube.com/watch?v=86s7AhpOIII</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>演示 Generative Fill 5 个隐藏技巧。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>更可控地局部生成/替换。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「局部编辑技巧」——命中指令编辑护城河。</div>
+</div>
+<div class="card">
+  <div class="ct">Unlock the Hidden Power of Generative Fill: Intensity Trick</div>
+  <a class="link" href="https://www.youtube.com/watch?v=ZUJSIzCW5L4" target="_blank" rel="noopener">▶ youtube.com/watch?v=ZUJSIzCW5L4</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用强度技巧控制生成效果。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>精细调局部生成强度。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「强度控制」——后编辑可调编辑强度参数。</div>
+</div>
+<div class="card">
+  <div class="ct">Photoshop Generative Fill AI Full Tutorial</div>
+  <a class="link" href="https://www.youtube.com/watch?v=9e8aOzwDPr4" target="_blank" rel="noopener">▶ youtube.com/watch?v=9e8aOzwDPr4</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>完整讲 Generative Fill 用法。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>掌握局部生成/扩图/去除。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「局部生成套件」——去除/扩展/替换一体。</div>
+</div>
+<div class="card">
+  <div class="ct">This Changes How Generative Fill Works (Reference Image)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=pgBjkr2X6wI" target="_blank" rel="noopener">▶ youtube.com/watch?v=pgBjkr2X6wI</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用参考图而非提示词引导局部生成。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>用图控图，结果更准。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「参考图引导」——后编辑支持参考图，命中指令+图层。</div>
+</div>
+</div></section><section id="consist" class="grp"><h2>🧬 角色 / 风格一致性 <span class="cnt">4 例</span></h2><div class="cards">
+<div class="card">
+  <div class="ct">Create CONSISTENT CHARACTERS from INPUT IMAGE with FLUX</div>
+  <a class="link" href="https://www.youtube.com/watch?v=Uls_jXy9RuU" target="_blank" rel="noopener">▶ youtube.com/watch?v=Uls_jXy9RuU</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 FLUX/ComfyUI 从单图生成一致角色。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>跨图保持角色一致。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「一致性锁定」——别人难抄的护城河方向。</div>
+</div>
+<div class="card">
+  <div class="ct">Generate endless CONSISTENT CHARACTERS from one image</div>
+  <a class="link" href="https://www.youtube.com/watch?v=grtmiWbmvv0" target="_blank" rel="noopener">▶ youtube.com/watch?v=grtmiWbmvv0</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>单图衍生无限一致角色。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>规模化一致素材。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「一致性衍生」——一稿多版保持主体不变。</div>
+</div>
+<div class="card">
+  <div class="ct">How to Actually Make 100% Consistent AI Characters</div>
+  <a class="link" href="https://www.youtube.com/watch?v=h5kjDJrHw_g" target="_blank" rel="noopener">▶ youtube.com/watch?v=h5kjDJrHw_g</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>讲实现高度一致角色的做法。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>解决一致性翻车痛点。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「一致性水位」——给 Seed 定义可用一致性标准。</div>
+</div>
+<div class="card">
+  <div class="ct">Leonardo AI New Feature: Consistent Characters</div>
+  <a class="link" href="https://www.youtube.com/watch?v=5pa3vTWGBuc" target="_blank" rel="noopener">▶ youtube.com/watch?v=5pa3vTWGBuc</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Leonardo 角色参考做一致角色。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>用产品化特性保持一致。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「角色参考特性」——画布内置角色/风格参考库。</div>
+</div>
+</div></section><section id="ext" class="grp"><h2>🎬 动态 / 演示 / 设计系统 <span class="cnt">6 例</span></h2><div class="cards">
+<div class="card">
+  <div class="ct">Use AI to create EPIC Mockups in Minutes</div>
+  <a class="link" href="https://www.youtube.com/watch?v=8gbkoavLHIg" target="_blank" rel="noopener">▶ youtube.com/watch?v=8gbkoavLHIg</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 AI 几分钟出专业 mockup。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>快速出样机展示。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「样机生成」——画布一键套样机。</div>
+</div>
+<div class="card">
+  <div class="ct">The BEST AI Tool For Creating Stunning Presentations (Gamma)</div>
+  <a class="link" href="https://www.youtube.com/watch?v=vqTQPKQPv0o" target="_blank" rel="noopener">▶ youtube.com/watch?v=vqTQPKQPv0o</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Gamma 几秒出演示稿。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>快速出整套幻灯。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「演示稿生成」——外延场景，判断是否纳入。</div>
+</div>
+<div class="card">
+  <div class="ct">How Motion Designers &amp; Video Editors Should Use AI in 2026</div>
+  <a class="link" href="https://www.youtube.com/watch?v=0e8jNWKU-5k" target="_blank" rel="noopener">▶ youtube.com/watch?v=0e8jNWKU-5k</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>讲动态设计师/视频剪辑该怎么用 AI。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>把 AI 接进动态/视频流程。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「动态衔接」——CapCut 视频基因强，可串图→动效。</div>
+</div>
+<div class="card">
+  <div class="ct">I Built My Entire Design System in 4 Hours With AI</div>
+  <a class="link" href="https://www.youtube.com/watch?v=nafNPuElCtY" target="_blank" rel="noopener">▶ youtube.com/watch?v=nafNPuElCtY</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 Claude+Cursor+Figma 4 小时搭完整设计系统。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>极速从零搭系统到代码。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「系统自动搭建」——画布资产自动成系统。</div>
+</div>
+<div class="card">
+  <div class="ct">How to Automate your Design System with AI</div>
+  <a class="link" href="https://www.youtube.com/watch?v=X2CpBOoYblg" target="_blank" rel="noopener">▶ youtube.com/watch?v=X2CpBOoYblg</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>用 AI 自动化设计系统维护。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>减少变体/文档重复工。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「系统自动化」——变体/文档自动生成。</div>
+</div>
+<div class="card">
+  <div class="ct">Automation in Design Systems: What to Automate, How, When</div>
+  <a class="link" href="https://www.youtube.com/watch?v=Z0O3lmWghsA" target="_blank" rel="noopener">▶ youtube.com/watch?v=Z0O3lmWghsA</a>
+  <div class="pt"><span class="lb lb1">做了什么</span>讲设计系统里什么该自动、何时自动。</div>
+  <div class="pt"><span class="lb lb2">达成目的</span>理清自动化边界。</div>
+  <div class="pt"><span class="lb lb3">可封装能力</span>「自动化边界」——判断哪些后编辑该自动 vs 留人工。</div>
+</div>
+</div></section>
+</div>
+<footer>共 88 例 · 11 个主题 · 数据源：YouTube 创作者分享 · 提炼对标 CapCut Web Design 画布后编辑能力</footer>
+</body></html>

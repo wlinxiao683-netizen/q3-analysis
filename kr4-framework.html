@@ -299,9 +299,117 @@
   }
   .note-box strong { color: var(--accent1); }
 
+  /* ─── RESEARCH / SCENARIO SUBPAGE ─── */
+  .subpage-entry {
+    cursor: pointer;
+    border: 1px dashed var(--accent1) !important;
+    background: rgba(99,102,241,.06) !important;
+    transition: all .2s;
+  }
+  .subpage-entry:hover {
+    background: rgba(99,102,241,.12) !important;
+    transform: translateX(3px);
+  }
+  .subpage-entry .enter-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 8px; font-size: 12px; font-weight: 600; color: var(--accent1);
+  }
+
+  .module-block { margin-top: 36px; }
+  .module-title {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 17px; font-weight: 700; margin-bottom: 6px;
+  }
+  .module-title .mt-num {
+    width: 26px; height: 26px; border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0;
+    background: rgba(6,182,212,.15); color: var(--accent2);
+  }
+  .module-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+
+  /* conclusion-first expandable item */
+  .res-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; margin-bottom: 12px; overflow: hidden;
+  }
+  .res-item > summary {
+    list-style: none; cursor: pointer; padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 8px;
+    transition: background .2s;
+  }
+  .res-item > summary::-webkit-details-marker { display: none; }
+  .res-item > summary:hover { background: var(--surface2); }
+  .res-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .res-head .res-name { font-size: 14px; font-weight: 700; color: var(--text); }
+  .res-head .res-toggle { font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
+  .res-item[open] .res-head .res-toggle::after { content: '收起 ▲'; }
+  .res-item:not([open]) .res-head .res-toggle::after { content: '展开链接/视频 ▼'; }
+  .res-conclusion {
+    font-size: 13px; line-height: 1.7; color: var(--text-muted);
+  }
+  .res-conclusion strong { color: var(--text); }
+  .res-tag {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 12px; margin-right: 6px;
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .rt-verified { background: rgba(16,185,129,.15); color: var(--accent3); }
+  .rt-tocrawl  { background: rgba(245,158,11,.15); color: var(--accent4); }
+  .rt-moat     { background: rgba(99,102,241,.15); color: var(--accent1); }
+  .rt-arms     { background: rgba(124,133,168,.15); color: var(--text-muted); }
+
+  .res-body {
+    padding: 0 18px 18px; border-top: 1px solid var(--border);
+    margin-top: 0; padding-top: 16px;
+  }
+  .link-list { list-style: none; padding: 0; }
+  .link-list li { margin-bottom: 8px; }
+  .link-list a {
+    display: inline-flex; align-items: center; gap: 7px;
+    color: var(--accent2); text-decoration: none; font-size: 13px;
+    padding: 6px 10px; border-radius: 8px; background: var(--surface2);
+    transition: all .15s;
+  }
+  .link-list a:hover { background: var(--border); color: var(--text); }
+  .link-list a .lnk-ico { opacity: .7; }
+  .link-note { font-size: 12px; color: var(--text-muted); margin-left: 4px; }
+
+  /* video embed */
+  .video-wrap {
+    position: relative; width: 100%; padding-bottom: 56.25%;
+    height: 0; margin: 12px 0; border-radius: 10px; overflow: hidden;
+    background: #000; border: 1px solid var(--border);
+  }
+  .video-wrap iframe {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+  }
+  .video-placeholder {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; height: 100%; color: var(--text-muted); font-size: 13px;
+    background: linear-gradient(135deg, var(--surface2), var(--surface));
+  }
+  .video-placeholder a { color: var(--accent2); text-decoration: none; }
+
+  /* scenario table reuse cap-table */
+  .scenario-conclusion {
+    background: rgba(16,185,129,.06); border: 1px solid rgba(16,185,129,.25);
+    border-radius: 10px; padding: 14px 18px; font-size: 13px;
+    line-height: 1.7; color: var(--text-muted); margin: 16px 0;
+  }
+  .scenario-conclusion strong { color: var(--accent3); }
+
+  .platform-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px; margin-top: 8px;
+  }
+
   @media (max-width: 600px) {
     .matrix, .deliverable-pair { grid-template-columns: 1fr; }
     .map-branches { grid-template-columns: 1fr 1fr; }
+    .platform-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -609,12 +717,13 @@
   </div>
 
   <div class="dim-cards">
-    <div class="dim-card">
+    <div class="dim-card subpage-entry" onclick="goTo('scenarios')">
       <div class="dim-num" style="background:rgba(99,102,241,.15);color:var(--accent1)">1</div>
       <div>
-        <h4>用户与场景</h4>
+        <h4>用户与场景　<span style="font-size:11px;font-weight:600;color:var(--accent1)">· 已填充调研数据</span></h4>
         <p>YouTube / 海外平台看真实需求，重点抓「没被包装、但用户在用 coding 自己实现」的能力。明确落在哪个场景（电商图？海报？品牌物料？）。</p>
         <p style="margin-top:6px;color:var(--accent1);font-size:12px">→ 输出：场景定义 + 用户痛点描述</p>
+        <span class="enter-link">进入调研子页：场景拆解 · 平台品牌 · 博主清单 · 痛点 →</span>
       </div>
     </div>
     <div class="dim-card">
@@ -736,6 +845,288 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SUBPAGE: 用户场景与调研（挂在五维①下）
+════════════════════════════════════════════ -->
+<div class="page" id="page-scenarios">
+  <div class="detail-hero h3">
+    <div class="tag" style="background:rgba(99,102,241,.15);color:var(--accent1)">Part 03 · 维度①子页</div>
+    <h2>用户与场景 · 调研工作台</h2>
+    <p class="subtitle">每个条目都是「<strong style="color:var(--text)">结论先行</strong>」：默认只看一句话判断；需要溯源时点开，看具体链接，部分支持视频内嵌预览。
+      标签含义：<span class="res-tag rt-verified">已验证</span>头部已确认 ·
+      <span class="res-tag rt-tocrawl">待爬取</span>需进一步抓主页 ·
+      <span class="res-tag rt-moat">护城河</span>别人抄不了 ·
+      <span class="res-tag rt-arms">军备竞赛</span>补齐缺口</p>
+  </div>
+
+  <!-- ─── 模块 1：场景拆解 ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">1</span>后编辑能力 · 场景拆解</div>
+    <div class="module-desc">后编辑的价值不在单个能力，而在「用户生成一张图后，还需要反复改到能用」。按场景大类映射到具体后编辑能力。</div>
+
+    <div class="scenario-conclusion">
+      <strong>一句话结论：</strong>单点能力竞品都有，真正的护城河是「<strong>图层分离 + 指令编辑</strong>」的组合连续编辑——用户能像 PS 一样分层、再用自然语言连续改。这是「画布 + Seed 深度合作」才做得动的方向，应优先占 Seed 产能。
+    </div>
+
+    <table class="cap-table">
+      <thead>
+        <tr><th>场景大类</th><th>典型需求</th><th>吃哪些后编辑能力</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>电商商品图</strong></td>
+          <td>换背景、抠主体、改促销文案、出多尺寸（主图/详情/banner）</td>
+          <td>图层分离 · 文字编辑 · 多尺寸 · 打光</td>
+        </tr>
+        <tr>
+          <td><strong>海报 / 营销物料</strong></td>
+          <td>调整标题排版、改配色统一品牌、局部替换元素</td>
+          <td>文字编辑 · 调色 · 指令编辑</td>
+        </tr>
+        <tr>
+          <td><strong>品牌视觉系统</strong></td>
+          <td>同一套素材衍生多版本、保持风格一致</td>
+          <td>图层分离 · 调色 · 多尺寸</td>
+        </tr>
+        <tr>
+          <td><strong>社媒内容</strong></td>
+          <td>同一张图适配 IG/小红书/X 不同比例、换文案</td>
+          <td>多尺寸 · 文字编辑</td>
+        </tr>
+        <tr>
+          <td><strong>产品 / 包装设计</strong></td>
+          <td>换角度看效果、不同打光下的质感</td>
+          <td>调角度 · 打光</td>
+        </tr>
+        <tr>
+          <td><strong>影视 / 游戏概念图</strong></td>
+          <td>局部精修、光影氛围调整</td>
+          <td>指令编辑 · 打光 · 图层分离</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ─── 模块 2：平台与品牌能力盘点 ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">2</span>平台与品牌能力盘点</div>
+    <div class="module-desc">竞品/模型当前的后编辑能力做到什么程度——分「护城河型」和「军备竞赛型」，决定 Seed 产能怎么分配。</div>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">Lovart · ChatCanvas + Touch Edit</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-arms">军备竞赛</span><span class="res-tag rt-tocrawl">待爬取</span>
+          <strong>正面竞品，重点对标。</strong>自然语言生成设计 + ChatCanvas 画布微调 + Brand Kit 自动套品牌色/字体/logo + 按精确尺寸导出。号称 1000 万+ 创作者。后编辑链路完整度高，是我们「链路」维度的主要参照系。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://www.lovart.ai/blog/twitter-image-design-guide" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>Lovart 官方博客：Twitter 图像设计指南（含 ChatCanvas/Touch Edit 说明）</a></li>
+        </ul>
+        <div class="link-note">待爬：进官网逐个录后编辑功能截图，对照我们的图层分离/指令编辑链路。</div>
+      </div>
+    </details>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">Adobe Firefly · Generative Fill</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-moat">护城河参照</span>
+          <strong>「图层分离」的对标基准。</strong>深度集成进 Photoshop 的选区/蒙版工具，结果非破坏性（non-destructive），是行业标准。我们的图层分离要达到「产品可用水位」，参照系就是它的非破坏性体验。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://www.aiphotogenerator.net/blog/2026/02/ai-inpainting-guide" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>AI Inpainting Explained: How to Edit Any Image Like a Pro (2026)</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">主流生成模型：Midjourney V8 / Seedream 4.5–5.0 / Nano Banana Pro</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-arms">军备竞赛</span>
+          <strong>模型层的编辑能力对比，决定 A 线水位。</strong>Nano Banana Pro 角色/特征一致性最强；Seedream 4.x 走高端商业写实，适合电商/设计师；Midjourney V8（2026.3）生成快 5×、原生 2K、文字渲染大幅改善。组合用法：Nano Banana 出基图 → Seedream 升采样/补细节。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://www.atlascloud.ai/blog/guides/best-ai-image-editing-models-2026" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>Best AI Image Editing Models 2026：GPT Image 2 / Flux 2 Pro / Nano Banana 2 / Seedream 横评</a></li>
+          <li><a href="https://www.amplifilabs.com/post/google-nano-banana-vs-seedream-4-ai-image-editing-tool-showdown" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>Nano Banana vs Seedream 4：编辑能力对决</a></li>
+          <li><a href="https://aireiter.com/blog/best-ai-image-generator-2026-comparison" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>Seedream 5.0 vs Nano Banana Pro（2026）</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">GPT Image 2 / GPT-4o 原生图像</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-arms">军备竞赛</span>
+          <strong>原生多模态的指令编辑标杆。</strong>在同一个模型内理解上下文并生成/改图，可按自然语言改特定元素、文字渲染准确。对标我们的「指令编辑」维度。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://miraflow.ai/blog/ai-image-generation-arms-race-2026-everything-changes" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>The AI Image Generation Arms Race：Why 2026 Changes Everything</a></li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <!-- ─── 模块 3：博主 / 账号清单 ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">3</span>博主 / 账号清单</div>
+    <div class="module-desc">分享 AI 设计方法的创作者。头部已验证，长尾从这些账号的关注链/转发往下挖。点开可看链接，预留视频内嵌位。</div>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">@fofrAI（X / Twitter）</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-verified">已验证</span>
+          <strong>挖「未被包装需求」的首选侦察兵。</strong>5.4 万粉，每天发图像/视频/音频生成模型的新玩法，是「趋势变成产品之前」的早期信号源。建议从他的关注列表横向扩散，扒出一整圈实验者。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://x.com/fofrAI" target="_blank" rel="noopener"><span class="lnk-ico">𝕏</span>@fofrAI 主页</a></li>
+        </ul>
+        <div class="video-wrap">
+          <div class="video-placeholder">
+            <span>🎬 视频预览位（X 视频需登录，建议改挂其 YouTube 演示）</span>
+            <a href="https://x.com/fofrAI" target="_blank" rel="noopener">前往 X 查看 →</a>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">@ammaar（Ammaar Reshi · Google AI Studio）</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-verified">已验证</span>
+          <strong>定义新一代 AI 工具审美标准。</strong>Google AI Studio 产品/设计负责人，vibe coding 演示出圈。看他的内容能把握「AI 设计工作流」的产品化方向和体验基线。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://x.com/ammaar" target="_blank" rel="noopener"><span class="lnk-ico">𝕏</span>@ammaar 主页</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">YouTube · AI 图像编辑工作流教程（频道待锁定）</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-tocrawl">待爬取</span>
+          <strong>信息密度最高、最该批量爬的一类。</strong>长视频能看到完整后编辑链路。下面是按关键词的检索入口；确认方向后我批量抓确切视频 ID 内嵌进来（示例嵌入已就位）。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://www.youtube.com/results?search_query=Nano+Banana+editing+workflow" target="_blank" rel="noopener"><span class="lnk-ico">▶</span>搜索：Nano Banana editing workflow</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=Seedream+4+design+workflow" target="_blank" rel="noopener"><span class="lnk-ico">▶</span>搜索：Seedream 4 design workflow</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=AI+product+photography+post+editing" target="_blank" rel="noopener"><span class="lnk-ico">▶</span>搜索：AI product photography post editing</a></li>
+        </ul>
+        <div class="video-wrap">
+          <div class="video-placeholder">
+            <span>🎬 视频内嵌示例位 — 锁定具体视频后替换为：</span>
+            <span style="font-size:11px;color:var(--text-muted)">&lt;iframe src="https://www.youtube-nocookie.com/embed/视频ID"&gt;</span>
+          </div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- ─── 模块 4：Medium 长文复盘 ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">4</span>Medium 长文 · 工作流复盘</div>
+    <div class="module-desc">设计师写的长文复盘，看完整 AI 工作流和方法论。按主题拆成模块。</div>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">「生成只是第一步」——规模化工作流</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-moat">核心论点</span>
+          <strong>标题就是 KR4 的命题。</strong>《The AI Image Workflow That Actually Scales: Why Generation Is Only Step One》——论证生成只是第一步，后编辑才是规模化关键。可直接引用为后编辑价值的外部佐证。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://medium.com/ai-analytics-diaries/the-ai-image-workflow-that-actually-scales-why-generation-is-only-step-one-961a14ed3636" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>Data Mind — Why Generation Is Only Step One</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">把 AI 接入真实设计工作流</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-tocrawl">待精读</span>
+          <strong>看设计师怎么把 AI 嵌进现有流程。</strong>《AI for Graphic Designers in 2026: How to Integrate AI Into a Real Design Workflow》——重点提取「哪些环节用户在用 coding 自己补」，对应 B 线未包装需求。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://medium.com/@ant_95138/ai-for-graphic-designers-in-2026-how-to-integrate-ai-into-a-real-design-workflow-464971e28e03" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>House of gAi — Integrate AI Into a Real Design Workflow</a></li>
+          <li><a href="https://medium.com/design-bootcamp/ultimate-design-workflow-in-2026-edbfd727ebbf" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>Design Bootcamp — Ultimate Design Workflow in 2026</a></li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <!-- ─── 模块 5：Reddit 痛点 ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">5</span>Reddit · 真实痛点挖掘</div>
+    <div class="module-desc">用户吐槽「XX 改不动 / 一致性保不住」的地方，就是后编辑能力的机会点。重点搜社区里的抱怨贴。</div>
+
+    <details class="res-item">
+      <summary>
+        <div class="res-head"><span class="res-name">r/StableDiffusion · r/midjourney（合计 5 万+ 经验分享）</span><span class="res-toggle"></span></div>
+        <div class="res-conclusion"><span class="res-tag rt-tocrawl">待爬取</span>
+          <strong>挖痛点最好的地方。</strong>用户重视「能用文字改图、不用 Photoshop 专业技能」的工具。重点搜：保持一致性失败、inpainting 翻车、局部改动牵连全图——这些直接对应我们「指令编辑/图层分离」要解决的失败 case。</div>
+      </summary>
+      <div class="res-body">
+        <ul class="link-list">
+          <li><a href="https://www.reddit.com/r/StableDiffusion/" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>r/StableDiffusion</a></li>
+          <li><a href="https://www.reddit.com/r/midjourney/" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>r/midjourney</a></li>
+          <li><a href="https://www.reddit.com/r/graphic_design/" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>r/graphic_design</a></li>
+          <li><a href="https://www.reddit.com/r/photography/" target="_blank" rel="noopener"><span class="lnk-ico">🔗</span>r/photography</a></li>
+        </ul>
+        <div class="link-note">待爬：抓高赞抱怨贴标题 + 链接，归类到对应能力的「关键失败 case」（喂给 Part 03 维度③）。</div>
+      </div>
+    </details>
+  </div>
+
+  <!-- ─── 模块 6：海外平台补充 ─── -->
+  <div class="module-block">
+    <div class="module-title"><span class="mt-num">6</span>值得加的海外平台</div>
+    <div class="module-desc">除 YouTube 外，按内容形态补全的调研渠道。</div>
+
+    <div class="platform-grid">
+      <div class="section-card">
+        <div class="sc-icon">🎓</div>
+        <h4>Skillshare / Domestika</h4>
+        <p>付费系统课，设计师完整讲 AI 工作流，<strong style="color:var(--text)">深度最高</strong>。</p>
+      </div>
+      <div class="section-card">
+        <div class="sc-icon">💬</div>
+        <h4>Discord</h4>
+        <p>Midjourney / 各模型官方社区，实时讨论 + 新功能第一手反馈。</p>
+      </div>
+      <div class="section-card">
+        <div class="sc-icon">🚀</div>
+        <h4>Product Hunt</h4>
+        <p>竞品发新后编辑功能的<strong style="color:var(--text)">第一落点</strong>。</p>
+      </div>
+      <div class="section-card">
+        <div class="sc-icon">🎨</div>
+        <h4>Behance / ArtStation</h4>
+        <p>设计师传 AI 作品集并写 process；ArtStation 偏影视/游戏，是「打光、调角度」高质量案例集中地。</p>
+      </div>
+      <div class="section-card">
+        <div class="sc-icon">📱</div>
+        <h4>Instagram Reels / TikTok</h4>
+        <p>短视频技巧，看哪些后编辑操作最<strong style="color:var(--text)">病毒式传播</strong>。</p>
+      </div>
+      <div class="section-card">
+        <div class="sc-icon">🧵</div>
+        <h4>Threads</h4>
+        <p>近期 AI 设计师讨论也在涨，补充 X 的信息源。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box" style="margin-top:32px">
+    <strong>下一步（等你确认）：</strong>① 锁定要深挖的博主 → 我批量爬主页，把确切视频 ID 内嵌进模块 3；② 进 Reddit 抓高赞抱怨贴，归类成失败 case 喂给模型协同维度。当前数据可靠度：头部账号<span style="color:var(--accent3)">已验证</span>，<span style="color:var(--accent4)">待爬取</span>项需进一步抓取确认。
+  </div>
 </div>
 
 <!-- ════════════════════════════════════════════
@@ -943,12 +1334,13 @@
 </div>
 
 <script>
-  const pages = ['home','s1','s2','s3','s4','s5'];
+  const pages = ['home','s1','s2','s3','scenarios','s4','s5'];
   const titles = {
     home: 'KR4 后编辑框架',
     s1: '① 定义成功',
     s2: '② 能力盘点与分线',
     s3: '③ 五维分析框架',
+    scenarios: '③·① 用户场景调研工作台',
     s4: '④ 优先级与降级',
     s5: '⑤ 交付物'
   };

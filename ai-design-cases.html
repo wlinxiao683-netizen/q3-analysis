@@ -69,7 +69,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 16px 50p
 <div class="summary">
   <h2>🎯 模型能力需求清单（聚合 88 例去重）</h2>
   <div class="sub">左边是创作者反复出现的问题/能力需求，右边是<strong>我们目前用哪些后编辑能力去解决它</strong>。🔬=尚不具备需攻关，✅=现有可封装。点「参考图生成」看深扒详解。</div>
-  <table class="captbl"><thead><tr><th>能力 / 需求（问题）</th><th>状态</th><th>命中案例</th><th>目前用哪些后编辑能力解决</th></tr></thead><tbody><tr class="need"><td><b>主体 / 角色一致性</b></td><td>🔬 攻关</td><td>11</td><td><a class="reflink" href="#refgen">参考图生成 ↗</a> · 角度调整(视角变换) · 风格锁定</td></tr><tr class="need"><td><b>重打光 relight</b></td><td>🔬 攻关</td><td>9</td><td>AI 局部光影编辑 / 重打光（待攻关）</td></tr><tr class="need"><td><b>智能多尺寸重排（保版式语义）</b></td><td>🔬 攻关</td><td>7</td><td>多尺寸自适应 + 智能重排</td></tr><tr class="need"><td><b>调色 / 指定色 / 色调迁移</b></td><td>✅/🔬 部分</td><td>4</td><td>指令调色 + 配色建议</td></tr><tr class="have"><td><b>调角度 / 视角变换</b></td><td>✅ 已做</td><td>3</td><td>✅ 已有相关功能</td></tr><tr class="need"><td><b>图像 → 可编辑设计稿</b></td><td>🔬 攻关</td><td>3</td><td>图层反解 + 截图转稿</td></tr><tr class="need"><td><b>平面图反解为可编辑图层</b></td><td>🔬 攻关</td><td>2</td><td>图层分离</td></tr><tr class="have"><td><b>基础文生图 / 图生图</b></td><td>✅ 现有</td><td>35</td><td>文生图 / 图生图（现有）</td></tr><tr class="have"><td><b>局部指令编辑（去除/替换/添加）</b></td><td>✅ 现有</td><td>22</td><td>指令编辑：去除 / 替换 / 添加（现有）</td></tr><tr class="have"><td><b>批量 / 数据驱动合成</b></td><td>✅ 产品侧</td><td>17</td><td>批量模板 + 数据驱动合成</td></tr><tr class="have"><td><b>配色/字体/版式/质检建议</b></td><td>✅ 现有</td><td>16</td><td>智能建议（LLM）</td></tr><tr class="have"><td><b>抠图 / 去背</b></td><td>✅ 现有</td><td>15</td><td>一键抠图 / 去背（现有）</td></tr><tr class="have"><td><b>换背景 / 场景替换</b></td><td>✅ 现有</td><td>12</td><td>换背景 / 场景替换（现有）</td></tr><tr class="have"><td><b>图内文字编辑 / 渲染</b></td><td>✅ 改进中</td><td>8</td><td>指定字库文字编辑</td></tr><tr class="have"><td><b>风格迁移 / 风格锁定</b></td><td>✅ 现有</td><td>6</td><td><a class="reflink" href="#refgen">参考图生成 ↗</a> / 风格锁定 / 参考库</td></tr><tr class="have"><td><b>位图转矢量</b></td><td>✅ 现有</td><td>5</td><td>位图转矢量（现有）</td></tr><tr class="have"><td><b>设计 → 代码</b></td><td>✅ 外延</td><td>4</td><td>结构化导出 → 代码</td></tr><tr class="have"><td><b>扩图 outpaint</b></td><td>✅ 现有</td><td>2</td><td>扩图 outpaint（现有）</td></tr><tr class="have"><td><b>放大 / 修复</b></td><td>✅ 现有</td><td>2</td><td>超分放大 / 修复（现有）</td></tr><tr class="have"><td><b>样机透视贴合</b></td><td>✅ 现有</td><td>2</td><td>样机透视贴合（现有）</td></tr><tr class="have"><td><b>静图 → 动效 / 视频</b></td><td>✅ CapCut 强项</td><td>2</td><td>图 → 动效 / 视频（CapCut 强项）</td></tr></tbody></table>
+  <table class="captbl"><thead><tr><th>能力 / 需求（问题）</th><th>状态</th><th>命中案例</th><th>目前用哪些后编辑能力解决</th></tr></thead><tbody><tr class="need"><td><b>主体 / 角色一致性</b></td><td>🔬 攻关</td><td>11</td><td><a class="reflink" href="#refgen">参考图生成 ↗</a> · 角度调整(视角变换) · 风格锁定</td></tr><tr class="need"><td><b>重打光 relight</b></td><td>🔬 攻关</td><td>9</td><td><a class="reflink" href="#relight">AI 重打光 ↗</a> / 局部光影编辑（待攻关）</td></tr><tr class="need"><td><b>智能多尺寸重排（保版式语义）</b></td><td>🔬 攻关</td><td>7</td><td><a class="reflink" href="#resize">智能多尺寸重排 ↗</a> + 多尺寸自适应</td></tr><tr class="need"><td><b>调色 / 指定色 / 色调迁移</b></td><td>✅/🔬 部分</td><td>4</td><td>指令调色 + 配色建议</td></tr><tr class="have"><td><b>调角度 / 视角变换</b></td><td>✅ 已做</td><td>3</td><td>✅ 已有相关功能</td></tr><tr class="need"><td><b>图像 → 可编辑设计稿</b></td><td>🔬 攻关</td><td>3</td><td>图层反解 + 截图转稿</td></tr><tr class="need"><td><b>平面图反解为可编辑图层</b></td><td>🔬 攻关</td><td>2</td><td>图层分离</td></tr><tr class="have"><td><b>基础文生图 / 图生图</b></td><td>✅ 现有</td><td>35</td><td>文生图 / 图生图（现有）</td></tr><tr class="have"><td><b>局部指令编辑（去除/替换/添加）</b></td><td>✅ 现有</td><td>22</td><td>指令编辑：去除 / 替换 / 添加（现有）</td></tr><tr class="have"><td><b>批量 / 数据驱动合成</b></td><td>✅ 产品侧</td><td>17</td><td>批量模板 + 数据驱动合成</td></tr><tr class="have"><td><b>配色/字体/版式/质检建议</b></td><td>✅ 现有</td><td>16</td><td>智能建议（LLM）</td></tr><tr class="have"><td><b>抠图 / 去背</b></td><td>✅ 现有</td><td>15</td><td>一键抠图 / 去背（现有）</td></tr><tr class="have"><td><b>换背景 / 场景替换</b></td><td>✅ 现有</td><td>12</td><td>换背景 / 场景替换（现有）</td></tr><tr class="have"><td><b>图内文字编辑 / 渲染</b></td><td>✅ 改进中</td><td>8</td><td><a class="reflink" href="#textedit">指定字库文字编辑 ↗</a></td></tr><tr class="have"><td><b>风格迁移 / 风格锁定</b></td><td>✅ 现有</td><td>6</td><td><a class="reflink" href="#refgen">参考图生成 ↗</a> / 风格锁定 / 参考库</td></tr><tr class="have"><td><b>位图转矢量</b></td><td>✅ 现有</td><td>5</td><td>位图转矢量（现有）</td></tr><tr class="have"><td><b>设计 → 代码</b></td><td>✅ 外延</td><td>4</td><td>结构化导出 → 代码</td></tr><tr class="have"><td><b>扩图 outpaint</b></td><td>✅ 现有</td><td>2</td><td>扩图 outpaint（现有）</td></tr><tr class="have"><td><b>放大 / 修复</b></td><td>✅ 现有</td><td>2</td><td>超分放大 / 修复（现有）</td></tr><tr class="have"><td><b>样机透视贴合</b></td><td>✅ 现有</td><td>2</td><td>样机透视贴合（现有）</td></tr><tr class="have"><td><b>静图 → 动效 / 视频</b></td><td>✅ CapCut 强项</td><td>2</td><td>图 → 动效 / 视频（CapCut 强项）</td></tr></tbody></table>
   <div class="legend">🔬 攻关项按命中案例数排序在前 = 需求最旺且我们尚不具备的能力，最该立项。✅ 现有项 = 产品侧+现有模型即可封装。</div>
 <div class="summary" id="refgen">
   <h2>🔗 后编辑能力详解：参考图生成（解一致性问题）</h2>
@@ -156,6 +156,76 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 16px 50p
   <div class="rqrow"><span class="rqlb l3">代表工具/证据</span><ul class="rqlinks"><li><a href="https://arxiv.org/abs/2512.01755" target="_blank" rel="noopener">🔗 多轮编辑退化与 FreqEdit(arXiv)</a></li><li><a href="https://arxiv.org/pdf/2505.04320" target="_blank" rel="noopener">🔗 多轮一致编辑(arXiv)</a></li><li><a href="https://www.cometapi.com/which-is-the-best-image-editing-ai-in-2025/" target="_blank" rel="noopener">🔗 设计师抱怨迭代慢/精度不足</a></li><li><a href="https://runware.ai/collections/fastest-image-generation" target="_blank" rel="noopener">🔗 Img2Img-Turbo 单步快速编辑</a></li></ul></div>
   <div class="rqrow"><span class="rqlb l4">对我们的启示</span>直接对应你「精准快速后编辑」+「多轮编辑质量稳定性」。这是给 Seed 最高优先的攻关：多轮不退化+低延迟局部编辑，是画布后编辑的命门。 <span class="cap need">🔬 需攻关</span></div>
 </div></div>
+</div>
+<div class="summary" id="relight">
+  <h2>🔗 后编辑能力详解：AI 重打光 relight（解电商质感问题）</h2>
+  <div class="sub">拍完之后再改光：模型理解图像的<strong>3D 结构与表面</strong>，模拟光从指定方向打过来该有的样子，生成自然的阴影与高光——而不是平铺地调亮度。电商/产品图把质感拉高的核心后编辑。</div>
+  <div class="reqgrid">
+  <div class="reqcard">
+  <div class="rqh"><span class="rqtitle">Clipdrop Relight</span><span class="rqstr">🟢 可控性最强·灯具式</span></div>
+  <div class="rqrow"><span class="rqlb l1">怎么操作</span>① 上传图；② <strong>Background</strong> 去背或换底色；③ <strong>Ambient</strong> 调环境色调与强度；④ 每个<strong>「灯泡」4 个参数</strong>：颜色 / 强度 / 距离 / 半径，<code>+New Light</code> 加灯、🗑 删灯；⑤ 也有 Warm Sunset / Cool Moonlight / Soft Candlelight 等预设。</div>
+  <div class="rqrow"><span class="rqlb l2">效果</span>理解图像结构、按光源方向生成真实阴影高光；浏览器直接用。免费标准分辨率有每日次数上限，Pro 提升质量与吞吐。</div>
+  <div class="rqrow"><span class="rqlb l3">用户评价 / 局限</span>电商/社媒/达人高频使用，省去复杂修图。通用局限：光太强或方向与原场景不符会「假」，要保持 subtle 才自然。</div>
+  <div class="rqrow"><span class="rqlb l4">链接</span><a href="https://clipdrop.co/relight" target="_blank" rel="noopener">🔗 Clipdrop Relight</a></div>
+</div>
+  <div class="reqcard">
+  <div class="rqh"><span class="rqtitle">Krea AI Lighting Editor</span><span class="rqstr">🟡 文字驱动·最简单</span></div>
+  <div class="rqrow"><span class="rqlb l1">怎么操作</span>① 上传任意照片（人像/风景/产品）；② <strong>用一句话描述想要的光</strong>（golden hour / studio lighting / dramatic shadows）；③ AI 调阴影、高光、色温；④ 下载。</div>
+  <div class="rqrow"><span class="rqlb l2">效果</span>零门槛，描述即出；适合不想碰参数的用户。</div>
+  <div class="rqrow"><span class="rqlb l3">用户评价 / 局限</span>好处是快；局限是文字控制不如灯具式精细，复杂布光场景可控性弱。</div>
+  <div class="rqrow"><span class="rqlb l4">链接</span><a href="https://www.krea.ai/apps/edit/change-lighting" target="_blank" rel="noopener">🔗 Krea Lighting Editor</a></div>
+</div>
+  <div class="reqcard">
+  <div class="rqh"><span class="rqtitle">ImagineArt / Magnific Relight</span><span class="rqstr">🟡 3D 控制·支持视频</span></div>
+  <div class="rqrow"><span class="rqlb l1">怎么操作</span>用简单 <strong>3D 控件移动光源</strong>，实时调强度/颜色，阴影高光随之实时变化；Magnific/ImagineArt 还能对<strong>视频连贯重打光</strong>。</div>
+  <div class="rqrow"><span class="rqlb l2">效果</span>实时反馈、所见即所得；视频逐帧一致不闪烁。</div>
+  <div class="rqrow"><span class="rqlb l3">用户评价 / 局限</span>对 CapCut 尤其相关（视频基因）。局限同样是过强会假、需贴合原场景光向。</div>
+  <div class="rqrow"><span class="rqlb l4">链接</span><a href="https://www.imagine.art/apps/relight" target="_blank" rel="noopener">🔗 ImagineArt Relight</a> · <a href="https://www.magnific.com/blog/ai-relight/" target="_blank" rel="noopener">Magnific Relight</a></div>
+</div>
+  </div>
+  <div class="note" style="background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);border-radius:10px;padding:13px 16px;font-size:13px;color:var(--muted);margin-top:14px"><strong style="color:var(--text)">对我们的启示：</strong>重打光已有不少产品（Clipdrop 灯具式最可控、Krea 文字驱动最简单、ImagineArt/Magnific 支持视频），说明<strong>需求被验证且已商业化</strong>。真正的攻关点不在「能不能打光」，而在<strong>「高质量、不假、贴合原场景、且对视频逐帧一致」</strong>——这正是对标我们打光能力的「产品可用水位」，也是 CapCut 视频基因能差异化的点。</div>
+</div>
+<div class="summary" id="resize">
+  <h2>🔗 后编辑能力详解：智能多尺寸重排（解多平台投放摩擦）</h2>
+  <div class="sub">一稿自动适配各平台尺寸，<strong>保持版式语义</strong>——重要元素不变、不拉伸、文字保持可读，而不是简单裁切或拉伸。社媒/电商跨平台投放的真去摩擦点。</div>
+  <div class="reqgrid">
+  <div class="reqcard">
+  <div class="rqh"><span class="rqtitle">Canva Magic Resize</span><span class="rqstr">🟢 产品化最成熟</span></div>
+  <div class="rqrow"><span class="rqlb l1">怎么操作</span>① 选好设计；② Magic Resize 选目标格式（IG/FB/YouTube…或自定义宽高）；③ 一键生成——自动按比例缩放文字/图/元素、重排保持平衡。</div>
+  <div class="rqrow"><span class="rqlb l2">效果</span>一次最多 <strong>50 个设计 × 5 尺寸 = 250 产出/批</strong>；免手动逐平台调。Pro 功能，计入 AI 额度。</div>
+  <div class="rqrow"><span class="rqlb l3">用户评价 / 局限</span>口碑好、省时；局限：复杂版式重排后仍可能需人工微调，文字位置/字号是最易出问题的部分。</div>
+  <div class="rqrow"><span class="rqlb l4">链接</span><a href="https://www.canva.com/pro/magic-resize/" target="_blank" rel="noopener">🔗 Canva Magic Resize</a></div>
+</div>
+  <div class="reqcard">
+  <div class="rqh"><span class="rqtitle">内容感知重排（技术底座）</span><span class="rqstr">🟡 算法层</span></div>
+  <div class="rqrow"><span class="rqlb l1">怎么操作</span>底层是 <strong>seam carving 内容感知缩放</strong> + 对象检测：识别人脸/商品/角点等重要区域<strong>保持不变</strong>，只在背景上做伸缩；改变比例时用<strong>生成式扩展</strong>补边缘（匹配风格/光照/纹理）。</div>
+  <div class="rqrow"><span class="rqlb l2">效果</span>据行业数据：减少手动 <strong>80%</strong>、广告部署快 <strong>5x</strong>。</div>
+  <div class="rqrow"><span class="rqlb l3">用户评价 / 局限</span>已成多平台分发的基础设施。局限：<strong>文字对 resize 极其脆弱</strong>，需要动态调整位置与字号才能跨格式保持清晰——这是重排里最难的一环。</div>
+  <div class="rqrow"><span class="rqlb l4">链接</span><a href="https://medium.com/sciforce/ai-powered-ad-resizing-intelligent-detection-adjustment-and-multi-format-adaptation-ce54ef793948" target="_blank" rel="noopener">🔗 AI 广告多格式自适应解析</a></div>
+</div>
+  </div>
+  <div class="note" style="background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);border-radius:10px;padding:13px 16px;font-size:13px;color:var(--muted);margin-top:14px"><strong style="color:var(--text)">对我们的启示：</strong>基础的「等比缩放+扩图补边」已成熟（Canva 已产品化），但<strong>「保版式语义」的真智能重排仍是攻关</strong>——尤其文字层：换比例后标题/正文要重新排布、改字号、保可读，而不是被压扁。这正是我们 🔬 标注「保版式语义」的原因，是给 Seed 的明确需求。</div>
+</div>
+<div class="summary" id="textedit">
+  <h2>🔗 后编辑能力详解：指定字库文字编辑（解品牌改字问题）</h2>
+  <div class="sub">在图里改文案、且<strong>不破坏原版式与字体</strong>。现有产品分两路：一路「视觉仿字」（读图里字形重绘），一路「生成式高准文字」（Ideogram）。但<strong>「按指定字库/品牌字库约束」恰恰是公认缺口</strong>——正中你截图里那条需求。</div>
+  <div class="reqgrid">
+  <div class="reqcard">
+  <div class="rqh"><span class="rqtitle">Imagera / Pixazo（视觉仿字）</span><span class="rqstr">🟢 保字体最强</span></div>
+  <div class="rqrow"><span class="rqlb l1">怎么操作</span>① 上传带文字的图；② 描述要改成什么；③ AI 读取原字的<strong>字形/字重/衬线/间距/倾斜/颜色/纹理</strong>，原位重绘新文案——<strong>无需识别字体名</strong>，连<strong>没有安装字库的品牌字体/手写体</strong>也能仿。</div>
+  <div class="rqrow"><span class="rqlb l2">效果</span>背景、阴影、颗粒、人脸、品牌元素全保留，只改你选中的字，适合成品/客户交付。Imagera 约 25 credits/次。</div>
+  <div class="rqrow"><span class="rqlb l3">用户评价 / 局限</span>口碑：安全不破图。局限：<strong>高度风格化/复杂手写</strong>可能要二次修；是「<strong>视觉模仿</strong>」而非「<strong>约束到指定字库</strong>」——品牌严格合规仍不托底。</div>
+  <div class="rqrow"><span class="rqlb l4">链接</span><a href="https://imagera.ai/image/edit-text-in-image" target="_blank" rel="noopener">🔗 Imagera</a> · <a href="https://www.pixazo.ai/edit-text-in-image" target="_blank" rel="noopener">Pixazo</a></div>
+</div>
+  <div class="reqcard">
+  <div class="rqh"><span class="rqtitle">Ideogram（生成式高准文字）</span><span class="rqstr">🟡 文字准确率最高</span></div>
+  <div class="rqrow"><span class="rqlb l1">怎么操作</span>生成/编辑时把文字渲染做准；<strong>Layerize Text</strong> 可改字/字体/字号而不重生成整图；可传最多 3 张参考图控风格。</div>
+  <div class="rqrow"><span class="rqlb l2">效果</span>文字准确率约 <strong>90–95%</strong>（MJ 仅 30–40%）。</div>
+  <div class="rqrow"><span class="rqlb l3">用户评价 / 局限</span>局限直接点题：<strong>不能按名字指定字体</strong>，只能「描述」风格；品牌字体匹配 hit-or-miss、适合草稿非严格品牌书；长文本/间距/精确字距仍弱。</div>
+  <div class="rqrow"><span class="rqlb l4">链接</span><a href="https://ideogram.ai/features/text-layers/" target="_blank" rel="noopener">🔗 Ideogram Text Layers</a></div>
+</div>
+  </div>
+  <div class="note" style="background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);border-radius:10px;padding:13px 16px;font-size:13px;color:var(--muted);margin-top:14px"><strong style="color:var(--text)">对我们的启示：</strong>现状两路都<strong>差最后一公里</strong>：视觉仿字（Imagera）是「模仿」不是「约束」，Ideogram「不能按名字指定字体」。<strong>「让用户上传/指定品牌字库，模型只在该字库内渲染」就是这条需求的精确缺口</strong>——正是你截图里「支持指定字库范围」的含义，也是给 Seed 的差异化攻关点（品牌客户的刚需、且竞品都没托底）。</div>
 </div>
 <nav class="nav"><a href="#wf" class="navchip">🧭 整体 AI 设计工作流 <span>14</span></a><a href="#figma" class="navchip">🎚️ Figma / UI 设计 AI <span>10</span></a><a href="#batch" class="navchip">⚡ 批量自动化 <span>9</span></a><a href="#ecom" class="navchip">🛍️ 电商产品图 <span>10</span></a><a href="#nb" class="navchip">🍌 Nano Banana / Midjourney <span>10</span></a><a href="#brand" class="navchip">🅱️ 品牌 / Logo <span>8</span></a><a href="#social" class="navchip">📱 社媒批量出图 <span>9</span></a><a href="#color" class="navchip">🎨 调色 / 字体 <span>4</span></a><a href="#gfill" class="navchip">🖌️ Generative Fill 局部编辑 <span>4</span></a><a href="#consist" class="navchip">🧬 角色 / 风格一致性 <span>4</span></a><a href="#ext" class="navchip">🎬 动态 / 演示 / 设计系统 <span>6</span></a></nav>
 <div class="wrap"><section id="wf" class="grp"><h2>🧭 整体 AI 设计工作流 <span class="cnt">14 例</span></h2><div class="cards">

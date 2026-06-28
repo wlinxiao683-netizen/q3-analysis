@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KR4 框架思维导图</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3352;
+    --text: #e2e8f0;
+    --text-muted: #7c85a8;
+    --accent1: #6366f1; /* indigo */
+    --accent2: #06b6d4; /* cyan */
+    --accent3: #10b981; /* emerald */
+    --accent4: #f59e0b; /* amber */
+    --accent5: #ec4899; /* pink */
+    --accent6: #8b5cf6; /* violet */
+    --glow: rgba(99,102,241,0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV BAR ─── */
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 24px;
+    background: rgba(15,17,23,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-back {
+    display: none;
+    background: none; border: 1px solid var(--border);
+    color: var(--text-muted); border-radius: 8px;
+    padding: 6px 14px; cursor: pointer; font-size: 13px;
+    transition: all .2s;
+  }
+  .nav-back:hover { border-color: var(--accent1); color: var(--accent1); }
+  .nav-back.visible { display: flex; align-items: center; gap: 6px; }
+  .nav-title { font-size: 14px; color: var(--text-muted); }
+  .nav-crumb { color: var(--text); font-weight: 600; }
+
+  /* ─── PAGES ─── */
+  .page { display: none; padding: 80px 24px 40px; max-width: 1100px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* ─── HOME: MIND MAP ─── */
+  .map-header {
+    text-align: center; margin-bottom: 48px;
+  }
+  .map-header h1 {
+    font-size: 28px; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .map-header p { color: var(--text-muted); font-size: 14px; }
+
+  .map-root {
+    display: flex; flex-direction: column; align-items: center; gap: 0;
+  }
+  .map-center {
+    background: linear-gradient(135deg, var(--accent1), var(--accent6));
+    border-radius: 16px; padding: 16px 32px;
+    font-size: 18px; font-weight: 700;
+    box-shadow: 0 0 40px rgba(99,102,241,.4);
+    position: relative; z-index: 2;
+  }
+  .map-connector-v {
+    width: 2px; height: 32px;
+    background: linear-gradient(to bottom, var(--accent1), transparent);
+  }
+  .map-branches {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px; width: 100%;
+  }
+  @media (max-width: 900px) {
+    .map-branches { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 500px) {
+    .map-branches { grid-template-columns: 1fr; }
+  }
+
+  .branch-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .branch-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+  .branch-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,.4);
+  }
+  .branch-card .step-num {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 8px; opacity: .7;
+  }
+  .branch-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .branch-card p { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+  .branch-card .arrow {
+    position: absolute; bottom: 14px; right: 16px;
+    font-size: 16px; opacity: .4; transition: .2s;
+  }
+  .branch-card:hover .arrow { opacity: 1; transform: translateX(3px); }
+
+  /* Color themes per section */
+  .c1::before { background: var(--accent1); }
+  .c1 .step-num, .c1 h3 { color: var(--accent1); }
+  .c1:hover { border-color: var(--accent1); box-shadow: 0 12px 40px rgba(99,102,241,.2); }
+
+  .c2::before { background: var(--accent2); }
+  .c2 .step-num, .c2 h3 { color: var(--accent2); }
+  .c2:hover { border-color: var(--accent2); box-shadow: 0 12px 40px rgba(6,182,212,.2); }
+
+  .c3::before { background: var(--accent3); }
+  .c3 .step-num, .c3 h3 { color: var(--accent3); }
+  .c3:hover { border-color: var(--accent3); box-shadow: 0 12px 40px rgba(16,185,129,.2); }
+
+  .c4::before { background: var(--accent4); }
+  .c4 .step-num, .c4 h3 { color: var(--accent4); }
+  .c4:hover { border-color: var(--accent4); box-shadow: 0 12px 40px rgba(245,158,11,.2); }
+
+  .c5::before { background: var(--accent5); }
+  .c5 .step-num, .c5 h3 { color: var(--accent5); }
+  .c5:hover { border-color: var(--accent5); box-shadow: 0 12px 40px rgba(236,72,153,.2); }
+
+  /* ─── DETAIL PAGES ─── */
+  .detail-hero {
+    margin-bottom: 36px;
+    padding: 28px;
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .detail-hero::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+  .h1::after { background: var(--accent1); }
+  .h2::after { background: var(--accent2); }
+  .h3::after { background: var(--accent3); }
+  .h4::after { background: var(--accent4); }
+  .h5::after { background: var(--accent5); }
+
+  .detail-hero .tag {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .detail-hero h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .detail-hero .subtitle { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
+
+  .sections-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .section-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px;
+    transition: all .2s;
+  }
+  .section-card:hover { border-color: var(--border); background: var(--surface2); }
+  .section-card .sc-icon { font-size: 22px; margin-bottom: 10px; }
+  .section-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .section-card p, .section-card li {
+    font-size: 13px; color: var(--text-muted); line-height: 1.7;
+  }
+  .section-card ul { padding-left: 16px; }
+  .section-card .badge {
+    display: inline-block; font-size: 11px; padding: 2px 8px;
+    border-radius: 20px; margin-top: 10px; font-weight: 600;
+  }
+
+  /* table */
+  .cap-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px; margin-top: 24px;
+    background: var(--surface); border-radius: 12px; overflow: hidden;
+  }
+  .cap-table th {
+    background: var(--surface2); padding: 12px 16px;
+    text-align: left; color: var(--text-muted); font-weight: 600;
+    font-size: 12px; text-transform: uppercase; letter-spacing: .5px;
+  }
+  .cap-table td {
+    padding: 12px 16px; border-top: 1px solid var(--border);
+    vertical-align: top; line-height: 1.6;
+  }
+  .cap-table tr:hover td { background: var(--surface2); }
+  .tag-a { background: rgba(99,102,241,.15); color: var(--accent1); }
+  .tag-b { background: rgba(6,182,212,.15); color: var(--accent2); }
+  .tag-core { background: rgba(16,185,129,.12); color: var(--accent3); font-size: 11px; padding: 2px 8px; border-radius: 20px; }
+  .tag-new  { background: rgba(245,158,11,.12); color: var(--accent4); font-size: 11px; padding: 2px 8px; border-radius: 20px; }
+
+  /* matrix */
+  .matrix {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-top: 24px;
+  }
+  .quadrant {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px;
+  }
+  .quadrant h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+  .quadrant ul { padding-left: 16px; }
+  .quadrant li { font-size: 12px; color: var(--text-muted); line-height: 1.8; }
+  .q-hi-hi { border-color: var(--accent3); }
+  .q-hi-hi h4 { color: var(--accent3); }
+  .q-hi-lo { border-color: var(--accent4); }
+  .q-hi-lo h4 { color: var(--accent4); }
+  .q-lo-hi { border-color: var(--accent2); }
+  .q-lo-hi h4 { color: var(--accent2); }
+  .q-lo-lo { border-color: var(--border); }
+  .q-lo-lo h4 { color: var(--text-muted); }
+
+  .axis-label {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--text-muted); margin-top: 8px; padding: 0 4px;
+  }
+
+  /* five-dim fill table */
+  .fivedim-table {
+    width: 100%; border-collapse: collapse; font-size: 12px;
+    background: var(--surface); border-radius: 12px; overflow: hidden;
+    margin-top: 16px;
+  }
+  .fivedim-table th {
+    background: var(--surface2); padding: 10px 14px;
+    text-align: left; font-weight: 600; font-size: 11px;
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .fivedim-table th:first-child { width: 120px; }
+  .fivedim-table td {
+    padding: 10px 14px; border-top: 1px solid var(--border);
+    color: var(--text-muted); vertical-align: top; line-height: 1.7;
+  }
+  .fivedim-table td:first-child { color: var(--text); font-weight: 600; }
+  .fivedim-table td.placeholder { color: #3a3f5c; font-style: italic; }
+
+  /* deliverable cards */
+  .deliverable-pair {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px;
+  }
+  .deliverable-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px;
+  }
+  .deliverable-card .dc-icon { font-size: 28px; margin-bottom: 12px; }
+  .deliverable-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+  .deliverable-card ul { padding-left: 18px; }
+  .deliverable-card li { font-size: 13px; color: var(--text-muted); line-height: 1.8; }
+
+  /* dim descriptions */
+  .dim-cards {
+    display: grid; grid-template-columns: 1fr;
+    gap: 12px; margin-top: 16px;
+  }
+  .dim-card {
+    display: flex; gap: 16px; align-items: flex-start;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+  }
+  .dim-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; flex-shrink: 0;
+  }
+  .dim-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .dim-card p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
+  .note-box {
+    background: rgba(99,102,241,.08); border: 1px solid rgba(99,102,241,.2);
+    border-radius: 10px; padding: 14px 18px;
+    font-size: 13px; color: var(--text-muted); line-height: 1.7;
+    margin-top: 16px;
+  }
+  .note-box strong { color: var(--accent1); }
+
+  @media (max-width: 600px) {
+    .matrix, .deliverable-pair { grid-template-columns: 1fr; }
+    .map-branches { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <button class="nav-back" id="navBack" onclick="goHome()">&#8592; 返回</button>
+  <span class="nav-title" id="navTitle">KR4 后编辑框架</span>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+  <div class="map-header">
+    <h1>KR4 后编辑能力框架</h1>
+    <p>点击任意模块，进入详细分析视图</p>
+  </div>
+
+  <div class="map-root">
+    <div class="map-center">KR4 · 画布后编辑</div>
+    <div class="map-connector-v"></div>
+    <div class="map-branches">
+
+      <div class="branch-card c1" onclick="goTo('s1')">
+        <div class="step-num">Part 01</div>
+        <h3>定义成功</h3>
+        <p>北极星 · 指标分层 · 一句话验收标准</p>
+        <div class="arrow">→</div>
+      </div>
+
+      <div class="branch-card c2" onclick="goTo('s2')">
+        <div class="step-num">Part 02</div>
+        <h3>能力盘点与分线</h3>
+        <p>A线核心能力 vs B线新发现能力的工作方法分野</p>
+        <div class="arrow">→</div>
+      </div>
+
+      <div class="branch-card c3" onclick="goTo('s3')">
+        <div class="step-num">Part 03</div>
+        <h3>五维分析框架</h3>
+        <p>用户场景 · 竞品差异化 · 模型协同 · 链路 · 价值指标</p>
+        <div class="arrow">→</div>
+      </div>
+
+      <div class="branch-card c4" onclick="goTo('s4')">
+        <div class="step-num">Part 04</div>
+        <h3>优先级与降级</h3>
+        <p>价值 × 可行性矩阵 · 降级策略 · Seed需求排序</p>
+        <div class="arrow">→</div>
+      </div>
+
+      <div class="branch-card c5" onclick="goTo('s5')">
+        <div class="step-num">Part 05</div>
+        <h3>交付物</h3>
+        <p>产品侧路线图 · Seed模型需求清单 · 周三会材料</p>
+        <div class="arrow">→</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE S1: 定义成功
+════════════════════════════════════════════ -->
+<div class="page" id="page-s1">
+  <div class="detail-hero h1">
+    <div class="tag" style="background:rgba(99,102,241,.15);color:var(--accent1)">Part 01</div>
+    <h2>定义成功——KR4 顶层锚</h2>
+    <p class="subtitle">在拆能力之前先把目标翻译成可衡量的东西，否则后面挖出的需求没法排序。</p>
+  </div>
+
+  <div class="sections-grid">
+
+    <div class="section-card">
+      <div class="sc-icon">🧭</div>
+      <h4>北极星指标</h4>
+      <p>KR4 不直接背 DAU，它的本质是：<br><br>
+        <strong style="color:var(--text)">「让用户在画布里把图改到位，并愿意继续改」</strong><br><br>
+        核心是编辑深度与复用意愿，而非纯粹的功能覆盖数量。
+      </p>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">📊</div>
+      <h4>指标分层（漏斗）</h4>
+      <ul>
+        <li><strong style="color:var(--text)">L1 渗透率</strong>：多少生成用户进入了后编辑流程</li>
+        <li><strong style="color:var(--text)">L2 完成率</strong>：单次编辑的成功/满意率</li>
+        <li><strong style="color:var(--text)">L3 留存复用</strong>：编辑后下次继续用画布改图的比例</li>
+      </ul>
+      <p style="margin-top:10px">每个能力后面都必须挂到其中一个指标上，否则不排序。</p>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">✅</div>
+      <h4>一句话验收标准</h4>
+      <p>KR4 结束时，能不能说出：</p>
+      <p style="margin-top:10px;padding:12px;background:var(--surface2);border-radius:8px;color:var(--text);font-style:italic;line-height:1.8">
+        「用户现在能在画布里完成 <strong>X</strong>，<br>而 Q2 完不成。」
+      </p>
+      <p style="margin-top:10px">X 必须具体到场景和动作，不能是功能名词。</p>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">⚠️</div>
+      <h4>常见陷阱</h4>
+      <ul>
+        <li>用功能数量代替用户价值</li>
+        <li>指标只到 L1（渗透率）就停，不看 L2/L3</li>
+        <li>验收标准写成「上线了某功能」而非「用户能做到某事」</li>
+        <li>每个能力都说打 DAU，实际无法区分优先级</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">🔗</div>
+      <h4>与下游模块的连接</h4>
+      <p>这里定义的指标分层是 Part 04（优先级排序）的基础输入。<br><br>
+        Part 03 五维分析的第 5 维「价值/指标」必须对应到 L1/L2/L3 某一层，才能闭环。
+      </p>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">📝</div>
+      <h4>填写建议（待补充）</h4>
+      <p>此处后续可补充：</p>
+      <ul>
+        <li>具体数字目标（如 L1 渗透率从 X% 到 Y%）</li>
+        <li>时间范围（Q3 结束时）</li>
+        <li>测量方式（埋点名称 / 数据平台）</li>
+      </ul>
+      <div class="badge" style="background:rgba(245,158,11,.1);color:var(--accent4)">待补充数据</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE S2: 能力盘点与分线
+════════════════════════════════════════════ -->
+<div class="page" id="page-s2">
+  <div class="detail-hero h2">
+    <div class="tag" style="background:rgba(6,182,212,.15);color:var(--accent2)">Part 02</div>
+    <h2>能力盘点与分线</h2>
+    <p class="subtitle">关键原则：别让「发现」盖过「做深」。两条线工作方法完全不同，必须拆开管理。</p>
+  </div>
+
+  <div class="sections-grid">
+    <div class="section-card" style="border-color:rgba(99,102,241,.3)">
+      <div class="sc-icon">🏗️</div>
+      <h4 style="color:var(--accent1)">A 线 · 做深已承诺核心能力</h4>
+      <p>这三个是 KR 点名要和 Seed 深度合作的，问题不是「做不做」，而是「怎么到产品可用水位」。</p>
+      <ul style="margin-top:10px">
+        <li>图层分离</li>
+        <li>文字编辑</li>
+        <li>指令编辑</li>
+      </ul>
+      <p style="margin-top:10px"><strong>主战场在模型协同，不在需求发现。</strong></p>
+      <div class="badge tag-a">模型协同主场</div>
+    </div>
+
+    <div class="section-card" style="border-color:rgba(6,182,212,.3)">
+      <div class="sc-icon">🔭</div>
+      <h4 style="color:var(--accent2)">B 线 · 发现并补齐新能力</h4>
+      <p>这条线才是调研引擎真正发力的地方。</p>
+      <ul style="margin-top:10px">
+        <li>调色 / 色调迁移</li>
+        <li>调角度 / 视角变换</li>
+        <li>打光 / 光影控制</li>
+        <li>多尺寸适配</li>
+        <li>其他调研挖出的未包装需求（待填）</li>
+      </ul>
+      <div class="badge tag-b">需求发现主场</div>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">⚖️</div>
+      <h4>精力分配警告</h4>
+      <p>分线之后，精力才不会被「调色/打光」这类好做的增量带跑，而忽略真正撬动 KR 的三个核心。</p>
+      <p style="margin-top:10px">建议比例参考（待确认）：</p>
+      <ul>
+        <li>A 线：占总投入 60–70%</li>
+        <li>B 线：占总投入 30–40%</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">📋</div>
+      <h4>工作方法差异</h4>
+      <table style="width:100%;font-size:12px;margin-top:8px;border-collapse:collapse">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding:6px 8px;background:var(--surface2);color:var(--text-muted)">维度</th>
+            <th style="text-align:left;padding:6px 8px;background:var(--surface2);color:var(--accent1)">A 线</th>
+            <th style="text-align:left;padding:6px 8px;background:var(--surface2);color:var(--accent2)">B 线</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:6px 8px;border-top:1px solid var(--border);color:var(--text-muted)">核心问题</td>
+            <td style="padding:6px 8px;border-top:1px solid var(--border)">怎么到产品可用水位</td>
+            <td style="padding:6px 8px;border-top:1px solid var(--border)">做不做、做哪个</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border-top:1px solid var(--border);color:var(--text-muted)">主要输出</td>
+            <td style="padding:6px 8px;border-top:1px solid var(--border)">模型评测标准 + 验收水位</td>
+            <td style="padding:6px 8px;border-top:1px solid var(--border)">用户需求报告 + 竞品分析</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border-top:1px solid var(--border);color:var(--text-muted)">主要协作方</td>
+            <td style="padding:6px 8px;border-top:1px solid var(--border)">Seed 团队</td>
+            <td style="padding:6px 8px;border-top:1px solid var(--border)">用研 + 设计</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <table class="cap-table" style="margin-top:24px">
+    <thead>
+      <tr>
+        <th>能力</th>
+        <th>线路</th>
+        <th>类型</th>
+        <th>当前状态</th>
+        <th>主打指标</th>
+        <th>备注</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>图层分离</td>
+        <td><span class="badge tag-a">A 线</span></td>
+        <td><span class="tag-core">核心承诺</span></td>
+        <td>与 Seed 合作中</td>
+        <td>L2 完成率</td>
+        <td>电商/海报场景高频</td>
+      </tr>
+      <tr>
+        <td>文字编辑</td>
+        <td><span class="badge tag-a">A 线</span></td>
+        <td><span class="tag-core">核心承诺</span></td>
+        <td>与 Seed 合作中</td>
+        <td>L2 完成率</td>
+        <td>品牌物料核心需求</td>
+      </tr>
+      <tr>
+        <td>指令编辑</td>
+        <td><span class="badge tag-a">A 线</span></td>
+        <td><span class="tag-core">核心承诺</span></td>
+        <td>与 Seed 合作中</td>
+        <td>L3 留存复用</td>
+        <td>组合能力护城河</td>
+      </tr>
+      <tr>
+        <td>调色 / 色调迁移</td>
+        <td><span class="badge tag-b">B 线</span></td>
+        <td><span class="tag-new">新发现</span></td>
+        <td>待评估</td>
+        <td>L1 渗透率</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>调角度 / 视角变换</td>
+        <td><span class="badge tag-b">B 线</span></td>
+        <td><span class="tag-new">新发现</span></td>
+        <td>待评估</td>
+        <td>L1 渗透率</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>打光 / 光影控制</td>
+        <td><span class="badge tag-b">B 线</span></td>
+        <td><span class="tag-new">新发现</span></td>
+        <td>待评估</td>
+        <td>L2 完成率</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>多尺寸适配</td>
+        <td><span class="badge tag-b">B 线</span></td>
+        <td><span class="tag-new">新发现</span></td>
+        <td>待评估</td>
+        <td>L1 渗透率</td>
+        <td>跨平台投放场景</td>
+      </tr>
+      <tr>
+        <td style="color:var(--text-muted);font-style:italic" colspan="6">+ 其他调研待补充...</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE S3: 五维分析框架
+════════════════════════════════════════════ -->
+<div class="page" id="page-s3">
+  <div class="detail-hero h3">
+    <div class="tag" style="background:rgba(16,185,129,.15);color:var(--accent3)">Part 03</div>
+    <h2>五维分析框架</h2>
+    <p class="subtitle">把三个原有维度 + 补充的两个维度整合后的完整版。对 A/B 线里每个能力都跑一遍。</p>
+  </div>
+
+  <div class="dim-cards">
+    <div class="dim-card">
+      <div class="dim-num" style="background:rgba(99,102,241,.15);color:var(--accent1)">1</div>
+      <div>
+        <h4>用户与场景</h4>
+        <p>YouTube / 海外平台看真实需求，重点抓「没被包装、但用户在用 coding 自己实现」的能力。明确落在哪个场景（电商图？海报？品牌物料？）。</p>
+        <p style="margin-top:6px;color:var(--accent1);font-size:12px">→ 输出：场景定义 + 用户痛点描述</p>
+      </div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-num" style="background:rgba(6,182,212,.15);color:var(--accent2)">2</div>
+      <div>
+        <h4>竞品与差异化（加一刀）</h4>
+        <p>不只看「竞品做了我没做」，要进一步分两类：</p>
+        <ul style="margin-top:6px;padding-left:16px;font-size:13px;color:var(--text-muted);line-height:1.7">
+          <li><strong style="color:var(--text)">护城河型</strong>：靠「画布后编辑 + Seed 深度合作」才做得动、别人抄不了的（如图层分离 ＋ 指令编辑组合）→ 优先占 Seed 产能</li>
+          <li><strong style="color:var(--text)">军备竞赛型</strong>：补齐功能缺口，竞品也在做的</li>
+        </ul>
+      </div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-num" style="background:rgba(16,185,129,.15);color:var(--accent3)">3</div>
+      <div>
+        <h4>模型协同（往上推一层）</h4>
+        <p>不止「哪个模型效果好」，而是定义模型该优化什么：</p>
+        <ul style="margin-top:6px;padding-left:16px;font-size:13px;color:var(--text-muted);line-height:1.7">
+          <li>每个能力的评测标准</li>
+          <li>关键失败 case</li>
+          <li>需要的数据</li>
+          <li>做到什么水位算产品可用</li>
+        </ul>
+        <p style="margin-top:6px;color:var(--accent3);font-size:12px">→ 这是周三会的核心产出</p>
+      </div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-num" style="background:rgba(245,158,11,.15);color:var(--accent4)">4</div>
+      <div>
+        <h4>链路（独立维度）</h4>
+        <p>用户是否顺手进得了后编辑？几个能力能否串起来连续改？</p>
+        <p style="margin-top:6px;color:var(--text-muted);font-size:13px">这是「优化后编辑链路」那句的落点，不能用离散能力的加总代替。</p>
+        <p style="margin-top:6px;color:var(--accent4);font-size:12px">→ 输出：链路串联方案 + 入口设计</p>
+      </div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-num" style="background:rgba(236,72,153,.15);color:var(--accent5)">5</div>
+      <div>
+        <h4>价值 / 指标</h4>
+        <p>这个能力打哪个指标、怎么量。</p>
+        <p style="margin-top:6px;color:var(--text-muted);font-size:13px">这一维填完，前四维挖出的需求才排得出序。对应 Part 01 的 L1/L2/L3 分层。</p>
+        <p style="margin-top:6px;color:var(--accent5);font-size:12px">→ 输出：埋点方案 + 目标数字</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box" style="margin-top:24px">
+    <strong>使用说明：</strong>以下是可填写的五维分析表，每行是一个能力，每列是一个维度。后续可逐步填入调研数据。
+  </div>
+
+  <table class="fivedim-table">
+    <thead>
+      <tr>
+        <th>能力</th>
+        <th>① 用户与场景</th>
+        <th>② 竞品差异化</th>
+        <th>③ 模型协同</th>
+        <th>④ 链路</th>
+        <th>⑤ 价值指标</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>图层分离</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+      <tr>
+        <td>文字编辑</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+      <tr>
+        <td>指令编辑</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+      <tr>
+        <td>调色</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+      <tr>
+        <td>调角度</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+      <tr>
+        <td>打光</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+      <tr>
+        <td>多尺寸适配</td>
+        <td class="placeholder">待填：核心场景</td>
+        <td class="placeholder">待填：竞品对比</td>
+        <td class="placeholder">待填：评测标准</td>
+        <td class="placeholder">待填：链路位置</td>
+        <td class="placeholder">待填：L? 指标</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE S4: 优先级与降级
+════════════════════════════════════════════ -->
+<div class="page" id="page-s4">
+  <div class="detail-hero h4">
+    <div class="tag" style="background:rgba(245,158,11,.15);color:var(--accent4)">Part 04</div>
+    <h2>优先级与降级策略</h2>
+    <p class="subtitle">用「产品价值（指标撬动）× 模型可行性（Seed 当前水位）」做二维矩阵，每个强依赖能力先想好降级版本。</p>
+  </div>
+
+  <div class="sections-grid">
+    <div class="section-card">
+      <div class="sc-icon">📐</div>
+      <h4>排序标准</h4>
+      <ul>
+        <li><strong style="color:var(--text)">X 轴：</strong>产品价值（对 L1/L2/L3 的撬动程度）</li>
+        <li><strong style="color:var(--text)">Y 轴：</strong>模型可行性（Seed 当前水位评估）</li>
+      </ul>
+      <p style="margin-top:10px">两维相乘出优先级，而不是产品拍脑袋。</p>
+    </div>
+    <div class="section-card">
+      <div class="sc-icon">🔽</div>
+      <h4>降级策略原则</h4>
+      <p>每个强依赖 Seed 的能力，先想清楚：</p>
+      <p style="margin-top:8px;padding:10px;background:var(--surface2);border-radius:8px;font-style:italic;color:var(--text)">
+        「模型没到预期时，产品侧的可降级版本是什么？」
+      </p>
+      <p style="margin-top:8px">「不负向即合格」→ 决定它敢不敢放主链路，还是只能做灰度。</p>
+    </div>
+  </div>
+
+  <div style="margin-top:8px;font-size:12px;color:var(--text-muted);padding:0 4px;display:flex;justify-content:space-between">
+    <span>← 产品价值 低</span><span>产品价值 高 →</span>
+  </div>
+  <div class="matrix">
+    <div class="quadrant">
+      <h4>🔵 低价值 × 高可行</h4>
+      <ul>
+        <li>快速补齐但非主链路</li>
+        <li>可作为后续迭代</li>
+        <li>调色（待评估后放置）</li>
+      </ul>
+    </div>
+    <div class="quadrant q-hi-hi">
+      <h4>🟢 高价值 × 高可行 → 主链路</h4>
+      <ul>
+        <li>直接进 Q3 主链路</li>
+        <li>文字编辑（预判）</li>
+        <li>图层分离（预判）</li>
+      </ul>
+    </div>
+    <div class="quadrant q-lo-lo">
+      <h4>⚫ 低价值 × 低可行 → 先放</h4>
+      <ul>
+        <li>当前 quarter 不做</li>
+        <li>持续观察竞品动向</li>
+      </ul>
+    </div>
+    <div class="quadrant q-hi-lo">
+      <h4>🟡 高价值 × 低可行 → Seed 需求清单</h4>
+      <ul>
+        <li>进周三会的核心讨论</li>
+        <li>指令编辑（预判）</li>
+        <li>打光控制（预判）</li>
+        <li>明确评测标准 + 目标水位</li>
+      </ul>
+    </div>
+  </div>
+  <div style="margin-top:8px;font-size:12px;color:var(--text-muted);padding:0 4px;display:flex;justify-content:space-between">
+    <span>↑ 模型可行性 高</span><span style="text-align:right">↓ 模型可行性 低</span>
+  </div>
+
+  <div class="note-box">
+    <strong>注意：</strong>矩阵中各能力的放置位置均为预判，需要在 Part 03 五维分析完成后，根据实际评估数据重新定位。
+  </div>
+
+  <div class="sections-grid" style="margin-top:24px">
+    <div class="section-card">
+      <div class="sc-icon">🎚️</div>
+      <h4>降级方案模板（每个能力填一份）</h4>
+      <table style="width:100%;font-size:12px;border-collapse:collapse;margin-top:8px">
+        <tr>
+          <td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">能力名称</td>
+          <td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:var(--text-muted)">待填</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">理想版本</td>
+          <td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:var(--text-muted)">待填</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">降级版本</td>
+          <td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:var(--text-muted)">待填</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">触发条件</td>
+          <td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:var(--text-muted)">模型未达到 X 水位</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;color:var(--text-muted)">灰度还是主链路</td>
+          <td style="padding:6px 0;font-style:italic;color:var(--text-muted)">待决策</td>
+        </tr>
+      </table>
+    </div>
+    <div class="section-card">
+      <div class="sc-icon">📅</div>
+      <h4>排序输出物</h4>
+      <ul>
+        <li>能力按象限归类清单</li>
+        <li>每个高价值低可行能力的 Seed 需求卡</li>
+        <li>降级版本备案表</li>
+        <li>灰度发布计划</li>
+      </ul>
+      <p style="margin-top:10px;color:var(--text-muted)">这些输出直接流入 Part 05 的两份交付物。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE S5: 交付物
+════════════════════════════════════════════ -->
+<div class="page" id="page-s5">
+  <div class="detail-hero h5">
+    <div class="tag" style="background:rgba(236,72,153,.15);color:var(--accent5)">Part 05</div>
+    <h2>交付物</h2>
+    <p class="subtitle">框架跑完，产出两份东西。第二份才是真正立住「model-product co-design 判断力」的实物证据。</p>
+  </div>
+
+  <div class="deliverable-pair">
+    <div class="deliverable-card" style="border-color:rgba(99,102,241,.3)">
+      <div class="dc-icon">🗺️</div>
+      <h4 style="color:var(--accent1)">交付物 A：产品侧能力路线图</h4>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">对内（产品团队）</p>
+      <ul>
+        <li>按指标价值排序的 KR4 能力列表</li>
+        <li>标清 A 线 / B 线归属</li>
+        <li>链路串法（能力如何连续使用）</li>
+        <li>各能力打的指标（L1/L2/L3）</li>
+        <li>时间排期与里程碑</li>
+        <li>降级版本备案</li>
+      </ul>
+      <div class="badge" style="background:rgba(99,102,241,.1);color:var(--accent1);margin-top:16px">产品 Roadmap 格式</div>
+    </div>
+
+    <div class="deliverable-card" style="border-color:rgba(236,72,153,.3)">
+      <div class="dc-icon">🧪</div>
+      <h4 style="color:var(--accent5)">交付物 B：Seed 模型需求清单</h4>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">对 Seed 团队 · 周三会核心材料</p>
+      <ul>
+        <li>按产品价值排序（非随机列表）</li>
+        <li>每项写明：评测标准</li>
+        <li>每项写明：关键失败 case</li>
+        <li>每项写明：所需数据</li>
+        <li>每项写明：目标水位（产品可用的定义）</li>
+        <li>优先级标注（高价值低可行优先讨论）</li>
+      </ul>
+      <div class="badge" style="background:rgba(236,72,153,.1);color:var(--accent5);margin-top:16px">模型需求卡格式</div>
+    </div>
+  </div>
+
+  <div class="note-box" style="margin-top:24px;border-color:rgba(236,72,153,.2);background:rgba(236,72,153,.06)">
+    <strong>关键区别：</strong>周三会上拿出交付物 B，而不是一张功能清单，分量完全不同。<br>
+    前者是在<strong>定义「模型该为什么优化」</strong>，后者只是在许愿。
+  </div>
+
+  <div class="sections-grid" style="margin-top:24px">
+    <div class="section-card">
+      <div class="sc-icon">📋</div>
+      <h4>模型需求卡模板（每个能力一张）</h4>
+      <table style="width:100%;font-size:12px;border-collapse:collapse;margin-top:8px">
+        <tr><td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">能力</td><td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:#3a3f5c">待填</td></tr>
+        <tr><td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">产品价值</td><td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:#3a3f5c">打 L? 指标，预期提升 X%</td></tr>
+        <tr><td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">评测标准</td><td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:#3a3f5c">待填</td></tr>
+        <tr><td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">关键失败 case</td><td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:#3a3f5c">待填</td></tr>
+        <tr><td style="padding:6px 0;color:var(--text-muted);border-bottom:1px solid var(--border)">所需数据</td><td style="padding:6px 0;border-bottom:1px solid var(--border);font-style:italic;color:#3a3f5c">待填</td></tr>
+        <tr><td style="padding:6px 0;color:var(--text-muted)">目标水位</td><td style="padding:6px 0;font-style:italic;color:#3a3f5c">产品可用 = 待填</td></tr>
+      </table>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">🎯</div>
+      <h4>周三会议程建议</h4>
+      <ul>
+        <li>开场：用 Part 01 北极星对齐目标（5 min）</li>
+        <li>A 线：三个核心能力的当前水位 review（20 min）</li>
+        <li>优先讨论：高价值低可行的 Seed 需求卡（20 min）</li>
+        <li>B 线：新能力的可行性快评（10 min）</li>
+        <li>收尾：确认下一个 milestone 和验收水位（5 min）</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-icon">✅</div>
+      <h4>完成标准</h4>
+      <p>框架跑完的标志：</p>
+      <ul style="margin-top:8px">
+        <li>每个能力都有五维填写（不一定满）</li>
+        <li>所有能力都落在矩阵四象限</li>
+        <li>强依赖 Seed 的能力都有降级版本</li>
+        <li>交付物 B 每张卡都有评测标准</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  const pages = ['home','s1','s2','s3','s4','s5'];
+  const titles = {
+    home: 'KR4 后编辑框架',
+    s1: '① 定义成功',
+    s2: '② 能力盘点与分线',
+    s3: '③ 五维分析框架',
+    s4: '④ 优先级与降级',
+    s5: '⑤ 交付物'
+  };
+
+  function goTo(id) {
+    pages.forEach(p => {
+      document.getElementById('page-' + p).classList.toggle('active', p === id);
+    });
+    document.getElementById('navBack').classList.add('visible');
+    document.getElementById('navTitle').innerHTML =
+      '<span class="nav-crumb">' + titles[id] + '</span>';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goHome() {
+    pages.forEach(p => {
+      document.getElementById('page-' + p).classList.toggle('active', p === 'home');
+    });
+    document.getElementById('navBack').classList.remove('visible');
+    document.getElementById('navTitle').textContent = 'KR4 后编辑框架';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>

@@ -66,6 +66,75 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 16px 50p
   <p>跨创作者平台的「如何用 AI 设计图片提效」分享。每例提炼：是什么/环节 · 底层需求 · 目前怎么解决 · 我们能用 AI 模型能力解决什么（✅现有 / 🔬需与模型团队攻关）。</p>
   <div class="fidelity"><strong>⚠️ 保真度：</strong>结论基于视频<strong>标题 + 公开检索摘要 + 工具/任务推断</strong>；「能用 AI 解决什么」属能力机会判断（含尚不存在、可交模型团队调研的能力）。逐字稿抓取受当前环境网络策略限制（YouTube 被封禁），放行后按 <code>TRANSCRIPT-TASK.md</code> 升级为逐字稿级步骤。</div>
 </div>
+<div class="summary" id="trainreqs">
+  <h2>🎯 模型训练需求清单（三分法 · 给 Seed 的沟通主体）</h2>
+  <div class="sub">这是把多轮讨论收口后的结论：哪些<strong>必须喊 Seed 训图模型</strong>、哪些走 <strong>VLM/LLM</strong>、哪些<strong>产品层自己做</strong>。核心原则：只有「产品包不出来、别人没有、用户有感」的才进图模型清单。</div>
+  <div class="note" style="background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);border-radius:10px;padding:13px 16px;font-size:13px;color:var(--muted);margin:8px 0 16px"><strong style="color:var(--text)">判断标尺（一条需求要同时过三关，否则是泛泛）：</strong>① 训练杠杆（非训练拿不到？产品能包的就不算模型需求）② 差异化（别人模型没有？）③ 用户感知（做出来明显有收益？）。<strong>用它砍掉了「多图9张输入输出」</strong>——模型早就能（Nano Banana 14 参考/一次20张），是产品参数、不影响训练、用户无感。「多模态→图表」同理降级。</div>
+  <h3 style="margin:18px 0 10px;font-size:15px;color:var(--a5)">🔴 图模型训练 · 近期核心（必训）</h3><div class="reqgrid"><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">① 精准编辑（坐标+描述）</span><span class="rqstr">🔴近期核心 · 已有</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>接受「区域坐标/mask + 文字指令」，只在目标区生成、<strong>选区外像素近乎不变</strong>（局部性保证）；含 pose 精确条件。</div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>指哪改哪、不动别处。改的是权重，产品层做不到像素级保护。</div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">② 多轮编辑稳定性</span><span class="rqstr">🔴近期核心 · 已有</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>连续编辑保住高频细节、<strong>抑制噪声/伪影累积</strong>、锁定未编辑区；目标 ≥10–15 轮不崩（现状约 5 轮退化）。</div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>同一张图改很多次不越改越烂。全行业 62% 头号痛点，产品包不出来。</div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">③ 主体/角色一致性</span><span class="rqstr">🔴近期核心 · 最关键</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>把「主体身份」编码成可保持的表征，在编辑/再生成/<strong>多关键帧</strong>里严格一致。</div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>改完还是同一个人。它撑起「人物复用/搬到新图/关键帧出视频」等一大片场景，是真核心。</div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">④ 重打光 relight</span><span class="rqstr">🔴近期核心</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>从单图推断 3D 几何+材质+光照，按指定光源重打，<strong>阴影/高光物理一致</strong>。</div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>拍完再改光、出质感。要模型「懂光」，纯产品做不了。电商核心。</div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑤ 指定字库文字</span><span class="rqstr">🔴近期核心</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>把「给定字库」当约束，改字时<strong>只在该字形空间内渲染</strong>，且排版准确、支持非安装的品牌字体。</div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>改字且锁定品牌字体。没人做过——真缺口。</div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑥ 按版面生成 + 原生分层</span><span class="rqstr">🔴近期核心</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>layout 条件下生成，并<strong>输出语义分层（文字回到可编辑文本）</strong>。</div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>排版「决策」交给 VLM；图模型负责「按版面把分层素材生成出来」。先生成再分层=Canva路(近期)，先结构再生成=干净路(目标)。</div>
+</div></div>
+  <h3 style="margin:18px 0 10px;font-size:15px;color:var(--a4)">🟠 图模型训练 · 强差异化</h3><div class="reqgrid"><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑦ 精确色彩锁定</span><span class="rqstr">🟠强差异化</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>命中指定颜色值（如品牌色 hex）并在生成/编辑全程锁定不偏色。</div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>锁品牌色。现在模型给不了精确色，品牌刚需。</div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑨ 组合/空间指令理解</span><span class="rqstr">🟠强差异化</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>把「左起第二个杯子」「只改背景招牌」这类空间+指代指令 grounding 到正确对象。</div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>①精准编辑的「语言侧」，配套训练。</div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑩ 多参考解耦控制</span><span class="rqstr">🟠强差异化</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>分别吃「风格参考/主体参考/结构参考」且<strong>不串味</strong>。</div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>风格归风格、主体归主体，可控组合。</div>
+</div></div>
+  <h3 style="margin:18px 0 10px;font-size:15px;color:var(--a3)">🎬 图模型训练 · 视频侧差异化（近期可做）</h3><div class="reqgrid"><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑭ 摆 pose → 关键帧 → 视频</span><span class="rqstr">🎬视频差异化 · 近期可做</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>按手摆的 pose 生成<strong>准确且一致的关键帧</strong>（=①+③）；多关键帧之间<strong>角色严格一致</strong>；关键帧→视频走下游图生视频（现成）。</div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>摆 pose 出图当关键帧再生成视频。难点收敛到①+③，视频段白嫖现成能力。目前无人做成一体，踩中 CapCut 视频基因+空白。</div>
+</div></div>
+  <h3 style="margin:18px 0 10px;font-size:15px;color:var(--a1)">🟣 图模型训练 · 长线/登月</h3><div class="reqgrid"><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑫ 3D 生成（样机 + 人体）</span><span class="rqstr">🟣长线/登月</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>text/image → 3D（样机、人体重建）。<strong>注意：模型不吃 3D；可掰的木偶是产品/传统 3D。</strong></div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>自然语言/垫图生成 3D 样机并真实挂图。重、独立赛道，标长线。</div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑬ 多主体实例级编辑</span><span class="rqstr">🟣长线/登月</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>多人分成各自实例（带深度）→ 单独改一个不破坏另一个 → 保持交互一致。依赖 ③+①。</div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>双人/多人精细编辑。难，作长线；常见「复用/搬新图」其实③已覆盖。</div>
+</div></div>
+  <h3 style="margin:18px 0 10px;font-size:15px;color:var(--muted)">🟡 降级 / 可选</h3><div class="reqgrid"><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑧ amodal 补全被遮挡物</span><span class="rqstr">🟡降级/可选</span></div>
+  <div class="rqrow"><span class="rqlb l1">要训练什么</span>补全「被挡住的物体本身」（非补背景）。</div>
+  <div class="rqrow"><span class="rqlb l4">大白话 / 为什么产品包不出来</span>已降级：常见「人物复用/搬新图」由 ③+参考条件 覆盖；只有「原图就地拆缠在一起的人」才需要。</div>
+</div></div>
+  <h3 style="margin:18px 0 10px;font-size:15px;color:var(--a2)">🧠 VLM / LLM（另一条线，不进图模型清单）</h3>
+<div class="reqcard"><div class="rqrow"><span class="rqlb l1">智能排版</span>版面「决策」=理解内容+懂美学→输出结构化版面（坐标/字号/层级），是推理活，不该让图模型自己决定好不好看。</div>
+<div class="rqrow"><span class="rqlb l1">自动设计质检/建议</span>判断对齐/对比度/层级并给修改建议——LLM/VLM territory。</div></div>
+  <h3 style="margin:18px 0 10px;font-size:15px;color:var(--muted)">🛠️ 产品层（自己做，不喊 Seed）</h3>
+<div class="reqcard"><div class="rqrow"><span class="rqlb l3">免训练</span>2D puppet warp（微调 pose）· 可掰的 3D 木偶 / 2D 骨架编辑器（只输出 2D 骨架喂模型）· 批量 · 多尺寸切分 · 轮播切分 · 图标全尺寸导出 · 多语言本地化的「翻译+流水线」部分 · 配方/动作录制 · 数据驱动批量合成。</div>
+<div class="rqrow"><span class="rqlb l4">注意拆分</span>本地化里「改字保版式」是训练（=⑤）；「翻译+编排」是产品。木偶是产品；「按 pose 生成一致图」才是训练。</div></div>
+  <div class="note" style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);border-radius:10px;padding:13px 16px;font-size:13px;color:var(--muted);margin-top:16px"><strong style="color:var(--text)">一句话总览：</strong>真正该和 Seed 死磕的是 <strong>①②③④⑤⑥</strong> 六个近期核心（可靠性+一致性+重打光+指定字库+分层），其中 <strong>③一致性是撑起最多场景的真核心</strong>；⑦⑨⑩ 做差异化；⑭「摆pose→关键帧→视频」是 CapCut 视频基因的空白机会；3D 与多主体作登月；amodal 与多图9张/智能排版 不进图模型清单。</div>
+</div>
 <div class="summary">
   <h2>🎯 模型能力需求清单（聚合 88 例去重）</h2>
   <div class="sub">左边是创作者反复出现的问题/能力需求，右边是<strong>我们目前用哪些后编辑能力去解决它</strong>。🔬=尚不具备需攻关，✅=现有可封装。点「参考图生成」看深扒详解。</div>

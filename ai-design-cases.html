@@ -348,6 +348,72 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 16px 50p
 </div></div>
   <div class="note" style="background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);border-radius:10px;padding:13px 16px;font-size:13px;color:var(--muted);margin-top:14px"><strong style="color:var(--text)">六平台合并结论：</strong>六个来源不约而同指向<strong>同三件事</strong>：① <strong>一致性</strong>（角色/风格/打光跨图跨帧保不住，Discord、ArtStation 反复抱怨）；② <strong>可靠与可复现</strong>（62% 头号痛点是「不稳定」，短视频作者「不知道为什么爆」，课程学员要摆脱「碰运气试错」）；③ <strong>嵌进现有工作流的专精后编辑</strong>（Product Hunt 趋势是补缝隙、非取代）。结论：对 CapCut Web Design，<strong>「把手里这张图稳定、可控、可复现地改到位」比「再生成一张惊艳新图」更是刚需</strong>——可靠性本身就是差异化。</div>
 </div>
+<div class="summary" id="codeneeds">
+  <h2>🛠️ 过去靠 code/笨办法 → 可封装的新需求（细颗粒挖掘）</h2>
+  <div class="sub">专挖「设计师过去只能写代码/拼工具/手动硬做、目前还没被好好封装」的需求。标签：🆕空白=没主流产品做透 · 🟡有竞品=已有人做差异化弱 · 🔬前沿=技术仍在攻关。</div>
+  <div class="reqgrid"><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">① 多语言本地化创意</span><span class="rqstr">🔴强 · 🆕空白</span></div>
+  <div class="rqrow"><span class="rqlb" style="background:rgba(236,72,153,.18);color:var(--a5)">过去的笨办法/code</span>一张创意图出 N 个语言版本：<strong>为每个语言建一个副本文件</strong>；导出→转 CSV→给翻译→翻译员发回 Word/截图→<strong>设计师手动复制粘贴回去</strong>（反复引入 typo、排版错位）。十几个版本对不齐。</div>
+  <div class="rqrow"><span class="rqlb l4">封装成什么功能</span>上传一张图 → <strong>一键出 N 种语言版</strong>：自动 OCR 原文 + 翻译 + <strong>按各语言长度重排文字、保住版式与字体</strong>。</div>
+  <div class="rqrow"><span class="rqlb l2">现状 / 缺口</span>Lokalise/Phrase/Figma 插件做的是「UI 文案本地化」；<strong>「图片创意」整图本地化仍弱</strong>。串起我们文字编辑+指定字库+多尺寸重排。</div>
+  <div class="rqrow"><span class="rqlb l3">来源</span><a href="https://lokalise.com/blog/localization-issues-designers/" target="_blank" rel="noopener">🔗 设计师本地化痛点</a></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">② 一键提取风格规范 → 参考库</span><span class="rqstr">🔴强 · 🟡部分</span></div>
+  <div class="rqrow"><span class="rqlb" style="background:rgba(236,72,153,.18);color:var(--a5)">过去的笨办法/code</span>想复刻某图/某网站的风格：<strong>手动取色</strong>、肉眼认字体、或装 Chrome 插件 / 写 CLI 脚本（Dembrandt）抠配色与 token。</div>
+  <div class="rqrow"><span class="rqlb l4">封装成什么功能</span>传一张图/截图/网址 → <strong>自动提取配色+字体+风格 token → 直接存成 Brand Kit / 参考库</strong>，后续生成与编辑自动套用。</div>
+  <div class="rqrow"><span class="rqlb l2">现状 / 缺口</span>Peek/Font of Web 能从「网站」提取；<strong>从「任意图片」提取并喂给生成的库仍少</strong>。这是「垫图参考库」的入口（解决库里东西从哪来）。</div>
+  <div class="rqrow"><span class="rqlb l3">来源</span><a href="https://trypeek.app/" target="_blank" rel="noopener">🔗 Peek</a> · <a href="https://github.com/yfxlabs/desingextract" target="_blank" rel="noopener">Dembrandt CLI</a></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">③ 无缝平铺图案 / 纹理生成</span><span class="rqstr">🟠中强 · 🆕空白</span></div>
+  <div class="rqrow"><span class="rqlb" style="background:rgba(236,72,153,.18);color:var(--a5)">过去的笨办法/code</span>做可平铺的底纹/包装纹理/布料图案：<strong>写 p5.js / Processing 代码</strong>，用 Perlin noise、3×3 九宫格拼接那套手动生成。</div>
+  <div class="rqrow"><span class="rqlb l4">封装成什么功能</span>描述或给参考 → <strong>一键生成可无缝平铺的图案/纹理</strong>（背景、包装、电商底图、布料）。</div>
+  <div class="rqrow"><span class="rqlb l2">现状 / 缺口</span>明确是「以前只能写代码做」的事，<strong>没有主流产品封装好</strong>。代码出身最纯粹的一个。</div>
+  <div class="rqrow"><span class="rqlb l3">来源</span><a href="https://sighack.com/post/programmatically-creating-seamless-patterns" target="_blank" rel="noopener">🔗 程序化生成无缝图案</a></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">④ 多步流程做成「配方 / 动作」</span><span class="rqstr">🟠中强 · 🆕空白</span></div>
+  <div class="rqrow"><span class="rqlb" style="background:rgba(236,72,153,.18);color:var(--a5)">过去的笨办法/code</span>因为<strong>没有一个产品能把多步连起来</strong>，设计师只能去 <strong>ComfyUI 自己搭节点管线</strong>（公认难产品化：冷启动、依赖地狱）。ComfyUI 的存在本身就是「链路没人封装」的铁证。</div>
+  <div class="rqrow"><span class="rqlb l4">封装成什么功能</span>把常见多步后编辑（去背→换背景→重打光→出多尺寸）做成画布内 <strong>一键「配方」/ 可录制重放的动作</strong>。</div>
+  <div class="rqrow"><span class="rqlb l2">现状 / 缺口</span>ComfyUI Copilot 在用自然语言生成 workflow，但仍是工程师向。<strong>面向普通设计师的「配方」化是空白</strong>，直接落地我们「链路护城河」。</div>
+  <div class="rqrow"><span class="rqlb l3">来源</span><a href="https://github.com/DanielPFlorian/ComfyUI-WorkflowGenerator" target="_blank" rel="noopener">🔗 自然语言生成 ComfyUI 流</a></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑤ 整批色彩统一到一张参考</span><span class="rqstr">🔴强（电商）· 🟡有竞品</span></div>
+  <div class="rqrow"><span class="rqlb" style="background:rgba(236,72,153,.18);color:var(--a5)">过去的笨办法/code</span>让一整批产品图统一成同一种 look：<strong>Lightroom 逐张调</strong>、PS Hue/Sat 逐张抠、甚至上校色仪。catalog 大了就是灾难。</div>
+  <div class="rqrow"><span class="rqlb l4">封装成什么功能</span>选一张「标准图」→ <strong>整批一键对齐到它的色调/白平衡</strong>，保持目录一致。</div>
+  <div class="rqrow"><span class="rqlb l2">现状 / 缺口</span>Colorby/Evoto 有 AI color match，但「匹配到一张参考的整体 look 并整批同步」仍是高频痛点（电商目录刚需）。</div>
+  <div class="rqrow"><span class="rqlb l3">来源</span><a href="https://colorby.ai/post/automated-color-matching-and-consistency-across-large-batches-0768f602" target="_blank" rel="noopener">🔗 批量色彩一致</a></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑥ 去物体 + 补全被遮挡部分</span><span class="rqstr">🔴强 · 🔬前沿</span></div>
+  <div class="rqrow"><span class="rqlb" style="background:rgba(236,72,153,.18);color:var(--a5)">过去的笨办法/code</span>去掉一个物体后背景有窟窿：<strong>PS 克隆图章手动补</strong>；要补「被挡住的主体本身」更是只能手画。</div>
+  <div class="rqrow"><span class="rqlb l4">封装成什么功能</span>圈一下要去的物体 → <strong>自动去除 + 补全背景</strong>；进一步：<strong>补全被遮挡的主体</strong>（amodal completion）。</div>
+  <div class="rqrow"><span class="rqlb l2">现状 / 缺口</span>Krea/OpenArt 能补背景；但<strong>「补全被遮挡的物体本体」仍是学术前沿</strong>（amodal），做出来是差异化。</div>
+  <div class="rqrow"><span class="rqlb l3">来源</span><a href="https://arxiv.org/pdf/2207.02062" target="_blank" rel="noopener">🔗 Amodal Completion 综述</a> · <a href="https://www.krea.ai/apps/edit/remove-object" target="_blank" rel="noopener">Krea 去物体</a></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑦ 草图/线稿 → 干净矢量（+上色）</span><span class="rqstr">🟠中强 · 🟡有竞品</span></div>
+  <div class="rqrow"><span class="rqlb" style="background:rgba(236,72,153,.18);color:var(--a5)">过去的笨办法/code</span>把手绘草图变成干净矢量：<strong>Pen Tool 手动逐点描</strong>，或 Image Trace 出一堆黑线再<strong>手动修碎掉的路径</strong>。</div>
+  <div class="rqrow"><span class="rqlb l4">封装成什么功能</span>传草图 → <strong>一键出干净可编辑矢量，并智能上色</strong>，保留手绘味。</div>
+  <div class="rqrow"><span class="rqlb l2">现状 / 缺口</span>Vectorizer.AI / Illustrator「Concept to Vector」已做基础；<strong>「保留手绘味 + 智能上色」仍有空间</strong>。</div>
+  <div class="rqrow"><span class="rqlb l3">来源</span><a href="https://vectorizer.ai/" target="_blank" rel="noopener">🔗 Vectorizer.AI</a></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑧ 广告创意批量变体 / DCO</span><span class="rqstr">🟠中（营销）· 🟡较成熟</span></div>
+  <div class="rqrow"><span class="rqlb" style="background:rgba(236,72,153,.18);color:var(--a5)">过去的笨办法/code</span>投放要几百个变体测试：<strong>脚本 + 模板批量拼</strong>，或动态创意优化（DCO）按变量拼。</div>
+  <div class="rqrow"><span class="rqlb l4">封装成什么功能</span>一套主创意 → <strong>批量出多文案/多尺寸/多版本变体</strong>，接投放测试。</div>
+  <div class="rqrow"><span class="rqlb l2">现状 / 缺口</span>Adobe GenStudio / Smartly / AdEspresso 已较成熟（commodity）；<strong>我们的角度是「图+视频变体一体」</strong>（CapCut 视频基因）。</div>
+  <div class="rqrow"><span class="rqlb l3">来源</span><a href="https://www.adstellar.ai/blog/creative-automation-tools" target="_blank" rel="noopener">🔗 创意自动化工具</a></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑨ 长图 → 社媒轮播自动切分</span><span class="rqstr">🟡中 · 🟡有竞品</span></div>
+  <div class="rqrow"><span class="rqlb" style="background:rgba(236,72,153,.18);color:var(--a5)">过去的笨办法/code</span>把一张长图/全景切成无缝轮播：<strong>手动按尺寸切、对齐切缝</strong>，或用在线 splitter。</div>
+  <div class="rqrow"><span class="rqlb l4">封装成什么功能</span>设计时<strong>自动避开切缝</strong>（文字/人脸不被切断）+ <strong>一键切成 N 张无缝轮播</strong>。</div>
+  <div class="rqrow"><span class="rqlb l2">现状 / 缺口</span>一堆免费 splitter 工具（commodity）；价值在<strong>把它集成进画布、设计阶段就规避切缝</strong>。</div>
+  <div class="rqrow"><span class="rqlb l3">来源</span><a href="https://www.post-bridge.com/tools/instagram-carousel-splitter" target="_blank" rel="noopener">🔗 轮播切分工具</a></div>
+</div><div class="reqcard">
+  <div class="rqh"><span class="rqtitle">⑩ 一稿 → 全套图标/favicon 各尺寸</span><span class="rqstr">🟡中（偏 dev）· 🟡有竞品</span></div>
+  <div class="rqrow"><span class="rqlb" style="background:rgba(236,72,153,.18);color:var(--a5)">过去的笨办法/code</span>一个图标要出几十个尺寸（iOS/安卓/favicon）：<strong>写 Illustrator/PS 脚本</strong>或 Automator 批导（社区流传的 jeffcollier 脚本就是干这个）。</div>
+  <div class="rqrow"><span class="rqlb l4">封装成什么功能</span>传一张 1024 源图 → <strong>一键导出全套规格</strong>（含命名/配置文件）。</div>
+  <div class="rqrow"><span class="rqlb l2">现状 / 缺口</span>AppIconKitchen 等已做（commodity），优先级低；列出供完整性。</div>
+  <div class="rqrow"><span class="rqlb l3">来源</span><a href="https://www.appiconkitchen.com/" target="_blank" rel="noopener">🔗 AppIconKitchen</a></div>
+</div></div>
+  <div class="note" style="background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);border-radius:10px;padding:13px 16px;font-size:13px;color:var(--muted);margin-top:14px"><strong style="color:var(--text)">挑重点：</strong>最该做的是 <strong>🆕空白 + 🔴强</strong> 的几个：① 多语言本地化创意（痛点最深、串起多个攻关、贴 CapCut 全球营销用户）、③ 无缝平铺图案（纯代码出身没人封装）、④ 配方/动作（把「链路护城河」落成功能）、② 提取风格→参考库（补齐参考库入口）。⑥ 去物体+补全遮挡的「amodal」部分是前沿差异化。其余（⑤⑦⑧⑨⑩）多已有竞品，属快赢或补全，别当主线。共同特征：<strong>都不是「再加一个生成功能」，而是把「过去要拼工具/写代码的流程」封成一键</strong>——正是 design 竞品和纯模型都没做透的缝。</div>
+</div>
 <nav class="nav"><a href="#wf" class="navchip">🧭 整体 AI 设计工作流 <span>14</span></a><a href="#figma" class="navchip">🎚️ Figma / UI 设计 AI <span>10</span></a><a href="#batch" class="navchip">⚡ 批量自动化 <span>9</span></a><a href="#ecom" class="navchip">🛍️ 电商产品图 <span>10</span></a><a href="#nb" class="navchip">🍌 Nano Banana / Midjourney <span>10</span></a><a href="#brand" class="navchip">🅱️ 品牌 / Logo <span>8</span></a><a href="#social" class="navchip">📱 社媒批量出图 <span>9</span></a><a href="#color" class="navchip">🎨 调色 / 字体 <span>4</span></a><a href="#gfill" class="navchip">🖌️ Generative Fill 局部编辑 <span>4</span></a><a href="#consist" class="navchip">🧬 角色 / 风格一致性 <span>4</span></a><a href="#ext" class="navchip">🎬 动态 / 演示 / 设计系统 <span>6</span></a></nav>
 <div class="wrap"><section id="wf" class="grp"><h2>🧭 整体 AI 设计工作流 <span class="cnt">14 例</span></h2><div class="cards">
 <div class="card">
